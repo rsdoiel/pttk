@@ -1,0 +1,15 @@
+<section>
+<h1 id="title">$title$</h1>
+$if(nav)$
+<nav>
+<ul>
+$for(nav)$
+  <li><a href="$it.href$">$it.label$</a></li>  
+$endfor$
+</ul>
+</nav>
+$endif$
+<div>
+$body$
+</div>
+</section>

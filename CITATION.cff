@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: pdtk
+authors:
+  - family-names: Doiel
+    given-names: R. S.
+    orcid: https://orcid.org/0000-0003-0900-6903
+abstract: pdtk is a Pandoc preproccessor. The primary use case is rendering JSON documents via Pandoc templates. 
+repository-code: "git+https://github.com/rsdoiel/pdtk"
+type: software
+version: 0.0.0
+license-url: "https://spdx.org/licenses/BSD-3-Clause"
+date-released: 2022-07-22

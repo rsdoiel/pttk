@@ -1,0 +1,9 @@
+{
+    "title": "This is a title",
+    "body": "This is some content",
+    "nav": [
+        {"href": "index.html", "label": "Home" },
+        {"href": "../", "label": "Up"},
+        {"href": "./", "label": "Topics"}
+    ]
+}
