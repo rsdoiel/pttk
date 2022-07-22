@@ -1,3 +1,13 @@
+// pdtk.go is a package (with sub-packages) for managing static content
+// blogs and documentation via Pandoc.
+//
+// @Author R. S. Doiel, <rsdoiel@gmail.com>
+//
+// copyright 2022 R. S. Doiel
+// All rights reserved.
+//
+// License under the 3-Clause BSD License
+// See https://opensource.org/licenses/BSD-3-Clause
 package main
 
 import (
@@ -8,6 +18,8 @@ import (
 	"strings"
 
 	"github.com/rsdoiel/pdtk"
+	"github.com/rsdoiel/pdtk/blogit"
+	"github.com/rsdoiel/pdtk/prep"
 	"github.com/rsdoiel/pdtk/ws"
 )
 
@@ -55,7 +67,7 @@ func usage(appName string) string {
 	return strings.ReplaceAll(`
 USAGE:
 
-  {app_name} [OPTIONS] verb [VERB OPTIONS] [-- [PANDOC_OPTIONS] ... ]
+  {app_name} [OPTIONS] verb [VERB_OPTIONS] [-- [PANDOC_OPTIONS] ... ]
 
 {app_name} started as a Pandoc preprocessor. It can read JSON 
 or YAML from standard input and passes that via an internal 
@@ -167,10 +179,6 @@ func main() {
 		showHelp    bool
 		showLicense bool
 		showVersion bool
-		verbose     bool
-		input       string
-		output      string
-		err         error
 	)
 	flag.BoolVar(&showHelp, "help", false, "display usage")
 	flag.BoolVar(&showVersion, "version", false, "display version")
@@ -208,32 +216,21 @@ func main() {
 		fmt.Printf("%s\n", usage(appName))
 		os.Exit(0)
 	case "prep":
-		flagSet := flag.NewFlagSet(appName, flag.ExitOnError)
-		flagSet.StringVar(&input, "i", "", "read JSON or YAML from file")
-		flagSet.StringVar(&output, "o", "", "write Pandoc output to file")
-		flagSet.Parse(args)
-
-		args = flagSet.Args()
-		pdtk.SetVerbose(verbose)
-		// The default action is to just processing JSON/YAML
-		in := os.Stdin
-		out := os.Stderr
-		if input != "" && input != "-" {
-			in, err = os.Open(input)
+		if err := prep.RunPrep(appName, verb, args); err != nil {
 			handleError(err)
-			defer in.Close()
 		}
-		if output != "" && output != "-" {
-			out, err = os.Create(output)
-			handleError(err)
-			defer out.Close()
-		}
-		err = pdtk.ApplyIO(in, out, args)
-		handleError(err)
 	case "ws":
 		if err := ws.RunWS(appName, verb, args); err != nil {
 			handleError(err)
 		}
+	case "blogit":
+		if err := blogit.RunBlogIt(appName, verb, args); err != nil {
+			handleError(err)
+		}
+	case "rss":
+		handleError(fmt.Errorf("%s %s not implemented", appName, verb))
+	case "sitemap":
+		handleError(fmt.Errorf("%s %s not implemented", appName, verb))
 	default:
 		fmt.Fprintf(os.Stderr, "%s\n", usage(appName))
 		os.Exit(1)

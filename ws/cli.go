@@ -1,4 +1,5 @@
-// The ws package provides static web services for pdtk.
+// ws.go is a sub-package pdtk. A packages for managing static content
+// blogs and documentation via Pandoc.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>
 //

@@ -1,5 +1,5 @@
-//
-// ws_test.go test routines for ws.go
+// ws.go is a sub-package pdtk. A packages for managing static content
+// blogs and documentation via Pandoc.
 //
 // @author R. S. Doiel, <rsdoiel@gmail.com>
 //
