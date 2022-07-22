@@ -30,7 +30,6 @@ import (
 	"strings"
 
 	// 3rd Party packages
-	"github.com/BurntSushi/toml"
 	"golang.org/x/crypto/argon2"
 	"golang.org/x/crypto/pbkdf2"
 )
@@ -192,15 +191,15 @@ func (r *RedirectService) RedirectRouter(next http.Handler) http.Handler {
 // CORSPolicy defines the policy elements for our CORS settings.
 type CORSPolicy struct {
 	// Origin usually would be set the hostname of the service.
-	Origin string `json:"origin,omitempty" toml:"origin,omitempty"`
+	Origin string `json:"origin,omitempty"`
 	// Options to include in the policy (e.g. GET, POST)
-	Options []string `json:"options,omitempty" toml:"options,omitempty"`
+	Options []string `json:"options,omitempty"`
 	// Headers to include in the policy
-	Headers []string `json:"headers,omitempty" toml:"headers,omitempty"`
+	Headers []string `json:"headers,omitempty"`
 	// ExposedHeaders to include in the policy
-	ExposedHeaders []string `json:"exposed_headers,omitempty" toml:"exposed_headers,omitempty"`
+	ExposedHeaders []string `json:"exposed_headers,omitempty"`
 	// AllowCredentials header handling in the policy either true or not set
-	AllowCredentials bool `json:"allow_credentials,omitempty" toml:"allow_credentials,omitempty"`
+	AllowCredentials bool `json:"allow_credentials,omitempty"`
 }
 
 // Handler accepts an http.Handler and returns a http.Handler. It
@@ -237,72 +236,45 @@ func (cors *CORSPolicy) Handler(next http.Handler) http.Handler {
 	})
 }
 
-//
-// NOTE: Merged from access.go into wsfn.go
-//
-
-//
-// access.go holds authentication related stucts and funcs.
-// It includes those functions needed by the web service but
-// also some funcs for things like generating/managing content
-// of an access.toml file.
-//
-
 // Access holds the necessary configuration for doing
 // basic auth authentication.
 // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
 // using Go's http.Request object.
 type Access struct {
 	// AuthType (e.g. Basic)
-	AuthType string `json:"auth_type" toml:"auth_type"`
+	AuthType string `json:"auth_type"`
 	// AuthName (e.g. string describing authorization, e.g. realm in basic auth)
-	AuthName string `json:"auth_name" toml:"auth_name"`
+	AuthName string `json:"auth_name"`
 	// Encryption is a string describing the encryption used
 	// e.g. argon2id, pbkds2, md5 or sha512
-	Encryption string `json:"encryption" toml:"encryption"`
+	Encryption string `json:"encryption"`
 	// Map holds a user to secret map. It is usually populated
 	// after reading in the users file with LoadAccessTOML() or
 	// LoadAccessJSON().
-	Map map[string]*Secrets `json:"access" toml:"access"`
+	Map map[string]*Secrets `json:"access"`
 	// Routes is a list of URL path prefixes covered by
 	// this Access control object.
-	Routes []string `json:"routes" toml:"routes"`
+	Routes []string `json:"routes"`
 }
 
 type Secrets struct {
 	// NOTE: salt is needed by Argon2 and pbkdb2.
-	// If the toml/json file functions as the database then
+	// If the json file functions as the database then
 	// this file MUST be kept safe with restricted permissions.
 	// If not you just gave away your system a cracker.
-	Salt []byte `json:"salt,omitempty" toml:"salt,omitempty"`
+	Salt []byte `json:"salt,omitempty"`
 	// Key holds the salted hash ...
-	Key []byte `json:"key, omitempty" toml:"key,omitempty"`
+	Key []byte `json:"key, omitempty"`
 }
 
 // LoadAccess loads a TOML or JSON access file.
 func LoadAccess(fName string) (*Access, error) {
 	switch {
-	case strings.HasSuffix(fName, ".toml"):
-		return loadAccessTOML(fName)
 	case strings.HasSuffix(fName, ".json"):
 		return loadAccessJSON(fName)
 	default:
 		return nil, fmt.Errorf("%q, unsupported format", fName)
 	}
-}
-
-// loadAccessTOML loads a TOML acces file.
-// and returns an Access struct and error.
-func loadAccessTOML(accessTOML string) (*Access, error) {
-	auth := new(Access)
-	src, err := ioutil.ReadFile(accessTOML)
-	if err != nil {
-		return nil, err
-	}
-	if _, err := toml.Decode(string(src), &auth); err != nil {
-		return nil, err
-	}
-	return auth, nil
 }
 
 // loadAccessJSON loads a JSON access file.
@@ -322,8 +294,6 @@ func loadAccessJSON(accessJSON string) (*Access, error) {
 // DumpAccess writes a access file.
 func (a *Access) DumpAccess(fName string) error {
 	switch {
-	case strings.HasSuffix(fName, ".toml"):
-		return a.dumpAccessTOML(fName)
 	case strings.HasSuffix(fName, ".json"):
 		return a.dumpAccessJSON(fName)
 	default:
@@ -331,17 +301,7 @@ func (a *Access) DumpAccess(fName string) error {
 	}
 }
 
-// dumpAccessTOML writes a TOML access file.
-func (a *Access) dumpAccessTOML(accessTOML string) error {
-	buf := new(bytes.Buffer)
-	tomlEncoder := toml.NewEncoder(buf)
-	if err := tomlEncoder.Encode(a); err != nil {
-		return err
-	}
-	return ioutil.WriteFile(accessTOML, buf.Bytes(), 0600)
-}
-
-// dumpAccessJSON writes an access.toml file.
+// dumpAccessJSON writes an access.json file.
 func (a *Access) dumpAccessJSON(accessJSON string) error {
 	src, err := json.MarshalIndent(a, "", "    ")
 	if err != nil {
@@ -552,99 +512,6 @@ func DefaultWebService() *WebService {
 	return w
 }
 
-// DefaultInit generates a default TOML initialization file.
-func DefaultInit() []byte {
-	return []byte(`
-#
-# A TOML file example for configuring **webserver**.
-# Comments start with "#"
-#
-
-# 
-# Setup your document root for the website.
-# This must be before the other entries.
-#
-# It is relative to the current working directory
-# unless a path is fully specified. A period or 
-# empty string will set it to the current working 
-# directory.
-htdocs = "htdocs"
-
-#
-# If using access restrictions (e.g. basic auth)
-# set the file for managing access.
-# Uncomment to use.
-#
-#access_file = "access.toml"
-
-#
-# Use redirects in a separate file (e.g. JSON, TOML, CSV).
-# Uncomment to use.
-#
-#redirects_file = "redirects.csv"
-
-#
-# Managing content types in a separate file (e.g. JSON, TOML, CSV)
-# Uncomment to use.
-#
-#content_types_file = "content-types.csv"
-
-# Setting up standard http support
-[http]
-host = "localhost"
-port = "8000"
-
-# Setting up HTTPS scheme support, uncomment for https support
-#[https]
-#cert_pem = "etc/certs/cert_pem"
-#key_pem = "etc/certs/key_pem"
-#host = "localhost"
-#port = "8443"
-
-#
-# CORS policy configuration example adpated from 
-# Mozilla website.
-# See https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-#
-# Uncomment to use.
-#[cors]
-#Access_Control_Origin = "http://foo.example:8000"
-#Access_Control_Allow_Credentials = true
-#Access_Control_Methods = [ "POST", "GET" ]
-#Access_Control_Allow_Headers = [ "X-PINGPONG", "Content-Type" ]
-#Access_Control_Max_Age = 86400
-
-#
-# Managing file extensions to mime types in the
-# file.
-#
-# Uncomment to use.
-#[content_types]
-#".json" = "application/json"
-#".toml" = "text/plain+x-toml"
-
-#
-# Managing redirects in this file.
-#
-# Uncomment to use.
-#[redirects]
-#"http://localhost:8000/" = "https://localhost:8443/"
-#"/bad-path/" = "/good-path/"
-
-#
-# Managin reverse-proxy in this file.
-#
-# Uncomment to use.
-#[reverse_proxy]
-#"/api/" = "http://localhost:9000/"
-
-`)
-}
-
-//
-// NOTE: merged from json.go into wsfn.go
-//
-
 // jsonResponse enforces a common JSON response write handling.
 // It takes a response writer and request plus a struct that can
 // be converted to JSON.
@@ -662,30 +529,6 @@ func jsonResponse(w http.ResponseWriter, r *http.Request, data interface{}) {
 	}
 	log.Printf("FIXME: Log successful requests here ... %s", r.URL.Path)
 }
-
-//
-// NOTE: merged from license.go into wsfn.go
-//
-
-const (
-	LicenseText = `Copyright (c) 2019, Caltech
-All rights not granted herein are expressly reserved by Caltech.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-`
-)
-
-//
-// NOTE: merged from logger.go into wsfn.go
-//
 
 // RequestLogger logs the request based on the request object passed into
 // it.
@@ -711,10 +554,6 @@ func ResponseLogger(r *http.Request, status int, err error) {
 		log.Printf("response Method: %s Path: %s RemoteAddr: %s UserAgent: %s Status: %d, %s %q\n", r.Method, r.URL.Path, r.RemoteAddr, r.UserAgent(), status, http.StatusText(status), err)
 	}
 }
-
-//
-// NOTE: merged from safefilesystem.go into wsfn.go
-//
 
 //
 // This is loosely based on Go's example of a web server that
@@ -786,13 +625,14 @@ func (fs SafeFileSystem) Open(p string) (http.File, error) {
 //
 // Example usage:
 //
-// ws := wsfn.LoadTOML("web-service.toml")
-// fs, err := ws.SafeFileSystem()
+// // ... create a webserver instance called "service."
+// settings := service.LoadJSON("web-service.json")
+// fs, err := service.SafeFileSystem()
 // if err != nil {
 //     log.Fatalf("%s\n", err)
 // }
-// http.Handle("/", http.FileServer(ws.SafeFileSystem()))
-// log.Fatal(http.ListenAndService(ws.Http.Hostname(), nil))
+// http.Handle("/", http.FileServer(service.SafeFileSystem()))
+// log.Fatal(http.ListenAndService(service.Http.Hostname(), nil))
 //
 func (w *WebService) SafeFileSystem() (SafeFileSystem, error) {
 	if w.DocRoot == "" {
@@ -812,7 +652,7 @@ func (w *WebService) SafeFileSystem() (SafeFileSystem, error) {
 //
 // Example usage:
 //
-// fs, err := MakeSafeFileSystem("/var/www/htdocs")
+// fs, err := ws.MakeSafeFileSystem("/var/www/htdocs")
 // if err != nil {
 //     log.Fatalf("%s\n", err)
 // }
@@ -831,63 +671,59 @@ func MakeSafeFileSystem(docRoot string) (SafeFileSystem, error) {
 	return SafeFileSystem{http.Dir(docRoot)}, nil
 }
 
-//
-// NOTE: merged from server.go into wsfn.go
-//
-
 // WebService describes all the configuration and
 // capabilities of running a wsfn based web service.
 type WebService struct {
 	// This is the document root for static file services
 	// If an empty string then assume current working directory.
-	DocRoot string `json:"htdocs" toml:"htdocs"`
+	DocRoot string `json:"htdocs"`
 	// Https describes an Https service
-	Https *Service `json:"https,omitempty" toml:"https,omitempty"`
+	Https *Service `json:"https,omitempty"`
 	// Http describes an Http service
-	Http *Service `json:"http,omitempty" toml:"http,omitempty"`
+	Http *Service `json:"http,omitempty"`
 
 	// AccessFile holds a name of an access file to load and
 	// populate .Access from.
-	AccessFile string `json:"access_file,omitempty" toml:"access_file,omitempty"`
+	AccessFile string `json:"access_file,omitempty"`
 
 	// Access adds access related features to the service.
 	// E.g. BasicAUTH support.
-	Access *Access `json:"access,omitempty" toml:"access,omitempty"`
+	Access *Access `json:"access,omitempty" `
 
 	// CORS describes the CORS policy for the web services
-	CORS *CORSPolicy `json:"cors,omitempty" toml:"cors,omitempty"`
+	CORS *CORSPolicy `json:"cors,omitempty" `
 
 	// ContentTypes describes a file extension mapped to a single
 	// MimeType.
-	ContentTypes map[string]string `json:"content_types,omitempty" toml:"content_types,omitempty"`
+	ContentTypes map[string]string `json:"content_types,omitempty" `
 
 	// RedirectsCSV is the filename/path to a CSV file describing
 	// redirects.
-	RedirectsCSV string `json:"redirects_csv,omitempty" toml:"redirects_csv,omitempty"`
+	RedirectsCSV string `json:"redirects_csv,omitempty" `
 
 	// Redirects describes a target path to destination path.
 	// Normally this is populated by a redirects.csv file.
-	Redirects map[string]string `json:"redirects,omitempty" toml:"redirects,omitempty"`
+	Redirects map[string]string `json:"redirects,omitempty" `
 
 	// ReverseProxy descibes the path web paths that are sent
 	// to another proxied URL.
-	ReverseProxy map[string]string `json:"reverse_proxy,omitempty" toml:"reverse_proxy,omitempty"`
+	ReverseProxy map[string]string `json:"reverse_proxy,omitempty" `
 }
 
 // Service holds the description needed to startup a service
 // e.g. https, http.
 type Service struct {
 	// Scheme holds the protocol to use, defaults to http if not set.
-	Scheme string `json:"scheme,omitempty" toml:"scheme,omitempty"`
+	Scheme string `json:"scheme,omitempty" `
 	// Host is the hostname to use, if empty "localhost" is assumed"
-	Host string `json:"host,omitempty" toml:"host,omitempty"`
+	Host string `json:"host,omitempty" `
 	// Port is a string holding the port number to listen on
 	// An empty strings defaults port to 8000
-	Port string `json:"port,omitempty" toml:"port,omitempty"`
+	Port string `json:"port,omitempty" `
 	// CertPEM describes the location of cert.pem used for TLS support
-	CertPEM string `json:"cert_pem,omitempty" toml:"cert_pem,omitempty"`
+	CertPEM string `json:"cert_pem,omitempty" `
 	// KeyPEM describes the location of the key.pem used for TLS support
-	KeyPEM string `json:"key_pem,omitempty" toml:"key_pem,omitempty"`
+	KeyPEM string `json:"key_pem,omitempty" `
 }
 
 // String renders an URL version of *Service.
@@ -920,8 +756,6 @@ func LoadWebService(setup string) (*WebService, error) {
 	)
 
 	switch {
-	case strings.HasSuffix(setup, ".toml"):
-		ws, err = loadWebServiceTOML(setup)
 	case strings.HasSuffix(setup, ".json"):
 		ws, err = loadWebServiceJSON(setup)
 	default:
@@ -935,28 +769,6 @@ func LoadWebService(setup string) (*WebService, error) {
 		ws.Access, err = LoadAccess(ws.AccessFile)
 	}
 	return ws, err
-}
-
-// loadWebServiceTOML loads a *WebService from a TOML file.
-func loadWebServiceTOML(setup string) (*WebService, error) {
-	src, err := ioutil.ReadFile(setup)
-	if err != nil {
-		return nil, err
-	}
-	w := new(WebService)
-	if _, err := toml.Decode(string(src), &w); err != nil {
-		return nil, err
-	}
-	if w.DocRoot == "" {
-		w.DocRoot = "."
-	}
-	if w.Http != nil {
-		w.Http.Scheme = "http"
-	}
-	if w.Https != nil {
-		w.Https.Scheme = "https"
-	}
-	return w, nil
 }
 
 // loadWebServiceJSON loads a *WebService from a JSON file.
@@ -992,8 +804,6 @@ func (ws *WebService) DumpWebService(fName string) error {
 		ws.Access = nil
 	}
 	switch {
-	case strings.HasSuffix(fName, ".toml"):
-		err = ws.dumpWebServiceTOML(fName)
 	case strings.HasSuffix(fName, ".json"):
 		err = ws.dumpWebServiceJSON(fName)
 	default:
@@ -1003,16 +813,6 @@ func (ws *WebService) DumpWebService(fName string) error {
 		ws.Access = access
 	}
 	return err
-}
-
-// dumpWebServiceTOML writes a TOML file.
-func (ws *WebService) dumpWebServiceTOML(fName string) error {
-	buf := new(bytes.Buffer)
-	tomlEncoder := toml.NewEncoder(buf)
-	if err := tomlEncoder.Encode(ws); err != nil {
-		return err
-	}
-	return ioutil.WriteFile(fName, buf.Bytes(), 0600)
 }
 
 // dumpWebServiceJSON writes a JSON file.

@@ -60,12 +60,12 @@ uninstall: .FORCE
 	@echo "Removing programs in $(PREFIX)/bin"
 	@for FNAME in $(PROGRAMS); do if [ -f $(PREFIX)/bin/$$FNAME ]; then rm -v $(PREFIX)/bin/$$FNAME; fi; done
 
-man: pdtmpl.1 .FORCE
+man: pdtk.1 .FORCE
 	mkdir -p man
-	mv pdtmpl.1 man/
+	mv pdtk.1 man/
 
-pdtmpl.1: pdtmpl.1.md
-	pandoc pdtmpl.1.md -s -t man -o pdtmpl.1
+pdtk.1: pdtk.1.md
+	pandoc pdtk.1.md -s -t man -o pdtk.1
 
 #website: page.tmpl README.md nav.md INSTALL.md LICENSE css/site.css
 #	bash mk-website.bash
