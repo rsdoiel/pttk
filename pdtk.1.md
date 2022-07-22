@@ -47,7 +47,7 @@ A redirect `"<"` is used to pipe the content of "example.json"
 into the command line tool pdtk.
 
 ```shell
-  pdtk -- --template example.tmpl < example.json
+  pdtk prep -- --template example.tmpl < example.json
 ```
 
 Render example.json as Markdown document. We need to use
@@ -55,7 +55,7 @@ Pandoc's own options of "-s" (stand alone) and "-t" (to
 tell Pandoc the output format)
 
 ```shell
-  pdtk -- -s -t markdown < example.json
+  pdtk prep -- -s -t markdown < example.json
 ```
 
 Process a "codemeta.json" file with "codemeta-md.tmpl" to
@@ -64,7 +64,7 @@ processing (the "codemeta-md.tmpl" is a Pandoc template
 marked up to produce Markdown output).
 
 ```shell
-  pdtk -i codemeta.json -o about.md \
+  pdtk prep -i codemeta.json -o about.md \
        -- --template codemeta-md.tmpl
 ```
 

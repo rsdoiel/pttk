@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="language" content="EN">
-  <title>R. S. Doiel, Software Engineer/Analyst - pdtk</title>
+  <title>R. S. Doiel, Software Engineer/Analyst - pdtk.1</title>
 
   <link rel="stylesheet" type="text/css"  href="/printfonts/print.css" media="print" />
   <link rel="stylesheet" type="text/css"  href="/webfonts/fonts.css" media="screen" />
@@ -17,7 +17,7 @@
 <li><a href="/">Home</a></li>
 <li><a href="./">README</a></li>
 <li><a href="IDEAS.html">IDEAS</a></li>
-<li><a href="pdtmpl.1.html">Docs</a></li>
+<li><a href="pdtk.1.html">Docs</a></li>
 <li><a href="license.html">LICENSE</a></li>
 <li><a href="about.html">About</a></li>
 <li><a href="https://github.com/rsdoiel/pdtmpl">GitHub</a></li>
@@ -25,7 +25,7 @@
 </nav>
 
 <section>
-  <h1>pdtk</h1>
+  <h1>pdtk.1</h1>
 
 <h1 id="name">NAME</h1>
 <p>pdtk - a pandoc preprocessor for JSON and YAML content.</p>
@@ -64,16 +64,16 @@ write Pandoc output to file
 and a Pandoc template called “example.tmpl”. A redirect
 <code>"&lt;"</code> is used to pipe the content of “example.json” into
 the command line tool pdtk.</p>
-<pre class="shell"><code>  pdtk -- --template example.tmpl &lt; example.json</code></pre>
+<pre class="shell"><code>  pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
 <p>Render example.json as Markdown document. We need to use Pandoc’s own
 options of “-s” (stand alone) and “-t” (to tell Pandoc the output
 format)</p>
-<pre class="shell"><code>  pdtk -- -s -t markdown &lt; example.json</code></pre>
+<pre class="shell"><code>  pdtk prep -- -s -t markdown &lt; example.json</code></pre>
 <p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an
 about page in Markdown via Pandocs template processing (the
 “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown
 output).</p>
-<pre class="shell"><code>  pdtk -i codemeta.json -o about.md \
+<pre class="shell"><code>  pdtk prep -i codemeta.json -o about.md \
        -- --template codemeta-md.tmpl</code></pre>
 </section>
 
