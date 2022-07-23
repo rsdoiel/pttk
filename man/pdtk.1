@@ -14,69 +14,105 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "pdtk" "1" "July 22, 2022" "pdtk 0.0.0" "User Manual"
+.TH "" "" "" "" ""
 .hy
-.SH NAME
 .PP
-pdtk - a pandoc preprocessor for JSON and YAML content.
-.SH SYNOPSIS
+USAGE:
 .PP
-pdtk OPTIONS [\[en] [PANDOC_OPTIONS] \&...]
-.SH DESCRIPTION
+\&./bin/pdtk [OPTIONS] verb [VERB_OPTIONS] [\[en] [PANDOC_OPTIONS] \&...
+]
 .PP
-pdtk is a Pandoc preprocessor.
-It reads JSON from standard input, transforms it into YAML front matter
-suitable for processing via Pandoc.
-The common usecase would be to render via a pandoc template.
-By default pdtk reads from standard input and writes standard out.
-.SH OPTIONS
+\&./bin/pdtk started as a Pandoc preprocessor.
+It can read JSON or YAML from standard input and passes that via an
+internal pipe to Pandoc as YAML front matter.
+Pandoc can then process it accordingly Pandoc options.
+Pandoc options are those options coming after a \[lq]\[en]\[rq] marker.
+Options before \[lq]\[en]\[rq] are for the ./bin/pdtk preprossor.
+.PP
+\&./bin/pdtk has grown to include features provide through simple
+\[lq]verbs\[rq].
+The verbs include the following.
 .TP
-\f[B]-help\f[R]
-display usage
+\f[B]help\f[R]
+Display this help page.
 .TP
-\f[B]-license\f[R]
-display license
+\f[B]prep\f[R]
+Preprocess JSON or YAML into YAML front matter and run through Pandoc
 .TP
-\f[B]-version\f[R]
-display version
+\f[B]ws\f[R]
+Runs a simple static web server for checking static site development
 .TP
-\f[B]-i FILENAME\f[R]
-read JSON or YAML file
+\f[B]blogit\f[R]
+Renders a blog directory structure by \[lq]importing\[rq] Markdown
+documents or updating existing ones.
+It maintains a blog.json document collecting metadata and supportting
+RSS rendering.
 .TP
-\f[B]-o FILENAME\f[R]
-write Pandoc output to file
-.SH EXAMPLE
+\f[B]rss\f[R]
+Renders RSS feeds from the contents of a blog.json document
+.TP
+\f[B]sitemap\f[R]
+Renders sitemap.xml files for a static website
+.PP
+OPTIONS
+.PP
+-help display usage -license display license -version display version
+.PP
+BASIC EXAMPLES
 .PP
 In this example we have a JSON object document called
 \[lq]example.json\[rq] and a Pandoc template called
 \[lq]example.tmpl\[rq].
-A redirect \f[V]\[dq]<\[dq]\f[R] is used to pipe the content of
-\[lq]example.json\[rq] into the command line tool pdtk.
-.IP
-.nf
-\f[C]
-  pdtk prep -- --template example.tmpl < example.json
-\f[R]
-.fi
+A redirect \[lq]<\[rq] is used to pipe the content of
+\[lq]example.json\[rq] into the command line tool ./bin/pdtk.
+.PP
+\&./bin/pdtk prep \[en] \[en]template example.tmpl < example.json
 .PP
 Render example.json as Markdown document.
 We need to use Pandoc\[cq]s own options of \[lq]-s\[rq] (stand alone)
 and \[lq]-t\[rq] (to tell Pandoc the output format)
-.IP
-.nf
-\f[C]
-  pdtk prep -- -s -t markdown < example.json
-\f[R]
-.fi
+.PP
+\&./bin/pdtk prep \[en] -s -t markdown < example.json
 .PP
 Process a \[lq]codemeta.json\[rq] file with \[lq]codemeta-md.tmpl\[rq]
 to produce an about page in Markdown via Pandocs template processing
 (the \[lq]codemeta-md.tmpl\[rq] is a Pandoc template marked up to
 produce Markdown output).
-.IP
-.nf
-\f[C]
-  pdtk prep -i codemeta.json -o about.md \[rs]
-       -- --template codemeta-md.tmpl
-\f[R]
-.fi
+.PP
+\&./bin/pdtk prep -i codemeta.json -o about.md
+.PD 0
+.P
+.PD
+\[en] \[en]template codemeta-md.tmpl
+.PP
+Using ./bin/pdtk to manage blog content with the \[lq]blogit\[rq] verb.
+.PP
+Adding a blog \[lq]first-post.md\[rq] to \[lq]myblog\[rq].
+.PP
+\&./bin/pdtk blogit myblog $HOME/Documents/first-post.md
+.PP
+Adding/Updating the \[lq]first-post.md\[rq] on \[lq]2022-07-22\[rq]
+.PP
+\&./bin/pdtk blogit myblog $HOME/Documents/first-post.md
+\[lq]2022-07-22\[rq]
+.PP
+Added additional material for posts on \[lq]2022-07-22\[rq]
+.PP
+\&./bin/pdtk blogit myblog $HOME/Documents/charts/my-graph.svg
+\[lq]2022-07-22\[rq]
+.PP
+Refreshing the blogs\[cq]s blog.json file.
+.PP
+\&./bin/pdtk blogit myblog
+.PP
+Using ./bin/pdtk to generate RSS for \[lq]myblog\[rq]
+.PP
+\&./bin/pdtk rss myblog
+.PP
+Generating a sitemap in a current directory
+.PP
+\&./bin/pdtk sitemap .
+.PP
+Running a static web server to view rendering site
+.PP
+\&./bin/pdtk ws $HOME/Sites/myblog

@@ -27,54 +27,79 @@
 <section>
   <h1>pdtk.1</h1>
 
-<h1 id="name">NAME</h1>
-<p>pdtk - a pandoc preprocessor for JSON and YAML content.</p>
-<h1 id="synopsis">SYNOPSIS</h1>
-<p>pdtk <a href="#options">OPTIONS</a> [– [PANDOC_OPTIONS] …]</p>
-<h1 id="description">DESCRIPTION</h1>
-<p>pdtk is a Pandoc preprocessor. It reads JSON from standard input,
-transforms it into YAML front matter suitable for processing via Pandoc.
-The common usecase would be to render via a pandoc template. By default
-pdtk reads from standard input and writes standard out.</p>
-<h1 id="options">OPTIONS</h1>
+<p>USAGE:</p>
+<p>./bin/pdtk [OPTIONS] verb [VERB_OPTIONS] [– [PANDOC_OPTIONS] … ]</p>
+<p>./bin/pdtk started as a Pandoc preprocessor. It can read JSON or YAML
+from standard input and passes that via an internal pipe to Pandoc as
+YAML front matter. Pandoc can then process it accordingly Pandoc
+options. Pandoc options are those options coming after a “–” marker.
+Options before “–” are for the ./bin/pdtk preprossor.</p>
+<p>./bin/pdtk has grown to include features provide through simple
+“verbs”. The verbs include the following.</p>
 <dl>
-<dt><strong>-help</strong></dt>
+<dt><strong>help</strong></dt>
 <dd>
-display usage
+Display this help page.
 </dd>
-<dt><strong>-license</strong></dt>
+<dt><strong>prep</strong></dt>
 <dd>
-display license
+Preprocess JSON or YAML into YAML front matter and run through Pandoc
 </dd>
-<dt><strong>-version</strong></dt>
+<dt><strong>ws</strong></dt>
 <dd>
-display version
+Runs a simple static web server for checking static site development
 </dd>
-<dt><strong>-i FILENAME</strong></dt>
+<dt><strong>blogit</strong></dt>
 <dd>
-read JSON or YAML file
+Renders a blog directory structure by “importing” Markdown documents or
+updating existing ones. It maintains a blog.json document collecting
+metadata and supportting RSS rendering.
 </dd>
-<dt><strong>-o FILENAME</strong></dt>
+<dt><strong>rss</strong></dt>
 <dd>
-write Pandoc output to file
+Renders RSS feeds from the contents of a blog.json document
+</dd>
+<dt><strong>sitemap</strong></dt>
+<dd>
+Renders sitemap.xml files for a static website
 </dd>
 </dl>
-<h1 id="example">EXAMPLE</h1>
+<p>OPTIONS</p>
+<p>-help display usage -license display license -version display
+version</p>
+<p>BASIC EXAMPLES</p>
 <p>In this example we have a JSON object document called “example.json”
-and a Pandoc template called “example.tmpl”. A redirect
-<code>"&lt;"</code> is used to pipe the content of “example.json” into
-the command line tool pdtk.</p>
-<pre class="shell"><code>  pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
+and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used
+to pipe the content of “example.json” into the command line tool
+./bin/pdtk.</p>
+<p>./bin/pdtk prep – –template example.tmpl &lt; example.json</p>
 <p>Render example.json as Markdown document. We need to use Pandoc’s own
 options of “-s” (stand alone) and “-t” (to tell Pandoc the output
 format)</p>
-<pre class="shell"><code>  pdtk prep -- -s -t markdown &lt; example.json</code></pre>
+<p>./bin/pdtk prep – -s -t markdown &lt; example.json</p>
 <p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an
 about page in Markdown via Pandocs template processing (the
 “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown
 output).</p>
-<pre class="shell"><code>  pdtk prep -i codemeta.json -o about.md \
-       -- --template codemeta-md.tmpl</code></pre>
+<p>./bin/pdtk prep -i codemeta.json -o about.md<br />
+– –template codemeta-md.tmpl</p>
+<p>Using ./bin/pdtk to manage blog content with the “blogit” verb.</p>
+<p>Adding a blog “first-post.md” to “myblog”.</p>
+<p>./bin/pdtk blogit myblog $HOME/Documents/first-post.md</p>
+<p>Adding/Updating the “first-post.md” on “2022-07-22”</p>
+<p>./bin/pdtk blogit myblog $HOME/Documents/first-post.md
+“2022-07-22”</p>
+<p>Added additional material for posts on “2022-07-22”</p>
+<p>./bin/pdtk blogit myblog $HOME/Documents/charts/my-graph.svg
+“2022-07-22”</p>
+<p>Refreshing the blogs’s blog.json file.</p>
+<p>./bin/pdtk blogit myblog</p>
+<p>Using ./bin/pdtk to generate RSS for “myblog”</p>
+<p>./bin/pdtk rss myblog</p>
+<p>Generating a sitemap in a current directory</p>
+<p>./bin/pdtk sitemap .</p>
+<p>Running a static web server to view rendering site</p>
+<p>./bin/pdtk ws $HOME/Sites/myblog</p>
 </section>
 
 <footer>

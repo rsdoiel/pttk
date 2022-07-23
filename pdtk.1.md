@@ -1,70 +1,96 @@
----
-title: pdtk
-section: 1
-header: User Manual
-footer: pdtk 0.0.0
-date: July 22, 2022
----
 
-# NAME
+USAGE:
 
-pdtk - a pandoc preprocessor for JSON and YAML content.
+  ./bin/pdtk [OPTIONS] verb [VERB_OPTIONS] [-- [PANDOC_OPTIONS] ... ]
 
-# SYNOPSIS
+./bin/pdtk started as a Pandoc preprocessor. It can read JSON 
+or YAML from standard input and passes that via an internal 
+pipe to Pandoc as YAML front matter. Pandoc can then process it
+accordingly Pandoc options. Pandoc options are those options
+coming after a "--" marker. Options before "--" are for
+the ./bin/pdtk preprossor. 
 
-  pdtk [OPTIONS] [-- [PANDOC_OPTIONS] ...]
+./bin/pdtk has grown to include features provide through simple
+"verbs". The verbs include the following.
 
-# DESCRIPTION
+**help**
+: Display this help page.
 
-pdtk is a Pandoc preprocessor. It reads JSON from standard
-input, transforms it into YAML front matter suitable for
-processing via Pandoc. The common usecase would be to render
-via a pandoc template. By default pdtk reads from standard
-input and writes standard out.
+**prep**
+: Preprocess JSON or YAML into YAML front matter and run through Pandoc
 
-# OPTIONS
+**ws**
+: Runs a simple static web server for checking static site development
 
-**-help**
-: display usage
+**blogit**
+: Renders a blog directory structure by "importing" Markdown documents
+or updating existing ones. It maintains a blog.json document collecting
+metadata and supportting RSS rendering.
 
-**-license**
-: display license
+**rss**
+: Renders RSS feeds from the contents of a blog.json document
 
-**-version**
-: display version
+**sitemap**
+: Renders sitemap.xml files for a static website
 
-**-i FILENAME**
-: read JSON or YAML file
 
-**-o FILENAME**
-: write Pandoc output to file
+OPTIONS
 
-# EXAMPLE
+  -help       display usage
+  -license    display license
+  -version    display version
+
+BASIC EXAMPLES
 
 In this example we have a JSON object document called
 "example.json" and a Pandoc template called "example.tmpl".
-A redirect `"<"` is used to pipe the content of "example.json"
-into the command line tool pdtk.
+A redirect "<" is used to pipe the content of "example.json"
+into the command line tool ./bin/pdtk.
 
-```shell
-  pdtk prep -- --template example.tmpl < example.json
-```
+  ./bin/pdtk prep -- --template example.tmpl < example.json
 
 Render example.json as Markdown document. We need to use
 Pandoc's own options of "-s" (stand alone) and "-t" (to
 tell Pandoc the output format)
 
-```shell
-  pdtk prep -- -s -t markdown < example.json
-```
+  ./bin/pdtk prep -- -s -t markdown < example.json
 
 Process a "codemeta.json" file with "codemeta-md.tmpl" to
 produce an about page in Markdown via Pandocs template
 processing (the "codemeta-md.tmpl" is a Pandoc template
 marked up to produce Markdown output).
 
-```shell
-  pdtk prep -i codemeta.json -o about.md \
-       -- --template codemeta-md.tmpl
-```
+  ./bin/pdtk prep -i codemeta.json -o about.md \
+             -- --template codemeta-md.tmpl
+
+Using ./bin/pdtk to manage blog content with the "blogit"
+verb. 
+
+Adding a blog "first-post.md" to "myblog".
+
+  ./bin/pdtk blogit myblog $HOME/Documents/first-post.md
+
+Adding/Updating the "first-post.md" on "2022-07-22"
+
+  ./bin/pdtk blogit myblog $HOME/Documents/first-post.md "2022-07-22"
+
+Added additional material for posts on "2022-07-22"
+
+  ./bin/pdtk blogit myblog $HOME/Documents/charts/my-graph.svg "2022-07-22"
+
+Refreshing the blogs's blog.json file.
+
+  ./bin/pdtk blogit myblog
+
+Using ./bin/pdtk to generate RSS for "myblog"
+
+  ./bin/pdtk rss myblog
+
+Generating a sitemap in a current directory
+
+  ./bin/pdtk sitemap .
+
+Running a static web server to view rendering site
+
+  ./bin/pdtk ws $HOME/Sites/myblog
 
