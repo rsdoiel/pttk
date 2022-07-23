@@ -20,20 +20,26 @@
 <li><a href="pdtk.1.html">Docs</a></li>
 <li><a href="license.html">LICENSE</a></li>
 <li><a href="about.html">About</a></li>
-<li><a href="https://github.com/rsdoiel/pdtmpl">GitHub</a></li>
+<li><a href="https://github.com/rsdoiel/pdtk">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
   <h1>pdtk.1</h1>
 
-<p>USAGE:</p>
-<p>pdtk [OPTIONS] verb [VERB_OPTIONS] [– [PANDOC_OPTIONS] … ]</p>
+<h1 id="name">NAME</h1>
+<p>pdtk - pandoc tool kit, a set of tools for website generation using
+Pandoc</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>pdtk <a href="#options">OPTIONS</a> verb [VERB_OPTIONS] [–
+[PANDOC_OPTIONS] … ]</p>
+<h1 id="description">DESCRIPTION</h1>
 <p>pdtk started as a Pandoc preprocessor. It can read JSON or YAML from
 standard input and passes that via an internal pipe to Pandoc as YAML
 front matter. Pandoc can then process it accordingly Pandoc options.
 Pandoc options are those options coming after a “–” marker. Options
 before “–” are for the pdtk preprossor.</p>
+<h1 id="verbs">VERBS</h1>
 <p>pdtk has grown to include features provide through simple “verbs”.
 The verbs include the following.</p>
 <dl>
@@ -64,41 +70,55 @@ Renders RSS feeds from the contents of a blog.json document
 Renders sitemap.xml files for a static website
 </dd>
 </dl>
-<p>OPTIONS</p>
-<p>-help display usage -license display license -version display
-version</p>
-<p>BASIC EXAMPLES</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-help</dt>
+<dd>
+display usage
+</dd>
+<dt>-license</dt>
+<dd>
+display license
+</dd>
+<dt>-version</dt>
+<dd>
+display version
+</dd>
+</dl>
+<h1 id="examples">EXAMPLES</h1>
 <p>In this example we have a JSON object document called “example.json”
 and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used
 to pipe the content of “example.json” into the command line tool
 pdtk.</p>
-<p>pdtk prep – –template example.tmpl &lt; example.json</p>
+<pre><code>pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
 <p>Render example.json as Markdown document. We need to use Pandoc’s own
 options of “-s” (stand alone) and “-t” (to tell Pandoc the output
 format)</p>
-<p>pdtk prep – -s -t markdown &lt; example.json</p>
+<pre><code>pdtk prep -- -s -t markdown &lt; example.json</code></pre>
 <p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an
 about page in Markdown via Pandocs template processing (the
 “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown
 output).</p>
-<p>pdtk prep -i codemeta.json -o about.md<br />
-– –template codemeta-md.tmpl</p>
+<pre><code>pdtk prep -i codemeta.json -o about.md \
+    -- --template codemeta-md.tmpl</code></pre>
 <p>Using pdtk to manage blog content with the “blogit” verb.</p>
 <p>Adding a blog “first-post.md” to “myblog”.</p>
-<p>pdtk blogit myblog $HOME/Documents/first-post.md</p>
+<pre><code>pdtk blogit myblog $HOME/Documents/first-post.md</code></pre>
 <p>Adding/Updating the “first-post.md” on “2022-07-22”</p>
-<p>pdtk blogit myblog $HOME/Documents/first-post.md “2022-07-22”</p>
+<pre><code>pdtk blogit myblog $HOME/Documents/first-post.md &quot;2022-07-22&quot;</code></pre>
 <p>Added additional material for posts on “2022-07-22”</p>
-<p>pdtk blogit myblog $HOME/Documents/charts/my-graph.svg
-“2022-07-22”</p>
+<pre><code>pdtk blogit myblog $HOME/Documents/charts/my-graph.svg &quot;2022-07-22&quot;</code></pre>
 <p>Refreshing the blogs’s blog.json file.</p>
-<p>pdtk blogit myblog</p>
+<pre><code>pdtk blogit myblog</code></pre>
 <p>Using pdtk to generate RSS for “myblog”</p>
-<p>pdtk rss myblog</p>
+<pre><code>pdtk rss myblog</code></pre>
 <p>Generating a sitemap in a current directory</p>
-<p>pdtk sitemap .</p>
+<pre><code>pdtk sitemap .</code></pre>
 <p>Running a static web server to view rendering site</p>
-<p>pdtk ws $HOME/Sites/myblog</p>
+<pre><code>pdtk ws $HOME/Sites/myblog</code></pre>
+<h1 id="see-also">SEE ALSO</h1>
+<p>pdtk website at https://rsdoiel.github.io/pdtk</p>
+<p>The source code is avialable from https://github.com/rsdoiel/pdtk</p>
 </section>
 
 <footer>

@@ -36,3 +36,8 @@ documents via Pandoc templates.
 - Pandoc 2.18 or better
 - GNU Make (recommended)
 
+### Related Links
+
+- [https://github.com/rsdoiel/pdtmpl](https://github.com/rsdoiel/pdtmpl)
+- [https://github.com/caltechlibrary/mkpage](https://github.com/caltechlibrary/mkpage)
+
