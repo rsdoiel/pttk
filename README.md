@@ -4,30 +4,42 @@
 pdtk
 ====
 
-A light weight pre-processor for Pandoc. Target use case is JSON object
-documents rendered via Pandoc templates.
+pdtk is a light weight tool kit for working with static websites 
+and Pandoc. It features a pre-processor for Pandoc called "prep". 
+"prep" target use case is JSON object documents rendered via 
+Pandoc templates.
 
-This is a proof-of-concept Go package which makes it easy to extend
+As a proof-of-concept Go package which makes it easy to extend
 your Go application to incorporate Pandoc template processing. It includes
-the Go package and an example command line tool (cli).
+the Go package and an example command line tool (cli) that uses it.
 
 A motivation for pdtk is to deconstruct a content management system
 into easily scriptable components and drive website assembly via
-a simple Makefile. Pandoc is relied for processing input and
-rendering content but pdtk makes it easy to integrate with other
-activity such as maintain a blog stuctured document tree,
-rendering RSS and sitemap.xml.
+a simple Makefile. Pandoc is used to render Markdown content
+and templating. The sub-packages in pdtk include additional
+functionality not directly or easily achieve with Pandoc alone.
 
 cli
 ---
 
-The command line implementation is a proof of concept Pandoc
-pre-processor in Go. An example usage would be to process
+The pdtk command line tool allows you to use the pdtk "prep"
+Pandoc Pre-proccessed. It will accept a JSON file from standard
+input, turn it into YAML front matter suitable for direct processing
+by Pandoc.  An example usage would be to process
 [example.json](example.json) JSON document using a Pandoc template
 called [example.tpml](example.tmpl).
 
 ```shell
-    pdtk -- --template example.tmpl < example.json > example.html
+    pdtk prep -- --template example.tmpl < example.json > example.html
+```
+
+Another example would be to take the [codemeta.json](codemeta.json) file
+from this project and render it as a Markdown document using a Pandoc
+template.
+
+```shell
+    pdtk prep -- --template codemeta-md.tmpl \
+         < codemeta.json > about.md
 ```
 
 Go package

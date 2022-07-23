@@ -216,8 +216,10 @@ func main() {
 		fmt.Printf("%s\n", usage(appName))
 		os.Exit(0)
 	case "prep":
-		if err := prep.RunPrep(appName, verb, args); err != nil {
-			handleError(err)
+		src, err := prep.RunPrep(appName, verb, args)
+		handleError(err)
+		if len(src) > 0 {
+			fmt.Printf("%s\n", src)
 		}
 	case "ws":
 		if err := ws.RunWS(appName, verb, args); err != nil {

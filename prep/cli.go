@@ -12,10 +12,11 @@ package prep
 
 import (
 	"flag"
+	"io/ioutil"
 	"os"
 )
 
-func RunPrep(appName string, verb string, args []string) error {
+func RunPrep(appName string, verb string, args []string) ([]byte, error) {
 	var (
 		input  string
 		output string
@@ -35,16 +36,20 @@ func RunPrep(appName string, verb string, args []string) error {
 	if input != "" && input != "-" {
 		in, err = os.Open(input)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		defer in.Close()
 	}
 	if output != "" && output != "-" {
 		out, err = os.Create(output)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		defer out.Close()
 	}
-	return ApplyIO(in, out, args)
+	buf, err := ioutil.ReadAll(in)
+	if err != nil {
+		return nil, err
+	}
+	return Apply(buf, args)
 }

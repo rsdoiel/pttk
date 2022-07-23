@@ -31,63 +31,71 @@
 src="https://www.repostatus.org/badges/latest/concept.svg"
 alt="Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept." /></a></p>
 <h1 id="pdtk">pdtk</h1>
-<p>A light weight pre-processor for Pandoc. Target use case is JSON
-object documents rendered via Pandoc templates.</p>
-<p>This is a proof-of-concept Go package which makes it easy to extend
-your Go application to incorporate Pandoc template processing. It
-includes the Go package and an example command line tool (cli).</p>
+<p>pdtk is a light weight tool kit for working with static websites and
+Pandoc. It features a pre-processor for Pandoc called “prep”. “prep”
+target use case is JSON object documents rendered via Pandoc
+templates.</p>
+<p>As a proof-of-concept Go package which makes it easy to extend your
+Go application to incorporate Pandoc template processing. It includes
+the Go package and an example command line tool (cli) that uses it.</p>
 <p>A motivation for pdtk is to deconstruct a content management system
 into easily scriptable components and drive website assembly via a
-simple Makefile. Pandoc is relied for processing input and rendering
-content but pdtk makes it easy to integrate with other activity such as
-maintain a blog stuctured document tree, rendering RSS and
-sitemap.xml.</p>
+simple Makefile. Pandoc is used to render Markdown content and
+templating. The sub-packages in pdtk include additional functionality
+not directly or easily achieve with Pandoc alone.</p>
 <h2 id="cli">cli</h2>
-<p>The command line implementation is a proof of concept Pandoc
-pre-processor in Go. An example usage would be to process <a
+<p>The pdtk command line tool allows you to use the pdtk “prep” Pandoc
+Pre-proccessed. It will accept a JSON file from standard input, turn it
+into YAML front matter suitable for direct processing by Pandoc. An
+example usage would be to process <a
 href="example.json">example.json</a> JSON document using a Pandoc
 template called <a href="example.tmpl">example.tpml</a>.</p>
-<pre class="shell"><code>    pdtk -- --template example.tmpl &lt; example.json &gt; example.html</code></pre>
+<pre class="shell"><code>    pdtk prep -- --template example.tmpl &lt; example.json &gt; example.html</code></pre>
+<p>Another example would be to take the <a
+href="codemeta.json">codemeta.json</a> file from this project and render
+it as a Markdown document using a Pandoc template.</p>
+<pre class="shell"><code>    pdtk prep -- --template codemeta-md.tmpl \
+         &lt; codemeta.json &gt; about.md</code></pre>
 <h2 id="go-package">Go package</h2>
 <p>Here’s some simple use examples of the three functions supplied in
 the pdtk package.</p>
 <p>Given a JSON Object document as a slice of bytes render formated
 output based on the Pandoc template <code>example.tmpl</code></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">:=</span> ioutil<span class="op">.</span>ReadFile<span class="op">(</span><span class="st">&quot;example.json&quot;</span><span class="op">)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">=</span> pdtk<span class="op">.</span>Apply<span class="op">(</span>src<span class="op">,</span> opt<span class="op">)</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Fprintf<span class="op">(</span>os<span class="op">.</span>Stdout<span class="op">,</span> <span class="st">&quot;%s&quot;</span><span class="op">,</span> src<span class="op">)</span></span></code></pre></div>
-<p>Using an <code>io.Reader</code> to retrieve the JSON content, process
-with the <code>example.tmpl</code> template and write standard
-output</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    f<span class="op">,</span> err <span class="op">:=</span> Open<span class="op">(</span><span class="st">&quot;example.json&quot;</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">:=</span> ioutil<span class="op">.</span>ReadFile<span class="op">(</span><span class="st">&quot;example.json&quot;</span><span class="op">)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">defer</span> f<span class="op">.</span>Close<span class="op">()</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">:=</span> pdtk<span class="op">.</span>ReadAll<span class="op">(</span>f<span class="op">,</span> opt<span class="op">)</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Fprintf<span class="op">(</span>os<span class="op">.</span>Stdout<span class="op">,</span> <span class="st">&quot;%s&quot;</span><span class="op">,</span> src<span class="op">)</span></span></code></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">=</span> pdtk<span class="op">.</span>Apply<span class="op">(</span>src<span class="op">,</span> opt<span class="op">)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Fprintf<span class="op">(</span>os<span class="op">.</span>Stdout<span class="op">,</span> <span class="st">&quot;%s&quot;</span><span class="op">,</span> src<span class="op">)</span></span></code></pre></div>
+<p>Using an <code>io.Reader</code> to retrieve the JSON content, process
+with the <code>example.tmpl</code> template and write standard
+output</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    f<span class="op">,</span> err <span class="op">:=</span> Open<span class="op">(</span><span class="st">&quot;example.json&quot;</span><span class="op">)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">defer</span> f<span class="op">.</span>Close<span class="op">()</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">:=</span> pdtk<span class="op">.</span>ReadAll<span class="op">(</span>f<span class="op">,</span> opt<span class="op">)</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Fprintf<span class="op">(</span>os<span class="op">.</span>Stdout<span class="op">,</span> <span class="st">&quot;%s&quot;</span><span class="op">,</span> src<span class="op">)</span></span></code></pre></div>
 <p>Using an <code>io.Reader</code> and <code>io.Writer</code> to read
 JSON source from standard input and write the processed pandoc templated
 standard output.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    err <span class="op">:=</span> pdtk<span class="op">.</span>ApplyIO<span class="op">(</span>os<span class="op">.</span>Stdin<span class="op">,</span> os<span class="op">.</span>Stdout<span class="op">,</span> opt<span class="op">)</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    err <span class="op">:=</span> pdtk<span class="op">.</span>ApplyIO<span class="op">(</span>os<span class="op">.</span>Stdin<span class="op">,</span> os<span class="op">.</span>Stdout<span class="op">,</span> opt<span class="op">)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div>
 <h2 id="requirements">Requirements</h2>
 <ul>
 <li><a href="https://pandoc.org">Pandoc</a> 2.18 or better</li>

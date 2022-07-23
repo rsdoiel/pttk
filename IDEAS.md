@@ -2,28 +2,28 @@
 Ideas
 =====
 
-Questions
----------
+A Question and Ideas
+--------------------
 
 - What would be the minimum additional tools besides GNU Make and Pandoc needed to make it easy to maintain my website?
-    - blogit for generating JSON presentation of blog post and rendering to the appropriate location of blog
+    - blogit, a tool for generating JSON presentation of blog posts and their metadata
     - An RSS generator would be nice
     - A working sitemap.xml generator would be nice
-    - feeder for generating reallysimple feeds and RSS 2.0 feeds in each directory
-    - A simple static web server for viewing the rendered content would ne nice
-    - A navigation file generator based on bread crumbs
+    - Support for recent innovations that Dave Weiner has done with "reallysimple" feeds
+    - A simple static web server for viewing the review in the content rendered with blogit or pandoc
+    - A way to integrate fountain manuscripts
+    - A nice to have would be a way to generate breadcrumb navigation for both blogs and website
+        - Maybe this is driven by the top level index page's front matter? Or an index.yaml file?
+    - A nice to have would be a LunrJS compatible index generator for integrate search
 
-
-Improvements
-------------
+Verbs
+-----
 
 - A set of verbs to processing more complex actions
-    - a "walker" verb that would walk the file system looking for JSON document to turn into Markdown then into HTML so that the blog is always in a data format
-    - a "rss" verb might render the RSS for the site/blog
-        - should support Dave's recent innovations for including Markdown via a "source" name space
-    - a "sitemap" verb might render a series of sitemap files for the site
-        - these would change together to avoid overflowing the limit on files in a sitemap.xml file.
-    - a "reallysimple" would produce JSON feed documents based on Dave's recent innovations
+    - "prep" should expose the simple pre-processor implemented in pdtmpl experiment
+    - "blogit" should be a fresh implementation of the blogit CLI from mkpage
+    - "rss" should generate appropriate, modern RSS 2.0 for syndication
+    - "sitemap" should generate a sitemap for a website and support sub-sitemaps were appropraite
     
 
 
