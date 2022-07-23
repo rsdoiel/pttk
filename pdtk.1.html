@@ -28,14 +28,14 @@
   <h1>pdtk.1</h1>
 
 <p>USAGE:</p>
-<p>./bin/pdtk [OPTIONS] verb [VERB_OPTIONS] [– [PANDOC_OPTIONS] … ]</p>
-<p>./bin/pdtk started as a Pandoc preprocessor. It can read JSON or YAML
-from standard input and passes that via an internal pipe to Pandoc as
-YAML front matter. Pandoc can then process it accordingly Pandoc
-options. Pandoc options are those options coming after a “–” marker.
-Options before “–” are for the ./bin/pdtk preprossor.</p>
-<p>./bin/pdtk has grown to include features provide through simple
-“verbs”. The verbs include the following.</p>
+<p>pdtk [OPTIONS] verb [VERB_OPTIONS] [– [PANDOC_OPTIONS] … ]</p>
+<p>pdtk started as a Pandoc preprocessor. It can read JSON or YAML from
+standard input and passes that via an internal pipe to Pandoc as YAML
+front matter. Pandoc can then process it accordingly Pandoc options.
+Pandoc options are those options coming after a “–” marker. Options
+before “–” are for the pdtk preprossor.</p>
+<p>pdtk has grown to include features provide through simple “verbs”.
+The verbs include the following.</p>
 <dl>
 <dt><strong>help</strong></dt>
 <dd>
@@ -71,35 +71,34 @@ version</p>
 <p>In this example we have a JSON object document called “example.json”
 and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used
 to pipe the content of “example.json” into the command line tool
-./bin/pdtk.</p>
-<p>./bin/pdtk prep – –template example.tmpl &lt; example.json</p>
+pdtk.</p>
+<p>pdtk prep – –template example.tmpl &lt; example.json</p>
 <p>Render example.json as Markdown document. We need to use Pandoc’s own
 options of “-s” (stand alone) and “-t” (to tell Pandoc the output
 format)</p>
-<p>./bin/pdtk prep – -s -t markdown &lt; example.json</p>
+<p>pdtk prep – -s -t markdown &lt; example.json</p>
 <p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an
 about page in Markdown via Pandocs template processing (the
 “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown
 output).</p>
-<p>./bin/pdtk prep -i codemeta.json -o about.md<br />
+<p>pdtk prep -i codemeta.json -o about.md<br />
 – –template codemeta-md.tmpl</p>
-<p>Using ./bin/pdtk to manage blog content with the “blogit” verb.</p>
+<p>Using pdtk to manage blog content with the “blogit” verb.</p>
 <p>Adding a blog “first-post.md” to “myblog”.</p>
-<p>./bin/pdtk blogit myblog $HOME/Documents/first-post.md</p>
+<p>pdtk blogit myblog $HOME/Documents/first-post.md</p>
 <p>Adding/Updating the “first-post.md” on “2022-07-22”</p>
-<p>./bin/pdtk blogit myblog $HOME/Documents/first-post.md
-“2022-07-22”</p>
+<p>pdtk blogit myblog $HOME/Documents/first-post.md “2022-07-22”</p>
 <p>Added additional material for posts on “2022-07-22”</p>
-<p>./bin/pdtk blogit myblog $HOME/Documents/charts/my-graph.svg
+<p>pdtk blogit myblog $HOME/Documents/charts/my-graph.svg
 “2022-07-22”</p>
 <p>Refreshing the blogs’s blog.json file.</p>
-<p>./bin/pdtk blogit myblog</p>
-<p>Using ./bin/pdtk to generate RSS for “myblog”</p>
-<p>./bin/pdtk rss myblog</p>
+<p>pdtk blogit myblog</p>
+<p>Using pdtk to generate RSS for “myblog”</p>
+<p>pdtk rss myblog</p>
 <p>Generating a sitemap in a current directory</p>
-<p>./bin/pdtk sitemap .</p>
+<p>pdtk sitemap .</p>
 <p>Running a static web server to view rendering site</p>
-<p>./bin/pdtk ws $HOME/Sites/myblog</p>
+<p>pdtk ws $HOME/Sites/myblog</p>
 </section>
 
 <footer>

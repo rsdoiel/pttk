@@ -61,8 +61,8 @@ uninstall: .FORCE
 	@for FNAME in $(PROGRAMS); do if [ -f $(PREFIX)/bin/$$FNAME ]; then rm -v $(PREFIX)/bin/$$FNAME; fi; done
 
 man: pdtk.1 .FORCE
-	mkdir -p man
-	mv pdtk.1 man/
+	mkdir -p man/man1
+	mv pdtk.1 man/man1/
 
 pdtk.1: pdtk.1.md
 	pandoc pdtk.1.md -s -t man -o pdtk.1
@@ -83,6 +83,7 @@ clean:
 	@if [ -d bin ]; then rm -fR bin; fi
 	@if [ -d dist ]; then rm -fR dist; fi
 	@if [ -d testout ]; then rm -fR testout; fi
+	@if [ -f man/man1/pdtk.1 ]; then rm man/man1/pdtk.1; fi
 
 dist/linux-amd64:
 	@mkdir -p dist/bin
