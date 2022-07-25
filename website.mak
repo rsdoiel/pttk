@@ -15,7 +15,7 @@ $(HTML_PAGES): $(MD_PAGES) .FORCE
 	@if [ $@ = "README.html" ]; then mv README.html index.html; fi
 
 LICENSE.html: LICENSE
-	pandoc -s --from Markdown --to html5 LICENSE -o license.html \
+	pandoc --metadata title="$(PROJECT) License" -s --from Markdown --to html5 LICENSE -o license.html \
 	    --template=page.tmpl
 
 clean:

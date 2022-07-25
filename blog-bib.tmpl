@@ -1,0 +1,23 @@
+$for(years)$
+  $for(it.months)$
+    $for(it.days)$
+$for(it.posts)$
+
+@article{$it.slug$
+	title = {$it.title$},
+$if(it.author)$
+	author = $it.author$,
+$endif$
+$if(it.date)$
+	pub_date = $it.date$
+$endif$
+$if(it.year)$
+	year = ${it.year},
+$endif$
+	url = {$it.document$}
+}
+
+$endfor$
+    $endfor$
+  $endfor$
+$endfor$
