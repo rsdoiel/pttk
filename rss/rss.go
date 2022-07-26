@@ -72,19 +72,19 @@ type Item struct {
 }
 
 type CData struct {
-	value string `xml:",cdata,omitempty" json:"value,omitempty"`
+	Value string `xml:",cdata,omitempty" json:"value,omitempty"`
 }
 
 func (cdata *CData) Set(src string) {
-	cdata.value = src
+	cdata.Value = src
 }
 
 func (cdata *CData) String() string {
-	return cdata.value
+	return cdata.Value
 }
 
 func (cdata *CData) ToJSON() string {
-	return cdata.value
+	return cdata.Value
 }
 
 // MarshalJSON() marshals the custom attributes that might
