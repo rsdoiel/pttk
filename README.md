@@ -4,43 +4,182 @@
 pdtk
 ====
 
-pdtk is a light weight tool kit for working with static websites 
-and Pandoc. It features a pre-processor for Pandoc called "prep". 
-"prep" target use case is JSON object documents rendered via 
-Pandoc templates.
+**pdtk** is a tool kit for writing with a focus on static site
+generation using Pandoc.  The metaphor behind the tool kit is a
+deconstructed a content management system. It is easily scriptable
+from your favorite POSIX shell or Makefile. It provides a number of
+functions including a Pandoc preprocessor called prep, a blogging
+tool called blogit as well as RSS and Sitemap generators. In this way
+you should be able to have many of the website features you'd expect
+from a dynamic content management system like Wordpress without the
+need to run one. The tool kit features a blog post manager, RSS
+and Sitemap generator as well as a Pandoc preprocessor called "prep"
+that will let your treat a JSON file as direct input to Pandoc for
+processing.
 
-As a proof-of-concept Go package which makes it easy to extend
-your Go application to incorporate Pandoc template processing. It includes
-the Go package and an example command line tool (cli) that uses it.
+**pdtk** is a proof-of-concept Go package which makes it easy to extend
+your Go application to incorporate Pandoc template processing or develop
+other content manage tools. 
 
-A motivation for pdtk is to deconstruct a content management system
-into easily scriptable components and drive website assembly via
-a simple Makefile. Pandoc is used to render Markdown content
-and templating. The sub-packages in pdtk include additional
-functionality not directly or easily achieve with Pandoc alone.
 
-cli
----
+A command line tool kit
+-----------------------
 
-The pdtk command line tool allows you to use the pdtk "prep"
-Pandoc Pre-proccessed. It will accept a JSON file from standard
-input, turn it into YAML front matter suitable for direct processing
-by Pandoc.  An example usage would be to process
-[example.json](example.json) JSON document using a Pandoc template
-called [example.tpml](example.tmpl).
+**pdtk** is a program that works on the command line or shell.
+**pdtk** usage is structured around the idea "verbs" or actions.
+Each "verb" can have it's own set of options and command syntax.
+
+The basic usage is as follows
+
+```
+   pdtk VERB [OPTIONS]
+```
+
+Currently there are four verbs supported by **pdtk**.
+
+__blogit__
+: A tool for manage a blog directory structure and a
+"blog.json" metadata file
+
+__rss__
+: A tool for generating RSS files from blogit
+
+__sitemap__
+: A tool for generating a sitemap.xml file.
+
+__prep__
+: a Pandoc preprocess that accepts JSON and pipes it into
+Pandoc for processing
+
+
+__blogit__ is a tool to make it easy to separte website generation
+from where you might want to write your blog posts. It will generate
+and maintain a blog style directory structure. A blog directory structure
+is usually in the form of `/YYYY/MM/DD/` where "YYYY" is a year, "MM" is
+a two digit month and "DD" is a two digit day representation. It also
+maintains a "blog.json" document that describes the metadata and layout for
+your blog. __blogit__ uses the front matter in your Markdown documents to
+know things like titles, post dates and authorship.  The two **pdtk**
+verbs "rss" and "sitemap" know how to interpret the blog.json to generate
+RSS and sitemap.xml respectively.
+
+The form of the __blogit__ command is
+
+```shell
+    pdtk blogit PATH_DO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]
+```
+
+In this example I have a Markdown ment I want to use as a blog post
+in `$HOME/Documents/pdtk-tutorial.md`.  I'm generating my blog in a
+directory called `$HOME/Sites/my-website/blog`.  If I want to "blog" the
+document I first change to "my-website" directory and use __blogit__
+to update my blog.
+
+```shell
+   cd $HOME/Sites/my-website/blog
+   pdtk blogit $HOME/Documents/pdtk-tutorial.md
+```
+
+The __blogit__ verb assumes you are in the current working directory
+where you have your blog. 
+
+
+By default __blogit__ will use the current date in "YYYY-MM-DD" format
+for the blog post. If you want to have the post on a specific day then
+you include the date for the post in "YYYY-MM-DD" format. Here's an
+example of posting the tutorial on 2022-08-01 (August 8th, 2022).
+
+```shell
+   cd $HOME/Sites/my-website/blog
+   pdtk blogit $HOME/Documents/pdtk-tutorial.md 2022-08-08
+```
+
+__rss__ is the verb used to generate an RSS feed from a __blogit__
+blog.json file.  The format of the command is
+
+```shell
+    pdtk rss PATH_TO_BLOG_JSON PATH_TO_RSS_FILE
+```
+
+If I want my blog feed to be `feeds/index.xml` in the Wordpress style
+for my blog in the `blog` directory I would change to `my-website`
+directory and then use the __rss__ as follows.
+
+```shell
+    cd $HOME/Sites/my-website
+    pdtk rss blog/blog.json feeds/index.xml
+```
+
+This will generate our `feeds/index.xml` document. If the feeds directory
+doesn't exist it'll get created. Updating the RSS picking up new post
+is just a matter of envoking `pdtk rss` the command again.
+
+__sitemap__ generates a "sitemap.xml" file that describes the site layout
+to searching crawlers.  The specification for sitemap.xml stipulates a
+maximum number of entries in the sitemap.xml. For large websites this used
+to be a problem but the specification allows for multiple sitemaps to be
+used.  The __sitemap__ verb will generate a sitemap.xml in the root
+website directory and in any sub-directories of the webiste.  If Markdown
+documents are found then it'll use front matter for the matching HTML files
+and "blog.json" file for the blog content.
+
+The form for __sitemap__ is simple. 
+
+```
+   ptdk sitemap [ROOT_WEBSITE_DIRECTORY]
+```
+
+Here's an example for our "my-website" direcotry.
+
+```
+    pdtk sitemap $HOME/Sites/my-website
+```
+
+This wold generate a sitemap file of `$HOME/Sites/my-website/sitemap.xml`
+and if necessary ones in the sub directories like `blog`.
+
+The __prep__ "verb" is the most elaborate. It accepts JSON, transforms
+it into YAML front matter and pipes it into Pandoc for further processing.
+That make it easy to transform the data structurings using Pandoc as data
+template engine into documents such as web pages.
+
+__prep__'s syntax is elaborate. It's form is
+
+```
+    pdtk prep [PREP_OPTIONS] -- [PANDOC_OPTIONS]
+```
+
+NOTE: The "--" delimits __prep__'s own options from Pandoc's.
+Options on the left side of the "--" are processed by __prep__ and
+the options listed to the right of "--" are passed on unchanged to
+Pandoc after preprossing is completed.
+
+Here's an example of processing [example.json](example.json)
+JSON document using a Pandoc template called [example.tpml](example.tmpl).
 
 ```shell
     pdtk prep -- --template example.tmpl < example.json > example.html
 ```
 
-Another example would be to take the [codemeta.json](codemeta.json) file
-from this project and render it as a Markdown document using a Pandoc
-template.
+A more practical example is transforming a [codemeta.json](codemeta.json)
+file into an about page. Here's how I transform this project's codemeta.json
+file into a Markdown document using a Pandoc template.
 
 ```shell
     pdtk prep -- --template codemeta-md.tmpl \
          < codemeta.json > about.md
 ```
+
+Another example would be to use __prep__ to process the "blog.json"
+file into a BibTeX citation list using a template called 
+[blog-bib.tmpl](blog-bib.tmpl).
+
+```shell
+    pdtk prep -- --template blog-bib.tmpl \
+        < blog/blog.json > blog/blog.bib
+```
+
+
 
 Go package
 ----------
