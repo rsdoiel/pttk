@@ -17,6 +17,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/rsdoiel/pdtk/blogit"
 )
 
 type CustomAttrs []xml.Attr

@@ -41,3 +41,9 @@ Compare that with James Fallows http://feeder.scripting.com/?template=mailbox&fe
 
 
 
+Feeds
+-----
+
+- gofeed package provides a universal reader, appears to be still maintained
+- Gorrilla provides a RSS generator, Gorrilla is looking for a new maintainer and appears to have stopped evolving (i.e. is current stable, may not have a community to update it in the future)
+
