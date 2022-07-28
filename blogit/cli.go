@@ -28,6 +28,10 @@ var (
 	quiet       bool
 
 	// Application Options
+	channelFile        string
+	channelDescription string
+	channelCopyright   string
+
 	prefixPath     string
 	docName        string
 	dateString     string

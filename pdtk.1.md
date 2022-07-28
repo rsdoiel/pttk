@@ -59,6 +59,8 @@ metadata and supportting RSS rendering.
 
 # EXAMPLES
 
+## prep
+
 In this example we have a JSON object document called
 "example.json" and a Pandoc template called "example.tmpl".
 A redirect "<" is used to pipe the content of "example.json"
@@ -83,6 +85,8 @@ marked up to produce Markdown output).
 Using pdtk to manage blog content with the "blogit"
 verb. 
 
+## blogit
+
 Adding a blog "first-post.md" to "myblog".
 
     pdtk blogit myblog $HOME/Documents/first-post.md
@@ -99,13 +103,19 @@ Refreshing the blogs's blog.json file.
 
     pdtk blogit myblog
 
+## rss
+
 Using pdtk to generate RSS for "myblog"
 
     pdtk rss myblog
 
+## sitemap
+
 Generating a sitemap in a current directory
 
     pdtk sitemap .
+
+## ws
 
 Running a static web server to view rendering site
 

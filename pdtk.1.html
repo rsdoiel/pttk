@@ -28,51 +28,77 @@
   <h1>pdtk.1</h1>
 
 <h1 id="name">NAME</h1>
-<p>pdtk - pandoc tool kit, a set of tools for website generation using Pandoc</p>
+<p>pdtk - pandoc tool kit, a set of tools for website generation using
+Pandoc</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>pdtk <a href="#options">OPTIONS</a> verb [VERB_OPTIONS] [– [PANDOC_OPTIONS] … ]</p>
+<p>pdtk <a href="#options">OPTIONS</a> verb [VERB_OPTIONS] [–
+[PANDOC_OPTIONS] … ]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>pdtk started as a Pandoc preprocessor. It can read JSON or YAML from standard input and passes that via an internal pipe to Pandoc as YAML front matter. Pandoc can then process it accordingly Pandoc options. Pandoc options are those options coming after a “–” marker. Options before “–” are for the pdtk preprossor.</p>
+<p>pdtk started as a Pandoc preprocessor. It can read JSON or YAML from
+standard input and passes that via an internal pipe to Pandoc as YAML
+front matter. Pandoc can then process it accordingly Pandoc options.
+Pandoc options are those options coming after a “–” marker. Options
+before “–” are for the pdtk preprossor.</p>
 <h1 id="verbs">VERBS</h1>
-<p>pdtk has grown to include features provide through simple “verbs”. The verbs include the following.</p>
+<p>pdtk has grown to include features provide through simple “verbs”.
+The verbs include the following.</p>
 <dl>
 <dt><strong>help</strong></dt>
-<dd>Display this help page.
+<dd>
+Display this help page.
 </dd>
 <dt><strong>prep</strong></dt>
-<dd>Preprocess JSON or YAML into YAML front matter and run through Pandoc
+<dd>
+Preprocess JSON or YAML into YAML front matter and run through Pandoc
 </dd>
 <dt><strong>ws</strong></dt>
-<dd>Runs a simple static web server for checking static site development
+<dd>
+Runs a simple static web server for checking static site development
 </dd>
 <dt><strong>blogit</strong></dt>
-<dd>Renders a blog directory structure by “importing” Markdown documents or updating existing ones. It maintains a blog.json document collecting metadata and supportting RSS rendering.
+<dd>
+Renders a blog directory structure by “importing” Markdown documents or
+updating existing ones. It maintains a blog.json document collecting
+metadata and supportting RSS rendering.
 </dd>
 <dt><strong>rss</strong></dt>
-<dd>Renders RSS feeds from the contents of a blog.json document
+<dd>
+Renders RSS feeds from the contents of a blog.json document
 </dd>
 <dt><strong>sitemap</strong></dt>
-<dd>Renders sitemap.xml files for a static website
+<dd>
+Renders sitemap.xml files for a static website
 </dd>
 </dl>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>display usage
+<dd>
+display usage
 </dd>
 <dt>-license</dt>
-<dd>display license
+<dd>
+display license
 </dd>
 <dt>-version</dt>
-<dd>display version
+<dd>
+display version
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>In this example we have a JSON object document called “example.json” and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used to pipe the content of “example.json” into the command line tool pdtk.</p>
+<p>In this example we have a JSON object document called “example.json”
+and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used
+to pipe the content of “example.json” into the command line tool
+pdtk.</p>
 <pre><code>pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
-<p>Render example.json as Markdown document. We need to use Pandoc’s own options of “-s” (stand alone) and “-t” (to tell Pandoc the output format)</p>
+<p>Render example.json as Markdown document. We need to use Pandoc’s own
+options of “-s” (stand alone) and “-t” (to tell Pandoc the output
+format)</p>
 <pre><code>pdtk prep -- -s -t markdown &lt; example.json</code></pre>
-<p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an about page in Markdown via Pandocs template processing (the “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown output).</p>
+<p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an
+about page in Markdown via Pandocs template processing (the
+“codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown
+output).</p>
 <pre><code>pdtk prep -i codemeta.json -o about.md \
     -- --template codemeta-md.tmpl</code></pre>
 <p>Using pdtk to manage blog content with the “blogit” verb.</p>
