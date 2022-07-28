@@ -199,60 +199,60 @@ const (
 )
 
 type CreatorObj struct {
-	ORCID string `json:"orcid,omitempty"`
-	Name  string `json:"name,omitempty"`
+	ORCID string `json:"orcid,omitempty" yaml:"orcid,omitempty"`
+	Name  string `json:"name,omitempty" yaml:"name,omitempty"`
 }
 
 type PostObj struct {
-	Slug        string       `json:"slug"`
-	Document    string       `json:"document"`
-	Title       string       `json:"title,omitempty"`
-	SubTitle    string       `json:"subtitle,omitempty"`
-	Byline      string       `json:"byline,omitempty"`
-	Series      string       `json:"series,omitempty"`
-	Number      string       `json:"number,omitempty"`
-	Subject     string       `json:"subject,omitempty"`
-	Keywords    []string     `json:"keywords,omitempty"`
-	Abstract    string       `json:"abstract,omitempty"`
-	Description string       `json:"description,omitempty"`
-	Category    string       `json:"category,omitempty"`
-	Lang        string       `json:"lang,omitempty"`
-	Direction   string       `json:"direction,omitempty"`
-	Draft       bool         `json:"draft,omitempty"`
-	Creators    []CreatorObj `json:"creators,omitempty"`
-	Created     string       `json:"date,omitempty"`
-	Updated     string       `json:"updated,omitempty"`
+	Slug        string       `json:"slug" yaml:"slug"`
+	Document    string       `json:"document" yaml:"document"`
+	Title       string       `json:"title,omitempty" yaml:"title,omitempty"`
+	SubTitle    string       `json:"subtitle,omitempty" yaml:"subtitle,omitempty"`
+	Byline      string       `json:"byline,omitempty" yaml:"byline,omitempty"`
+	Series      string       `json:"series,omitempty" yaml"series,omitempty"`
+	Number      string       `json:"number,omitempty" yaml:"number,omitempty"`
+	Subject     string       `json:"subject,omitempty" yaml:"subject,omitempty"`
+	Keywords    []string     `json:"keywords,omitempty" yaml:"keywords,omitempty"`
+	Abstract    string       `json:"abstract,omitempty" yaml:"abstract,omitempty"`
+	Description string       `json:"description,omitempty" yaml:"description,omitempty"`
+	Category    string       `json:"category,omitempty" yaml:"catagory,omitempty"`
+	Lang        string       `json:"lang,omitempty" yaml:"lang,omitempty"`
+	Direction   string       `json:"direction,omitempty" yaml:"direction,omitempty"`
+	Draft       bool         `json:"draft,omitempty" yaml:"draft,omitempty"`
+	Creators    []CreatorObj `json:"creators,omitempty" yaml:"creators,omitempty"`
+	Created     string       `json:"date,omitempty" yaml:"date,omitempty"`
+	Updated     string       `json:"updated,omitempty" yaml:"updated,omitempty"`
 }
 
 type DayObj struct {
-	Day   string     `json:"day"`
-	Posts []*PostObj `json:"posts"`
+	Day   string     `json:"day" yaml:"day"`
+	Posts []*PostObj `json:"posts" yaml:"post"`
 }
 
 type MonthObj struct {
-	Month string    `json:"month"`
-	Days  []*DayObj `json:"days"`
+	Month string    `json:"month" yaml:"month"`
+	Days  []*DayObj `json:"days" yaml:"days"`
 }
 
 type YearObj struct {
-	Year   string      `json:"year"`
-	Months []*MonthObj `json:"months"`
+	Year   string      `json:"year" yaml:"year"`
+	Months []*MonthObj `json:"months" yaml:"months"`
 }
 
 type BlogMeta struct {
-	Name        string     `json:"name,omitempty"`
-	Quip        string     `json:"quip,omitempty"`
-	Description string     `json:"description,omitempty"`
-	BaseURL     string     `json:"url,omitempty"`
-	Copyright   string     `json:"copyright,omitempty"`
-	License     string     `json:"license,omitempty"`
-	Language    string     `json:"language,omitempty"`
-	Started     string     `json:"started,omitempty"`
-	Ended       string     `json:"ended,omitempty"`
-	Updated     string     `json:"updated,omitempty"`
-	IndexTmpl   string     `json:"index_tmpl,omitempty"`
-	PostTmpl    string     `json:"post_tmpl,omitempty"`
-	Years       []*YearObj `json:"years"`
+	Name        string     `json:"name,omitempty" yaml:"name,omitempty"`
+	Quip        string     `json:"quip,omitempty" yaml:"quip,omitempty"`
+	Description string     `json:"description,omitempty" yaml:"description,omitempty"`
+	BaseURL     string     `json:"url,omitempty" yaml:"url,omitempty"`
+	Copyright   string     `json:"copyright,omitempty" yaml:"copyright,omitempty"`
+	License     string     `json:"license,omitempty" yaml:"license,omitempty"`
+	Language    string     `json:"language,omitempty" yaml:"language,omitempty"`
+	Started     string     `json:"started,omitempty" yaml:"started,omitempty"`
+	Ended       string     `json:"ended,omitempty" yaml:"ended,omitempty"`
+	Updated     string     `json:"updated,omitempty" yaml:"updated,omitempty"`
+	IndexTmpl   string     `json:"index_tmpl,omitempty" yaml:"index_tmpl,omitempty"`
+	PostTmpl    string     `json:"post_tmpl,omitempty" yaml:"post_tmpl,omitempty"`
+	Years       []*YearObj `json:"years" yaml:"years"`
 }
 
 //
@@ -653,7 +653,6 @@ func (meta *BlogMeta) BlogIt(prefix string, fName string, dateString string) err
 		in.Close()
 		out.Close()
 	}
-
 	// NOTE: Updated is always today.
 	meta.Updated = time.Now().Format(DateFmt)
 	return meta.updateYears(ymd, targetName)
@@ -661,10 +660,29 @@ func (meta *BlogMeta) BlogIt(prefix string, fName string, dateString string) err
 
 // Save writes a JSON blog meta document
 func (meta *BlogMeta) Save(fName string) error {
-	meta.Updated = time.Now().Format(DateFmt)
-	src, err := json.MarshalIndent(meta, "", "    ")
-	if err != nil {
-		return fmt.Errorf("Marshaling %q, %s", fName, err)
+	var (
+		src []byte
+		err error
+	)
+	ext := path.Ext(fName)
+	switch ext {
+	case ".json":
+		src, err = json.MarshalIndent(meta, "", "    ")
+		if err != nil {
+			return fmt.Errorf("Marshaling %q, %s", fName, err)
+		}
+	case ".yml":
+		src, err = yaml.Marshal(meta)
+		if err != nil {
+			return fmt.Errorf("Marshaling %q, %s", fName, err)
+		}
+	case ".yaml":
+		src, err = yaml.Marshal(meta)
+		if err != nil {
+			return fmt.Errorf("Marshaling %q, %s", fName, err)
+		}
+	default:
+		return fmt.Errorf("%q is an unsupported output format", ext)
 	}
 	err = ioutil.WriteFile(fName, src, 0666)
 	if err != nil {
@@ -680,8 +698,22 @@ func LoadBlogMeta(fName string, meta *BlogMeta) error {
 		return fmt.Errorf("Reading %q, %s", fName, err)
 	}
 	if len(src) > 0 {
-		if err := json.Unmarshal(src, meta); err != nil {
-			return fmt.Errorf("Unmarshing %q, %s", fName, err)
+		ext := path.Ext(fName)
+		switch ext {
+		case ".json":
+			if err := json.Unmarshal(src, meta); err != nil {
+				return fmt.Errorf("Unmarshing %q, %s", fName, err)
+			}
+		case ".yml":
+			if err := yaml.Unmarshal(src, meta); err != nil {
+				return fmt.Errorf("Unmarshing %q, %s", fName, err)
+			}
+		case ".yaml":
+			if err := yaml.Unmarshal(src, meta); err != nil {
+				return fmt.Errorf("Unmarshing %q, %s", fName, err)
+			}
+		default:
+			return fmt.Errorf("%q is an unsupported input format", ext)
 		}
 	}
 	return nil

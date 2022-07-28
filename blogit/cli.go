@@ -28,9 +28,7 @@ var (
 	quiet       bool
 
 	// Application Options
-	channelFile        string
-	channelDescription string
-	channelCopyright   string
+	saveAsYAML bool
 
 	prefixPath     string
 	docName        string
@@ -62,6 +60,7 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 	flagSet.BoolVar(&showVerbose, "verbose", false, "verbose output")
 
 	// Application specific options
+	flagSet.BoolVar(&saveAsYAML, "save-as-yaml", false, "save as YAML file instead of blog.yaml file")
 	flagSet.StringVar(&prefixPath, "prefix", "", "Set the prefix path before YYYY/MM/DD.")
 	flagSet.StringVar(&refreshBlog, "refresh", "", "Refresh blog.json for a given year")
 	flagSet.StringVar(&setName, "name", "", "Set the blog name.")
@@ -92,17 +91,20 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 	// Make ready to run one of the BlogIt command forms
 	meta := new(BlogMeta)
 
-	blogJSON := path.Join(prefixPath, "blog.json")
+	blogMetadataName := path.Join(prefixPath, "blog.json")
 
 	// See if we have data to read in.
-	if _, err := os.Stat(blogJSON); os.IsNotExist(err) {
+	if _, err := os.Stat(blogMetadataName); os.IsNotExist(err) {
 	} else {
-		if err := LoadBlogMeta(blogJSON, meta); err != nil {
-			return fmt.Errorf("Error reading %q, %s\n", blogJSON, err)
+		if err := LoadBlogMeta(blogMetadataName, meta); err != nil {
+			return fmt.Errorf("Error reading %q, %s\n", blogMetadataName, err)
 		}
 	}
 
 	// handle option cases
+	if saveAsYAML {
+		blogMetadataName = path.Join(prefixPath, "blog.yaml")
+	}
 	if setName != "" {
 		meta.Name = setName
 	}
@@ -144,12 +146,12 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 		}
 		for i, year := range years {
 			year = strings.TrimSpace(year)
-			fmt.Printf("Refreshing (%d/%d) %q from %q\n", i+1, len(years), blogJSON, path.Join(prefixPath, year))
+			fmt.Printf("Refreshing (%d/%d) %q from %q\n", i+1, len(years), blogMetadataName, path.Join(prefixPath, year))
 			if err := meta.RefreshFromPath(prefixPath, year); err != nil {
 				return fmt.Errorf("%s\n", err)
 			}
 		}
-		if err := meta.Save(blogJSON); err != nil {
+		if err := meta.Save(blogMetadataName); err != nil {
 			return fmt.Errorf("%s\n", err)
 		}
 		fmt.Printf("Refresh completed.\n")
@@ -168,10 +170,10 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 	default:
 		if setName != "" || setQuip != "" || setDescription != "" ||
 			setBaseURL != "" || setIndexTmpl != "" || setPostTmpl != "" {
-			if err := meta.Save(blogJSON); err != nil {
+			if err := meta.Save(blogMetadataName); err != nil {
 				return fmt.Errorf("%s\n", err)
 			}
-			fmt.Printf("Updated blog.json completed.\n")
+			fmt.Printf("Updated %q completed.\n", blogMetadataName)
 			return nil
 		}
 		return fmt.Errorf("%s\n", usage(appName, verb))
@@ -189,7 +191,7 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 	if err := meta.BlogIt(prefixPath, docName, dateString); err != nil {
 		return fmt.Errorf("%s\n", err)
 	}
-	if err := meta.Save(blogJSON); err != nil {
+	if err := meta.Save(blogMetadataName); err != nil {
 		return fmt.Errorf("%s\n", err)
 	}
 	return nil
