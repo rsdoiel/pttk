@@ -107,9 +107,6 @@ OPTIONS
   -license    display license
   -version    display version
 
-  -i FILENAME read JSON or YAML file
-  -o FILENAME write Pandoc output to file
-
 BASIC EXAMPLES
 
 In this example we have a JSON object document called

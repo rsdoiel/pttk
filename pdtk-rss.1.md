@@ -8,7 +8,7 @@ pdtk rss PATH_TO_SITE
 
 # SYNOPSIS
 
-pdtk [OPTIONS] rss [RSS_OPTIONS] PATH_TO_SITE 
+pdtk rss [OPTIONS] PATH_TO_SITE 
 
 # DESCRIPTION
 
@@ -38,6 +38,59 @@ htdocs/myblog.
 
 This would build an RSS 2 file in htdocs/rss.xml from the
 articles in htdocs/myblog/YYYY/MM/DD.
+
+# OPTIONS
+
+What follows is are the options supported by the rss verb.
+
+-atom-link string
+: set atom:link href
+
+-base-url string
+: set site base url for links
+
+-byline string
+: set byline regexp (default "^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$")
+
+-channel-builddate string
+: Build Date for channel (e.g. 2006-01-02 15:04:05 -0700)
+
+-channel-category string
+: category for channel
+
+-channel-copyright string
+: Copyright for channel
+
+-channel-description string
+: Description of channel
+
+-channel-generator string
+: Name of RSS generator
+
+-channel-language string
+: Language, e.g. en-ca
+
+-channel-link string
+: link to channel
+
+-channel-pubdate string
+: Pub Date for channel (e.g. 2006-01-02 15:04:05 -0700)
+
+-channel-title string
+: Title of channel
+
+-date-format string
+: set date regexp (default "[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]")
+
+-e string
+: A colon delimited list of path exclusions
+
+-help
+: display rss help
+
+-title string
+: set title regexp (default "^#\\s+(\\w|\\s|.)+$")
+
 
 # EXAMPLE
 

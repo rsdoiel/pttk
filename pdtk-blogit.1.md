@@ -8,7 +8,7 @@ pdtk blogit
 
 # SYNOPSIS
 
-pdtk [OPTIONS] blogit [BLOGIT_OPTIONS] POST_MARKDOWN_FILE [YYYY_MM_DD]
+pdtk blogit [OPTIONS] POST_MARKDOWN_FILE [YYYY_MM_DD]
 
 # DESCRIPTION
 
@@ -16,6 +16,62 @@ pdtk blogit provides a quick tool to add or replace blog content
 organized around a date oriented file path. In addition to
 placing documents it also will generate simple markdown documents
 for inclusion in navigation.
+
+# OPTIONS
+
+What follows are the options supported by the blogit verb.
+
+-asset
+: Copy asset file to the blog path for provided date (YYYY-MM-DD)
+
+-copyright string
+: Set the blog copyright notice.
+
+-description string
+: Set the blog description
+
+-ended string
+: Set the blog ended date.
+
+-help
+: display blogit help
+
+-index-tmpl string
+: Set index blog template
+
+-language string
+: Set the blog language. (default "en-US")
+
+-license string
+: Set the blog language license
+
+-name string
+: Set the blog name.
+
+-post-tmpl string
+: Set index blog template
+
+-prefix string
+: Set the prefix path before YYYY/MM/DD.
+
+-quip string
+: Set the blog quip.
+
+-refresh string
+: Refresh blog.json for a given year
+
+-save-as-yaml
+: save as YAML file instead of blog.yaml file
+
+-started string
+: Set the blog started date.
+
+-url string
+: Set blog's URL
+
+-verbose
+: verbose output
+
 
 # EXAMPLES
 

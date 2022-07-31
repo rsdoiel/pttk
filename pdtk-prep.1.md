@@ -9,7 +9,7 @@ pdtk prep
 
 # SYNOPSIS
 
-pdtk [OPTIONS] prep [VERB_OPTIONS] [-- [PANDOC_OPTIONS] ... ]
+pdtk prep [OPTIONS] [-- [PANDOC_OPTIONS] ... ]
 
 # DESCRIPTION
 
@@ -23,7 +23,7 @@ the pdtk preprossor.
 # OPTIONS
 
 -help
-: display usage
+: display prep usage
 
 -i
 : read from a file instead of standard input
