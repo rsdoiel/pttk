@@ -66,7 +66,7 @@ RSS and sitemap.xml respectively.
 The form of the __blogit__ command is
 
 ```shell
-    pdtk blogit PATH_DO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]
+    pdtk blogit PATH_TO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]
 ```
 
 In this example I have a Markdown ment I want to use as a blog post

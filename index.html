@@ -53,7 +53,7 @@
 </dl>
 <p><strong>blogit</strong> is a tool to make it easy to separte website generation from where you might want to write your blog posts. It will generate and maintain a blog style directory structure. A blog directory structure is usually in the form of <code>/YYYY/MM/DD/</code> where “YYYY” is a year, “MM” is a two digit month and “DD” is a two digit day representation. It also maintains a “blog.json” document that describes the metadata and layout for your blog. <strong>blogit</strong> uses the front matter in your Markdown documents to know things like titles, post dates and authorship. The two <strong>pdtk</strong> verbs “rss” and “sitemap” know how to interpret the blog.json to generate RSS and sitemap.xml respectively.</p>
 <p>The form of the <strong>blogit</strong> command is</p>
-<pre class="shell"><code>    pdtk blogit PATH_DO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]</code></pre>
+<pre class="shell"><code>    pdtk blogit PATH_TO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]</code></pre>
 <p>In this example I have a Markdown ment I want to use as a blog post in <code>$HOME/Documents/pdtk-tutorial.md</code>. I’m generating my blog in a directory called <code>$HOME/Sites/my-website/blog</code>. If I want to “blog” the document I first change to “my-website” directory and use <strong>blogit</strong> to update my blog.</p>
 <pre class="shell"><code>   cd $HOME/Sites/my-website/blog
    pdtk blogit $HOME/Documents/pdtk-tutorial.md</code></pre>
