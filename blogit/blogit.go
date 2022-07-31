@@ -208,6 +208,7 @@ type PostObj struct {
 	Document    string       `json:"document" yaml:"document"`
 	Title       string       `json:"title,omitempty" yaml:"title,omitempty"`
 	SubTitle    string       `json:"subtitle,omitempty" yaml:"subtitle,omitempty"`
+	Author      string       `json:"author,omitempty" yaml:"author,omitempty"`
 	Byline      string       `json:"byline,omitempty" yaml:"byline,omitempty"`
 	Series      string       `json:"series,omitempty" yaml"series,omitempty"`
 	Number      string       `json:"number,omitempty" yaml:"number,omitempty"`
@@ -382,6 +383,9 @@ func (dy *DayObj) updatePosts(ymd []string, targetName string) error {
 	}
 	if byline, ok := obj["byline"]; ok {
 		post.Byline = byline.(string)
+	}
+	if author, ok := obj["author"]; ok {
+		post.Author = author.(string)
 	}
 	if series, ok := obj["series"]; ok {
 		post.Series = series.(string)

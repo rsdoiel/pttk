@@ -20,9 +20,10 @@ Next
 
 - [ ] Add support for source namespace so I can do source:markdown element per Dave Weiner's reallysimple feeds
     - [ ] rss should be able to understandard a markdown/html file relationship and transform it into RSS 2 with Markdown source elements where appropriate
-- [ ] blog.json needs to contain enough metadata to easily render the RSS feeed. The addtional data could be set via blogit options
-- [ ] I need to support generating multiple feeds for a website, e.g. site, blog, article series
-    - [ ] rss should be able to produce a "feed" for all pages in a website using Markdown document's front matter where there is a matching html document
-    - [ ] rss should be able to produce a "feed" for a selected set of pages driven from YAML front matter elements like "series" name
+- [x] blog.json needs to contain enough metadata to easily render the RSS feeed. The addtional data could be set via blogit options
+- [x] I need to support generating multiple feeds for a website, e.g. site, blog, article series
+    - [x] rss should be able to produce a "feed" for all pages in a website using Markdown document's front matter where there is a matching html document
+    - [x] rss should be able to produce a "feed" for a selected set of pages driven from YAML front matter elements like "series" name
 - [ ] sitemap needs to be implemented and support links to sub-site maps
-- [ ] need "byline" and "titleline" extractors implemented
+- [ ] I need to render an index listing pages from Front Matter of content pages
+    - [ ] Review how Rmarkdown/RStudio handle inclusion by front matter switches

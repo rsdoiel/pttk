@@ -53,17 +53,26 @@ RSS Board: https://www.rssboard.org/rss-validator/</li>
 <h2 id="next">Next</h2>
 <ul class="task-list">
 <li><input type="checkbox" disabled="" />
-Add support for source namespace so I can do source:markdown element per Dave Weiner’s reallysimple feeds</li>
+Add support for source namespace so I can do source:markdown element per Dave Weiner’s reallysimple feeds<ul class="task-list">
 <li><input type="checkbox" disabled="" />
+rss should be able to understandard a markdown/html file relationship and transform it into RSS 2 with Markdown source elements where appropriate</li>
+</ul></li>
+<li><input type="checkbox" disabled="" checked="" />
 blog.json needs to contain enough metadata to easily render the RSS feeed. The addtional data could be set via blogit options</li>
-<li><input type="checkbox" disabled="" />
+<li><input type="checkbox" disabled="" checked="" />
+I need to support generating multiple feeds for a website, e.g. site, blog, article series<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />
 rss should be able to produce a “feed” for all pages in a website using Markdown document’s front matter where there is a matching html document</li>
-<li><input type="checkbox" disabled="" />
-rss should be able to understandard a blog.json file and transform it into RSS 2 with Markdown source elements where appropriate</li>
+<li><input type="checkbox" disabled="" checked="" />
+rss should be able to produce a “feed” for a selected set of pages driven from YAML front matter elements like “series” name</li>
+</ul></li>
 <li><input type="checkbox" disabled="" />
 sitemap needs to be implemented and support links to sub-site maps</li>
 <li><input type="checkbox" disabled="" />
-need “byline” and “titleline” extractors implemented</li>
+I need to render an index listing pages from Front Matter of content pages<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+Review how Rmarkdown/RStudio handle inclusion by front matter switches</li>
+</ul></li>
 </ul>
 </section>
 
