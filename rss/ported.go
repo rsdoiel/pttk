@@ -19,9 +19,6 @@ import (
 	// My packages
 	"github.com/rsdoiel/pdtk/blogit"
 
-	// Caltech Library packages
-	"github.com/caltechlibrary/rss2"
-
 	// 3rd Part support (e.g. YAML)
 	"gopkg.in/yaml.v3"
 
@@ -595,7 +592,7 @@ func Grep(exp string, src string) string {
 }
 
 // Generate a Feed from walking the blogit.BlogMeta structure
-func BlogMetaToRSS(blog *blogit.BlogMeta, feed *rss2.RSS2) error {
+func BlogMetaToRSS(blog *blogit.BlogMeta, feed *RSS2) error {
 	if len(blog.Name) > 0 {
 		feed.Title = blog.Name
 	}
@@ -643,7 +640,7 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *rss2.RSS2) error {
 							includeDescription = true
 						}
 					}
-					item := new(rss2.Item)
+					item := new(Item)
 					item.Title = post.Title
 					item.Link = strings.Join([]string{blog.BaseURL, post.Document}, "/")
 					item.GUID = item.Link
@@ -687,7 +684,7 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *rss2.RSS2) error {
 }
 
 // Generate a Feed by walking the file system.
-func WalkRSS(feed *rss2.RSS2, htdocs string, excludeList string, titleExp string, bylineExp string, dateExp string) error {
+func WalkRSS(feed *RSS2, htdocs string, excludeList string, titleExp string, bylineExp string, dateExp string) error {
 	// Required
 	channelLink := feed.Link
 
@@ -783,7 +780,7 @@ func WalkRSS(feed *rss2.RSS2, htdocs string, excludeList string, titleExp string
 			}
 		}
 		pubDate = dt.Format(time.RFC1123)
-		item := new(rss2.Item)
+		item := new(Item)
 		item.GUID = articleURL
 		item.Title = title
 		item.Author = author

@@ -14,9 +14,6 @@ import (
 	"github.com/rsdoiel/pdtk"
 	"github.com/rsdoiel/pdtk/blogit"
 	"github.com/rsdoiel/pdtk/help"
-
-	// Caltech package
-	"github.com/caltechlibrary/rss2"
 )
 
 var (
@@ -111,7 +108,7 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	}
 
 	// Setup the Channel metadata for feed.
-	feed := new(rss2.RSS2)
+	feed := new(RSS2)
 	feed.Version = "2.0"
 	feed.Title = channelTitle
 	feed.Description = channelDescription
@@ -133,8 +130,9 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	now := time.Now()
 	if len(channelPubDate) == 0 {
 		// RSS spec shows RTF 1123 dates
-		//feed.PubDate = now.Format(time.RFC822Z)
-		feed.PubDate = now.Format(time.RFC1123)
+		//feed.PubDate = now.Format(time.RFC1123)
+		// Validators indicate the RFC822Z and "UTC" isn't that.
+		feed.PubDate = now.Format(time.RFC822Z)
 	} else {
 		dt, err := NormalizeDate(channelPubDate)
 		if err != nil {

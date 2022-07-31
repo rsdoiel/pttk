@@ -46,13 +46,12 @@ type RSS2 struct {
 	Rating         string `xml:"channel>rating,omitempty" json:"rating,omitempty"`
 	SkipHours      string `xml:"channel>skipHours,omitempty" json:"skipHours,omitempty"`
 	SkipDays       string `xml:"channel>skipDays,omitempty" json:"skipDays,omitempty"`
-	Items          []Item `xml:"channel>item,omitempty" json:"item,omitempty"`
+	ItemList       []Item `xml:"channel>item,omitempty" json:"item,omitempty"`
 }
 
 type Item struct {
 	XMLName xml.Name `xml:"item,omitempty" json:"-"`
-
-	// Optional, source was Dave Winer and scripting.com
+	// Optional according to Dave Winer
 	Title string `xml:"title" json:"title,omitempty"`
 
 	// Required
@@ -72,19 +71,19 @@ type Item struct {
 }
 
 type CData struct {
-	Value string `xml:",cdata,omitempty" json:"value,omitempty"`
+	value string `xml:",cdata,omitempty" json:"value,omitempty"`
 }
 
 func (cdata *CData) Set(src string) {
-	cdata.Value = src
+	cdata.value = src
 }
 
 func (cdata *CData) String() string {
-	return cdata.Value
+	return cdata.value
 }
 
 func (cdata *CData) ToJSON() string {
-	return cdata.Value
+	return cdata.value
 }
 
 // MarshalJSON() marshals the custom attributes that might
@@ -176,20 +175,20 @@ func (rexp *rangeExpression) inRange(val int) bool {
 func (r *RSS2) items(dataPath string) (map[string]interface{}, error) {
 	rexp := new(rangeExpression)
 	rexp.first = 0
-	rexp.last = len(r.Items) - 1
+	rexp.last = len(r.ItemList) - 1
 
 	// Get the range expression so we know when to add it to results.
 	s := strings.Index(dataPath, "[")
 	e := strings.Index(dataPath, "]")
 	if s >= 0 && e >= 0 {
-		rexp = getRange(len(r.Items), dataPath[s:e])
+		rexp = getRange(len(r.ItemList), dataPath[s:e])
 	}
 
 	results := make(map[string]interface{})
 	switch {
 	case strings.HasSuffix(dataPath, ".title") == true:
 		vals := []string{}
-		for i, item := range r.Items {
+		for i, item := range r.ItemList {
 			if rexp.inRange(i) == true {
 				vals = append(vals, item.Title)
 			}
@@ -197,7 +196,7 @@ func (r *RSS2) items(dataPath string) (map[string]interface{}, error) {
 		results["title"] = vals
 	case strings.HasSuffix(dataPath, ".link") == true:
 		vals := []string{}
-		for i, item := range r.Items {
+		for i, item := range r.ItemList {
 			if rexp.inRange(i) == true {
 				vals = append(vals, item.Link)
 			}
@@ -205,7 +204,7 @@ func (r *RSS2) items(dataPath string) (map[string]interface{}, error) {
 		results["link"] = vals
 	case strings.HasSuffix(dataPath, ".description") == true:
 		vals := []string{}
-		for i, item := range r.Items {
+		for i, item := range r.ItemList {
 			if rexp.inRange(i) == true {
 				vals = append(vals, item.Description)
 			}
@@ -213,7 +212,7 @@ func (r *RSS2) items(dataPath string) (map[string]interface{}, error) {
 		results["description"] = vals
 	case strings.HasSuffix(dataPath, ".content") == true:
 		vals := []string{}
-		for i, item := range r.Items {
+		for i, item := range r.ItemList {
 			if rexp.inRange(i) == true {
 				vals = append(vals, item.Content)
 			}
@@ -221,7 +220,7 @@ func (r *RSS2) items(dataPath string) (map[string]interface{}, error) {
 		results["content"] = vals
 	case strings.HasSuffix(dataPath, ".pubDate") == true:
 		vals := []string{}
-		for i, item := range r.Items {
+		for i, item := range r.ItemList {
 			if rexp.inRange(i) == true {
 				vals = append(vals, item.PubDate)
 			}
@@ -229,7 +228,7 @@ func (r *RSS2) items(dataPath string) (map[string]interface{}, error) {
 		results["pubDate"] = vals
 	case strings.HasSuffix(dataPath, ".comments") == true:
 		vals := []string{}
-		for i, item := range r.Items {
+		for i, item := range r.ItemList {
 			if rexp.inRange(i) == true {
 				vals = append(vals, item.Comments)
 			}
