@@ -15,5 +15,6 @@
 # vendor/
 
 # Project excludes
+*.bak
 bin/*
 dist/*
