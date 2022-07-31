@@ -12,7 +12,7 @@ pdtk 0.0.1
 
 - R. S. Doiel
 
-pdtk is a tool kit for writing. It a focuses on static site generation using Pandoc. The metaphor behind the tool kit is a deconstructed a content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a Pandoc preprocessor called prep, a blogging tool called blogit as well as an RSS generator. In this way you should be able to have many of the website features you’d expect from a dynamic content management system like Wordpress without the need to run one.
+pdtk is a tool kit for writing. The main focus is on static site generation using Pandoc. The metaphor behind the tool kit is a deconstructed a content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a Pandoc preprocessor called prep, a blogging tool called blogit as well as an RSS generator. In this way you should be able to have many of the website features you’d expect from a dynamic content management system like Wordpress without the need to run one.
 
 
 - License: https://spdx.org/licenses/BSD-3-Clause
