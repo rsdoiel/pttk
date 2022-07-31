@@ -19,12 +19,12 @@ Next
 ----
 
 - [ ] Make sure my feeds look good in Dave Weiner's reallysimple readers
+    - [ ] Add support for source namespace so I can do source:markdown element per Dave Weiner's reallysimple feeds
+      - [ ] rss should be able to understandard a markdown/html file relationship and transform it into RSS 2 with Markdown source elements where appropriate
     - See http://source.scripting.com/#1653758422000
     - Example, see http://feeder.scripting.com/?template=mailbox&feedurl=http://scripting.com/rss.xml
     - Example, see http://feeder.scripting.com/?template=mailbox&feedurl=https://rsdoiel.github.io/index.xml
     - Example, see http://feeder.scripting.com/?template=mailbox&feedurl=https://rsdoiel.github.io/rss.xml
-- [ ] Add support for source namespace so I can do source:markdown element per Dave Weiner's reallysimple feeds
-    - [ ] rss should be able to understandard a markdown/html file relationship and transform it into RSS 2 with Markdown source elements where appropriate
 - [x] blog.json needs to contain enough metadata to easily render the RSS feeed. The addtional data could be set via blogit options
 - [x] I need to support generating multiple feeds for a website, e.g. site, blog, article series
     - [x] rss should be able to produce a "feed" for all pages in a website using Markdown document's front matter where there is a matching html document
