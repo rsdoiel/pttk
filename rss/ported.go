@@ -417,10 +417,7 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *RSS2) error {
 }
 
 // Generate a Feed by walking the file system.
-func WalkRSS(feed *RSS2, htdocs string, excludeList string, titleExp string, bylineExp string, dateExp string) error {
-	// Required
-	channelLink := feed.Link
-
+func WalkRSS(feed *RSS2, htdocs string, baseURL string, excludeList string, titleExp string, bylineExp string, dateExp string) error {
 	validBlogPath := regexp.MustCompile("/[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]/")
 	err := Walk(htdocs, func(p string, info os.FileInfo) bool {
 		fname := path.Base(p)
@@ -456,7 +453,7 @@ func WalkRSS(feed *RSS2, htdocs string, excludeList string, titleExp string, byl
 		}
 		dname := path.Dir(pname)
 		bname := strings.TrimSuffix(path.Base(pname), ".md") + ".html"
-		articleURL := fmt.Sprintf("%s/%s", channelLink, path.Join(dname, bname))
+		articleURL := fmt.Sprintf("%s/%s", baseURL, path.Join(dname, bname))
 		u, err := url.Parse(articleURL)
 		if err != nil {
 			return err

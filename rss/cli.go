@@ -24,6 +24,7 @@ var (
 	// App specific options
 	excludeList        string
 	atomLink           string
+	baseURL            string
 	channelLanguage    string
 	channelTitle       string
 	channelDescription string
@@ -49,9 +50,10 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	// Standard options
 	flagSet.BoolVar(&showHelp, "h", false, "display help")
 	flagSet.BoolVar(&showHelp, "help", false, "display help")
-	flagSet.StringVar(&atomLink, "atom-link", "", "set atom:link href")
 
 	// App specific options
+	flagSet.StringVar(&atomLink, "atom-link", "", "set atom:link href")
+	flagSet.StringVar(&baseURL, "base-url", "", "set site base url for links")
 	flagSet.StringVar(&excludeList, "e", "", "A colon delimited list of path exclusions")
 	flagSet.StringVar(&channelLanguage, "channel-language", "", "Language, e.g. en-ca")
 	flagSet.StringVar(&channelTitle, "channel-title", "", "Title of channel")
@@ -95,12 +97,6 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	feed.Description = channelDescription
 	feed.Link = channelLink
 	feed.AtomNameSpace = "http://www.w3.org/2005/Atom"
-	if atomLink != "" {
-		feed.AtomLink = new(AtomLink)
-		feed.AtomLink.HRef = atomLink
-		feed.AtomLink.Rel = "self"
-		feed.AtomLink.Type = "application/rss+xml"
-	}
 	if len(channelLanguage) > 0 {
 		feed.Language = channelLanguage
 	}
@@ -111,7 +107,7 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 		feed.Category = channelCategory
 	}
 	if len(channelGenerator) == 0 {
-		feed.Generator = pdtk.Version
+		feed.Generator = fmt.Sprintf("%s %s %s", appName, verb, pdtk.Version)
 	} else {
 		feed.Generator = channelGenerator
 	}
@@ -154,20 +150,30 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	}
 	blogJSON := path.Join(htdocs, "blog.json")
 	if _, err := os.Stat(blogJSON); os.IsNotExist(err) {
-		err = WalkRSS(feed, htdocs, excludeList, titleExp, bylineExp, dateExp)
+
+		err = WalkRSS(feed, htdocs, baseURL, excludeList, titleExp, bylineExp, dateExp)
 	} else {
 		blog := new(blogit.BlogMeta)
-		if src, err := ioutil.ReadFile(blogJSON); err != nil {
+		src, err := ioutil.ReadFile(blogJSON)
+		if err != nil {
 			return nil, fmt.Errorf("Reading %q, %s\n", blogJSON, err)
-		} else {
-			if err := json.Unmarshal(src, &blog); err != nil {
-				return nil, fmt.Errorf("Unmashal, %s\n", err)
-			}
+		}
+		if err := json.Unmarshal(src, &blog); err != nil {
+			return nil, fmt.Errorf("Unmashal, %s\n", err)
+		}
+		if blog.BaseURL == "" {
+			blog.BaseURL = baseURL
 		}
 		err = BlogMetaToRSS(blog, feed)
 	}
 	if err != nil {
 		return nil, err
+	}
+	if atomLink != "" {
+		feed.AtomLink = new(AtomLink)
+		feed.AtomLink.HRef = atomLink
+		feed.AtomLink.Rel = "self"
+		feed.AtomLink.Type = "application/rss+xml"
 	}
 
 	// Marshal RSS2 and render output
