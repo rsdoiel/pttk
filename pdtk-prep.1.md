@@ -28,9 +28,6 @@ the pdtk preprossor.
 -i
 : read from a file instead of standard input
 
--o
-: write to a file instead of standard output
-
 # EXAMPLES
 
 In this example we have a JSON object document called
@@ -51,8 +48,9 @@ produce an about page in Markdown via Pandocs template
 processing (the "codemeta-md.tmpl" is a Pandoc template
 marked up to produce Markdown output).
 
-    pdtk prep -i codemeta.json -o about.md \
-        -- --template codemeta-md.tmpl
+    pdtk prep -i codemeta.json \
+        -- --template codemeta-md.tmpl \
+        >about.md
 
 Using pdtk to manage blog content with the "blogit"
 verb. 

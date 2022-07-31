@@ -42,9 +42,6 @@
 <dt>-i</dt>
 <dd>read from a file instead of standard input
 </dd>
-<dt>-o</dt>
-<dd>write to a file instead of standard output
-</dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
 <p>In this example we have a JSON object document called “example.json” and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used to pipe the content of “example.json” into the command line tool pdtk.</p>
@@ -52,8 +49,9 @@
 <p>Render example.json as Markdown document. We need to use Pandoc’s own options of “-s” (stand alone) and “-t” (to tell Pandoc the output format)</p>
 <pre><code>pdtk prep -- -s -t markdown &lt; example.json</code></pre>
 <p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an about page in Markdown via Pandocs template processing (the “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown output).</p>
-<pre><code>pdtk prep -i codemeta.json -o about.md \
-    -- --template codemeta-md.tmpl</code></pre>
+<pre><code>pdtk prep -i codemeta.json \
+    -- --template codemeta-md.tmpl \
+    &gt;about.md</code></pre>
 <p>Using pdtk to manage blog content with the “blogit” verb.</p>
 <h1 id="see-also">SEE ALSO</h1>
 <p>pdtk website at https://rsdoiel.github.io/pdtk</p>

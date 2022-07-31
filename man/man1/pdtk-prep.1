@@ -23,9 +23,6 @@ display prep usage
 .TP
 -i
 read from a file instead of standard input
-.TP
--o
-write to a file instead of standard output
 .SH EXAMPLES
 .PP
 In this example we have a JSON object document called
@@ -57,8 +54,9 @@ produce Markdown output).
 .IP
 .nf
 \f[C]
-pdtk prep -i codemeta.json -o about.md \[rs]
-    -- --template codemeta-md.tmpl
+pdtk prep -i codemeta.json \[rs]
+    -- --template codemeta-md.tmpl \[rs]
+    >about.md
 \f[R]
 .fi
 .PP

@@ -44,6 +44,10 @@ version.go: .FORCE
 CITATION.cff: .FORCE
 	@if [ -f $(CODEMETA2CFF) ]; then $(CODEMETA2CFF) codemeta.json CITATION.cff; fi
 
+about.md: codemeta.json $(PROGRAMS)
+	./bin/pdtk prep -i codemeta.json -- --template codemeta-md.tmpl >about.md
+	
+
 $(PROGRAMS): cmd/*/*.go $(PACKAGE)
 	@mkdir -p bin
 	go build -o bin/$@$(EXT) cmd/$@/*.go
@@ -162,7 +166,7 @@ save:
 	if [ "$(msg)" != "" ]; then git commit -am "$(msg)"; else git commit -am "Quick Save"; fi
 	git push origin $(BRANCH)
 
-website:
+website: about.md
 	make -f website.mak
 
 publish: build website

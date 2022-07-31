@@ -31,13 +31,11 @@ func RunPrep(appName string, verb string, args []string) ([]byte, error) {
 	var (
 		showHelp bool
 		input    string
-		output   string
 		err      error
 	)
 	flagSet := flag.NewFlagSet(appName, flag.ExitOnError)
 	flagSet.BoolVar(&showHelp, "help", false, "display help")
 	flagSet.StringVar(&input, "i", "", "read JSON or YAML from file")
-	flagSet.StringVar(&output, "o", "", "write Pandoc output to file")
 	flagSet.BoolVar(&verbose, "verbose", false, "verbose output")
 	flagSet.Parse(args)
 
@@ -48,20 +46,12 @@ func RunPrep(appName string, verb string, args []string) ([]byte, error) {
 	SetVerbose(verbose)
 	// The default action is to just processing JSON/YAML
 	in := os.Stdin
-	out := os.Stderr
 	if input != "" && input != "-" {
 		in, err = os.Open(input)
 		if err != nil {
 			return nil, err
 		}
 		defer in.Close()
-	}
-	if output != "" && output != "-" {
-		out, err = os.Create(output)
-		if err != nil {
-			return nil, err
-		}
-		defer out.Close()
 	}
 	buf, err := ioutil.ReadAll(in)
 	if err != nil {

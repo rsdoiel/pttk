@@ -5,15 +5,14 @@ title: pdtk
 About this software
 ===================
 
-pdtk 0.0.0
+pdtk 0.0.1
 ----------------
 
 ### Authors
 
 - R. S. Doiel
 
-pdtk is a Pandoc preproccessor. The primary use case is rendering JSON
-documents via Pandoc templates.
+pdtk is a toolkit for maintaing static websites with Pandoc. It includes the prep preprocessor, blogit, rss and sitemap tools. The prep preprocessor can be used to turn JSON files into markdown via pandoc templates. blogit is a blog management tool for adding/update blog posts and rss is an RSS file generator for syndicating your work.
 
 
 - License: https://spdx.org/licenses/BSD-3-Clause

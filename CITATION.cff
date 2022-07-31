@@ -5,7 +5,7 @@ authors:
   - family-names: Doiel
     given-names: R. S.
     orcid: https://orcid.org/0000-0003-0900-6903
-abstract: pdtk is a Pandoc preproccessor. The primary use case is rendering JSON documents via Pandoc templates. 
+abstract: pdtk is a toolkit for maintaing static websites with Pandoc. It includes the prep preprocessor, blogit, rss and sitemap tools. The prep preprocessor can be used to turn JSON files into markdown via pandoc templates. blogit is a blog management tool for adding/update blog posts and rss is an RSS file generator for syndicating your work.
 repository-code: "git+https://github.com/rsdoiel/pdtk"
 type: software
 version: 0.0.1
