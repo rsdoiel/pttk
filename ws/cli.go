@@ -35,8 +35,13 @@ var (
 	redirectsCSV string
 )
 
-func helpPage(appName string, verb string, text string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(text, "{verb}", verb), "{app_name}", appName)
+func usage(appName string, verb string, exitCode int) {
+	out := os.Stdout
+	if exitCode > 0 {
+		out = os.Stderr
+	}
+	fmt.Fprintf(out, "%s\n", strings.ReplaceAll(strings.ReplaceAll(helpText, "{verb}", verb), "{app_name}", appName))
+	os.Exit(exitCode)
 }
 
 func exitOnError(w io.Writer, err error, exitCode int) {
@@ -56,12 +61,10 @@ func RunWS(appName string, verb string, vargs []string) error {
 	flagSet.StringVar(&uri, "url", "http://localhost:8000", "set the URL to listen on")
 	flagSet.Parse(vargs)
 
-	out := os.Stdout
 	eout := os.Stderr
 
 	if showHelp {
-		fmt.Fprintf(out, "%s\n", helpPage(appName, verb, helpText))
-		os.Exit(0)
+		usage(appName, verb, 0)
 	}
 
 	log.Printf("DocRoot %s", docRoot)

@@ -39,8 +39,13 @@ var (
 	dateExp            string
 )
 
-func usage(appName string, verb string) string {
-	return help.Render(appName, verb, helpText)
+func usage(appName string, verb string, exitCode int) {
+	out := os.Stdout
+	if exitCode > 0 {
+		out = os.Stderr
+	}
+	fmt.Fprintf(out, help.Render(appName, verb, helpText))
+	os.Exit(exitCode)
 }
 
 func RunRSS(appName string, verb string, options []string) ([]byte, error) {
@@ -48,7 +53,6 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	flagSet := flag.NewFlagSet(appName+":"+verb, flag.ExitOnError)
 
 	// Standard options
-	flagSet.BoolVar(&showHelp, "h", false, "display help")
 	flagSet.BoolVar(&showHelp, "help", false, "display help")
 
 	// App specific options
@@ -76,8 +80,7 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 
 	// Process options
 	if showHelp {
-		usage(appName, verb)
-		os.Exit(0)
+		usage(appName, verb, 0)
 	}
 
 	if len(channelTitle) == 0 {

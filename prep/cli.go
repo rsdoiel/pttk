@@ -12,23 +12,39 @@ package prep
 
 import (
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 )
+
+func usage(appName string, verb string, exitCode int) {
+	out := os.Stdout
+	if exitCode > 0 {
+		out = os.Stderr
+	}
+	fmt.Fprintf(out, "%s\n", strings.ReplaceAll(strings.ReplaceAll(helpText, "{app_name}", appName), "{verb}", verb))
+	os.Exit(exitCode)
+}
 
 func RunPrep(appName string, verb string, args []string) ([]byte, error) {
 	var (
-		input  string
-		output string
-		err    error
+		showHelp bool
+		input    string
+		output   string
+		err      error
 	)
 	flagSet := flag.NewFlagSet(appName, flag.ExitOnError)
+	flagSet.BoolVar(&showHelp, "help", false, "display help")
 	flagSet.StringVar(&input, "i", "", "read JSON or YAML from file")
 	flagSet.StringVar(&output, "o", "", "write Pandoc output to file")
 	flagSet.BoolVar(&verbose, "verbose", false, "verbose output")
 	flagSet.Parse(args)
 
 	args = flagSet.Args()
+	if showHelp {
+		usage(appName, verb, 0)
+	}
 	SetVerbose(verbose)
 	// The default action is to just processing JSON/YAML
 	in := os.Stdin

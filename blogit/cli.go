@@ -48,8 +48,13 @@ var (
 	setLanguage    string
 )
 
-func usage(appName string, verb string) string {
-	return help.Render(appName, verb, helpText)
+func usage(appName string, verb string, exitCode int) {
+	out := os.Stdout
+	if exitCode > 0 {
+		out = os.Stderr
+	}
+	fmt.Fprintf(out, "%s\n", help.Render(appName, verb, helpText))
+	os.Exit(exitCode)
 }
 
 func RunBlogIt(appName string, verb string, vargs []string) error {
@@ -81,8 +86,7 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 
 	// Setup IO
 	if showHelp {
-		fmt.Fprintf(os.Stdout, "%s\n", usage(appName, verb))
-		return nil
+		usage(appName, verb, 1)
 	}
 	if showVerbose {
 		quiet = false
@@ -176,7 +180,7 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 			fmt.Printf("Updated %q completed.\n", blogMetadataName)
 			return nil
 		}
-		return fmt.Errorf("%s\n", usage(appName, verb))
+		usage(appName, verb, 1)
 	}
 	// Handle Copy Asset terminating case
 	if blogAsset {
