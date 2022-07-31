@@ -19,7 +19,7 @@ directory. It is not intended to be use as a production web server.
 
 EXAMPLE
 
-In the example the htdoc directory is called "myblog"
+In the example the htdocs directory is called "myblog"
 and you can view the result at http://localhost:8000.
 
 ```shell
@@ -30,6 +30,6 @@ and you can view the result at http://localhost:8000.
 
 - manual pages for [pdtk](pdtk.1.html), [pdtk-prep](pdtk-prep.1.html), [pdtk-blogit](pdtk-blogit.1.html), [pdtk-rss](pdtk-rss.1.html)
 - pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
-- The source code is avialable from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
+- The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
 
 

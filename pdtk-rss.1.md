@@ -15,13 +15,13 @@ pdtk rss [OPTIONS] PATH_TO_SITE
 The rss renders an RSS file based on the content found in the
 directory tree provided. If it encounters a "blog.json" file then
 base of that tree it'll use that file to generate feed content 
-any subdirectories found otherwise it'll generate a feed based
+any sub directories found otherwise it'll generate a feed based
 on Markdown front matter encountered in Markdown documents with
 corresponding html files.
 
 pdtk rss walks the file system to generate a RSS2 file. It assumes 
-that the directory for HTDOCS is is the base directory containing 
-subdirectories in the form of /YYYY/MM/DD/ARTICLE_HTML where 
+that the directory for htdocs is the base directory containing 
+sub directories in the form of /YYYY/MM/DD/ARTICLE_HTML where 
 YYYY/MM/DD (Year, Month, Day) corresponds to the publication date 
 of ARTICLE_HTML.
 
@@ -112,6 +112,6 @@ in a directory called blog.
 
 - manual pages for [pdtk](pdtk.1.html), [pdtk-prep](pdtk-prep.1.html), [pdtk-blogit](pdtk-blogit.1.html)
 - pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
-- The source code is avialable from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
+- The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
 
 

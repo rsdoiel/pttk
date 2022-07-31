@@ -17,7 +17,7 @@ or YAML from standard input and passes that via an internal
 pipe to Pandoc as YAML front matter. Pandoc can then process it
 accordingly Pandoc options. Pandoc options are those options
 coming after a "`--`" marker. Options before "`--`" are for
-the pdtk preprossor. 
+the pdtk preprocessor. 
 
 # OPTIONS
 
@@ -64,7 +64,7 @@ verb.
 
 - manual pages for [pdtk](pdtk.1.html), [pdtk-blogit](pdtk-blogit.1.html), [pdtk-rss](pdtk-rss.1.html)
 - pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
-- The source code is avialable from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
+- The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
 
 
 

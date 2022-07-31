@@ -6,7 +6,7 @@ pdtk
 
 **pdtk** is a tool kit for writing. The main focus is on static site
 generation using Pandoc.  The metaphor behind the tool kit is a
-deconstructed a content management system. It is easily scripted
+deconstructed content management system. It is easily scripted
 from your favorite POSIX shell or Makefile. It provides a number of
 functions including a Pandoc preprocessor called prep, a blogging
 tool called blogit as well as an RSS generator. In this way
@@ -49,7 +49,7 @@ __prep__
 Pandoc for processing
 
 
-__blogit__ is a tool to make it easy to separte website generation
+__blogit__ is a tool to make it easy to separate website generation
 from where you might want to write your blog posts. It will generate
 and maintain a blog style directory structure. A blog directory structure
 is usually in the form of `/YYYY/MM/DD/` where "YYYY" is a year, "MM" is
@@ -66,7 +66,7 @@ The form of the __blogit__ command is
     pdtk blogit PATH_TO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]
 ```
 
-In this example I have a Markdown ment I want to use as a blog post
+In this example I have a Markdown document I want to use as a blog post
 in `$HOME/Documents/pdtk-tutorial.md`.  I'm generating my blog in a
 directory called `$HOME/Sites/my-website/blog`.  If I want to "blog" the
 document I first change to "my-website" directory and use __blogit__
@@ -109,14 +109,14 @@ directory and then use the __rss__ as follows.
 
 This will generate our `feeds/index.xml` document. If the feeds directory
 doesn't exist it'll get created. Updating the RSS picking up new post
-is just a matter of envoking `pdtk rss` the command again.
+is just a matter of invoking `pdtk rss` the command again.
 
 __sitemap__ generates a "sitemap.xml" file that describes the site layout
 to searching crawlers.  The specification for sitemap.xml stipulates a
 maximum number of entries in the sitemap.xml. For large websites this used
 to be a problem but the specification allows for multiple sitemaps to be
 used.  The __sitemap__ verb will generate a sitemap.xml in the root
-website directory and in any sub-directories of the webiste.  If Markdown
+website directory and in any sub-directories of the website.  If Markdown
 documents are found then it'll use front matter for the matching HTML files
 and "blog.json" file for the blog content.
 
@@ -126,7 +126,7 @@ The form for __sitemap__ is simple.
    ptdk sitemap [ROOT_WEBSITE_DIRECTORY]
 ```
 
-Here's an example for our "my-website" direcotry.
+Here's an example for our "my-website" directory.
 
 ```
     pdtk sitemap $HOME/Sites/my-website
@@ -137,7 +137,7 @@ and if necessary ones in the sub directories like `blog`.
 
 The __prep__ "verb" is the most elaborate. It accepts JSON, transforms
 it into YAML front matter and pipes it into Pandoc for further processing.
-That make it easy to transform the data structurings using Pandoc as data
+That make it easy to transform the data structures using Pandoc as data
 template engine into documents such as web pages.
 
 __prep__'s syntax is elaborate. It's form is
@@ -149,7 +149,7 @@ __prep__'s syntax is elaborate. It's form is
 NOTE: The "--" delimits __prep__'s own options from Pandoc's.
 Options on the left side of the "--" are processed by __prep__ and
 the options listed to the right of "--" are passed on unchanged to
-Pandoc after preprossing is completed.
+Pandoc after preprocessing is completed.
 
 Here's an example of processing [example.json](example.json)
 JSON document using a Pandoc template called [example.tpml](example.tmpl).
@@ -184,7 +184,7 @@ Go package
 Here's some simple use examples of the three functions supplied
 in the pdtk package.
 
-Given a JSON Object document  as a slice of bytes render formated
+Given a JSON Object document  as a slice of bytes render formatted
 output based on the Pandoc template `example.tmpl`
 
 ```go
@@ -220,7 +220,7 @@ Using an `io.Reader` to retrieve the JSON content, process with the
 ```
 
 Using an `io.Reader` and `io.Writer` to read JSON source from standard
-input and write the processed pandoc templated standard output.
+input and write the processed Pandoc templated standard output.
 
 ```go
     // options passed to Pandoc
@@ -256,7 +256,7 @@ Installation
     go install
 ```
 
-NOTE: This recipe assumes' you are familar with setting up a
+NOTE: This recipe assumes' you are familiar with setting up a
 Go development environment (e.g. You've set GOPATH environment
 appropriately). See the [go website](https://golang.org) for
 details about setting up and compiler programs.

@@ -97,7 +97,7 @@ template for listing recent posts.
 
 *pdtk blogit* includes an option to set the prefix path to
 the blog posting.  In this way you could have separate blogs 
-structures for things like podcasts or videocasts.
+structures for things like podcasts or video casts.
 
 ```shell
     # Add a landing page for the podcast
@@ -124,5 +124,5 @@ for blog posts for that year.
 
 - manual pages for [pdtk](pdtk.1.html), [pdtk-prep](pdtk-prep.1.html), [pdtk-rss](pdtk-rss.1.html)
 - pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
-- The source code is avialable from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
+- The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
 
