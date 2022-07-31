@@ -15,6 +15,10 @@ A Question and Ideas
     - A nice to have would be a way to generate breadcrumb navigation for both blogs and website
         - Maybe this is driven by the top level index page's front matter? Or an index.yaml file?
     - A nice to have would be a LunrJS compatible index generator for integrate search
+- Part of writing is reading, how can pdtk help with that?
+    - A feed READ might be nice
+- Part of writing includes citing things and looking things up, how can pdtk help with that?
+    - A personal search would be nice
 
 Verbs
 -----
@@ -27,4 +31,19 @@ Verbs
     
 
 
+Improvements
+------------
+
+Dave Weiner's feeder is a great way of reading a feed. As Dave pointed out
+my rss.xml doesn't look great, need to fix that. The test URL is http://feeder.scripting.com/?template=mailbox&feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml
+
+Compare that with James Fallows http://feeder.scripting.com/?template=mailbox&feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed
+
+
+
+Feeds
+-----
+
+- gofeed package provides a universal reader, appears to be still maintained
+- Gorrilla provides a RSS generator, Gorrilla is looking for a new maintainer and appears to have stopped evolving (i.e. is current stable, may not have a community to update it in the future)
 
