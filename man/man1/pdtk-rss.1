@@ -7,7 +7,7 @@
 pdtk rss PATH_TO_SITE
 .SH SYNOPSIS
 .PP
-pdtk [OPTIONS] rss [RSS_OPTIONS] PATH_TO_SITE
+pdtk rss OPTIONS PATH_TO_SITE
 .SH DESCRIPTION
 .PP
 The rss renders an RSS file based on the content found in the directory
@@ -39,11 +39,68 @@ pdtk rss \[rs]
 .PP
 This would build an RSS 2 file in htdocs/rss.xml from the articles in
 htdocs/myblog/YYYY/MM/DD.
+.SH OPTIONS
+.PP
+What follows is are the options supported by the rss verb.
+.TP
+-atom-link string
+set atom:link href
+.TP
+-base-url string
+set site base url for links
+.TP
+-byline string
+set byline regexp (default
+\[lq][1]y\[rs]s+(\[rs]w|\[rs]s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$\[rq])
+.TP
+-channel-builddate string
+Build Date for channel (e.g.\ 2006-01-02 15:04:05 -0700)
+.TP
+-channel-category string
+category for channel
+.TP
+-channel-copyright string
+Copyright for channel
+.TP
+-channel-description string
+Description of channel
+.TP
+-channel-generator string
+Name of RSS generator
+.TP
+-channel-language string
+Language, e.g.\ en-ca
+.TP
+-channel-link string
+link to channel
+.TP
+-channel-pubdate string
+Pub Date for channel (e.g.\ 2006-01-02 15:04:05 -0700)
+.TP
+-channel-title string
+Title of channel
+.TP
+-date-format string
+set date regexp (default
+\[lq][0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]\[rq])
+.TP
+-e string
+A colon delimited list of path exclusions
+.TP
+-help
+display rss help
+.TP
+-title string
+set title regexp (default \[lq]\[ha]#\[rs]s+(\[rs]w|\[rs]s|.)+$\[rq])
 .SH EXAMPLE
 .SH SEE ALSO
 .PP
 pdtk website at https://rsdoiel.github.io/pdtk
 .PP
 The source code is avialable from https://github.com/rsdoiel/pdtk
+.SH NOTES
+.SS [1]
+.PP
+B|b
 .SH AUTHORS
 R. S. Doiel.

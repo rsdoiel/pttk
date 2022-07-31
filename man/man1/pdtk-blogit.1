@@ -7,13 +7,68 @@
 pdtk blogit
 .SH SYNOPSIS
 .PP
-pdtk [OPTIONS] blogit [BLOGIT_OPTIONS] POST_MARKDOWN_FILE [YYYY_MM_DD]
+pdtk blogit OPTIONS POST_MARKDOWN_FILE [YYYY_MM_DD]
 .SH DESCRIPTION
 .PP
 pdtk blogit provides a quick tool to add or replace blog content
 organized around a date oriented file path.
 In addition to placing documents it also will generate simple markdown
 documents for inclusion in navigation.
+.SH OPTIONS
+.PP
+What follows are the options supported by the blogit verb.
+.TP
+-asset
+Copy asset file to the blog path for provided date (YYYY-MM-DD)
+.TP
+-copyright string
+Set the blog copyright notice.
+.TP
+-description string
+Set the blog description
+.TP
+-ended string
+Set the blog ended date.
+.TP
+-help
+display blogit help
+.TP
+-index-tmpl string
+Set index blog template
+.TP
+-language string
+Set the blog language.
+(default \[lq]en-US\[rq])
+.TP
+-license string
+Set the blog language license
+.TP
+-name string
+Set the blog name.
+.TP
+-post-tmpl string
+Set index blog template
+.TP
+-prefix string
+Set the prefix path before YYYY/MM/DD.
+.TP
+-quip string
+Set the blog quip.
+.TP
+-refresh string
+Refresh blog.json for a given year
+.TP
+-save-as-yaml
+save as YAML file instead of blog.yaml file
+.TP
+-started string
+Set the blog started date.
+.TP
+-url string
+Set blog\[cq]s URL
+.TP
+-verbose
+verbose output
 .SH EXAMPLES
 .PP
 I have a Markdown file called, \[lq]my-vacation-day.md\[rq].

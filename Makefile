@@ -49,35 +49,47 @@ $(PROGRAMS): cmd/*/*.go $(PACKAGE)
 	go build -o bin/$@$(EXT) cmd/$@/*.go
 
 # NOTE: on macOS you must use "mv" instead of "cp" to avoid problems
-install: build
+install: build man .FORCE
 	@if [ ! -d $(PREFIX)/bin ]; then mkdir -p $(PREFIX)/bin; fi
 	@echo "Installing programs in $(PREFIX)/bin"
 	@for FNAME in $(PROGRAMS); do if [ -f ./bin/$$FNAME ]; then mv -v ./bin/$$FNAME $(PREFIX)/bin/$$FNAME; fi; done
 	@echo ""
 	@echo "Make sure $(PREFIX)/bin is in your PATH"
+	@echo ""
+	@if [ ! -d $(PREFIX)/man/man1 ]; then mkdir -p $(PREFIX)/man/man1; fi
+	@cp -v man/man1/pdtk.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pdtk-prep.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pdtk-blogit.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pdtk-rss.1 $(PREFIX)/man/man1/
+	@echo ""
+	@echo "Make sure $(PREFIX)/man is in your MANPATH"
+	@echo ""
 
 uninstall: .FORCE
 	@echo "Removing programs in $(PREFIX)/bin"
-	@for FNAME in $(PROGRAMS); do if [ -f $(PREFIX)/bin/$$FNAME ]; then rm -v $(PREFIX)/bin/$$FNAME; fi; done
+	-for FNAME in $(PROGRAMS); do if [ -f $(PREFIX)/bin/$$FNAME ]; then rm -v $(PREFIX)/bin/$$FNAME; fi; done
+	-rm $(PREFIX)/man/man1/pdtk.1
+	-rm $(PREFIX)/man/man1/pdtk-prep.1
+	-rm $(PREFIX)/man/man1/pdtk-blogit.1
+	-rm $(PREFIX)/man/man1/pdtk-rss.1
 
-man: pdtk.1 pdtk-prep.1 pdtk-blogit.1 pdtk-rss.1 .FORCE
+man: man/man1/pdtk.1 man/man1/pdtk-prep.1 man/man1/pdtk-blogit.1 man/man1/pdtk-rss.1 .FORCE
+
+man/man1/pdtk.1: pdtk.1.md
 	mkdir -p man/man1
-	mv pdtk.1 man/man1/
-	mv pdtk-prep.1 man/man1/
-	mv pdtk-blogit.1 man/man1/
-	mv pdtk-rss.1 man/man1/
+	pandoc pdtk.1.md -s -t man -o man/man1/pdtk.1
 
-pdtk.1: pdtk.1.md
-	pandoc pdtk.1.md -s -t man -o pdtk.1
+man/man1/pdtk-prep.1: pdtk-prep.1.md
+	mkdir -p man/man1
+	pandoc pdtk-prep.1.md -s -t man -o man/man1/pdtk-prep.1
 
-pdtk-prep.1: pdtk-prep.1.md
-	pandoc pdtk-prep.1.md -s -t man -o pdtk-prep.1
+man/man1/pdtk-blogit.1: pdtk-blogit.1.md
+	mkdir -p man/man1
+	pandoc pdtk-blogit.1.md -s -t man -o man/man1/pdtk-blogit.1
 
-pdtk-blogit.1: pdtk-blogit.1.md
-	pandoc pdtk-blogit.1.md -s -t man -o pdtk-blogit.1
-
-pdtk-rss.1: pdtk-rss.1.md
-	pandoc pdtk-rss.1.md -s -t man -o pdtk-rss.1
+man/man1/pdtk-rss.1: pdtk-rss.1.md
+	mkdir -p man/man1
+	pandoc pdtk-rss.1.md -s -t man -o man/man1/pdtk-rss.1
 
 #website: page.tmpl README.md nav.md INSTALL.md LICENSE css/site.css
 #	bash mk-website.bash
