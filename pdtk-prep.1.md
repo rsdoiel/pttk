@@ -62,9 +62,9 @@ verb.
 
 # SEE ALSO
 
-- manual pages for pdtk, pdtk-blogit, pdtk-rss
-- pdtk website at https://rsdoiel.github.io/pdtk
-- The source code is avialable from https://github.com/rsdoiel/pdtk
+- manual pages for [pdtk](pdtk.1.html), [pdtk-blogit](pdtk-blogit.1.html), [pdtk-rss](pdtk-rss.1.html)
+- pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
+- The source code is avialable from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
 
 
 
