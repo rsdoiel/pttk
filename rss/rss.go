@@ -21,9 +21,22 @@ import (
 
 type CustomAttrs []xml.Attr
 
+type AtomLink struct {
+	//XMLName xml.Name `xml:"http://www.w3.org/2005/Atom atom:link"`
+	HRef string `xml:"href,attr"`
+	Rel  string `xml:"rel,attr"`
+	Type string `xml:"type,attr"`
+}
+
 type RSS2 struct {
-	XMLName xml.Name `xml:"rss" json:"-"`
-	Version string   `xml:"version,attr" json:"version"`
+	// xmlns:atom="http://www.w3.org/2005/Atom"
+	XMLName       xml.Name `xml:"rss" json:"-"`
+	Version       string   `xml:"version,attr" json:"version"`
+	AtomNameSpace string   `xml:"xmlns:atom,attr,omitempty" json:"-"`
+
+	// Recommended, atom:link to "self"
+	// E.g. <atom:link href="https://rsdoiel.github.io/rss.xml" rel="self" type="application/rss+xml" />
+	AtomLink *AtomLink `xml:"channel>atom:link,omitempty"`
 
 	// Required
 	Title       string `xml:"channel>title" json:"title"`

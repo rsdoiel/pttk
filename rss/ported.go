@@ -4,9 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
-	"net/http"
 	"net/url"
 	"os"
 	"os/exec"
@@ -27,36 +25,6 @@ import (
 )
 
 const (
-	// Prefix for explicit string types
-
-	// JSONPrefix designates a string as JSON formatted content
-	JSONPrefix = "json:"
-	// CommonMarkPrefix designates a string as Common Mark
-	// (a rich markdown dialect) content
-	CommonMarkPrefix = "commonmark:"
-	// MarkdownPrefix designates a string as Markdown (pandoc's dialect)
-	// content
-	MarkdownPrefix = "markdown:"
-	// MarkdownStrict designates a strnig as John Gruber's Markdown content
-	MarkdownStrictPrefix = "markdown_strict:"
-	// GfmMarkdownPrefix designates a string as GitHub Flavored Markdown
-	GfmMarkdownPrefix = "gfm:"
-	// MMarkPrefix designates MMark format, for now this will just be passed to pandoc.
-	MMarkPrefix = "mmark:"
-	// TextPrefix designates a string as text/plain not needed processing
-	TextPrefix = "text:"
-	// FountainPrefix designates a string as Fountain formatted content
-	FountainPrefix = "fountain:"
-	// TextilePrefix designates source as Textile for processing by pandoc.
-	TextilePrefix = "textile:"
-	// ReStructureText designates source as ReStructureText for processing by pandoc
-	ReStructureTextPrefix = "rst:"
-	// JiraPrefix markup designates source as Jire text for processing by pandoc
-	JiraPrefix = "jira:"
-	// JSONGeneratorPrefix evaluates the value as a command line that
-	// returns JSON.
-	JSONGeneratorPrefix = "json-generator:"
-
 	// DateExp is the default format used by mkpage utilities for date exp
 	DateExp = `[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]`
 	// BylineExp is the default format used by mkpage utilities
@@ -99,11 +67,6 @@ func normalizeEOL(input []byte) []byte {
 	if bytes.Contains(input, []byte("\r\n")) {
 		input = bytes.Replace(input, []byte("\r\n"), []byte("\n"), -1)
 	}
-	/*
-		if bytes.Contains(input, []byte("\r")) {
-			input = bytes.Replace(input, []byte("\r"), []byte("\n"), -1)
-		}
-	*/
 	return input
 }
 
@@ -271,246 +234,6 @@ func fountainProcessor(input []byte) ([]byte, error) {
 	return src, nil
 }
 
-// ResolveData takes a data map and reads in the files and URL sources
-// as needed turning the data into strings to be applied to the template.
-func ResolveData(data map[string]string) (map[string]interface{}, error) {
-	var (
-		out map[string]interface{}
-	)
-
-	isContentType := func(vals []string, target string) bool {
-		for _, h := range vals {
-			if strings.Contains(h, target) == true {
-				return true
-			}
-		}
-		return false
-	}
-
-	out = make(map[string]interface{})
-	for key, val := range data {
-		switch {
-		case strings.HasPrefix(val, TextPrefix) == true:
-			out[key] = strings.TrimPrefix(val, TextPrefix)
-		case strings.HasPrefix(val, MMarkPrefix) == true:
-			//NOTE: We're using pandoc as our default processor
-			src, err := pandocProcessor([]byte(strings.TrimPrefix(val, MMarkPrefix)), "markdown_mmd", "html")
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, CommonMarkPrefix) == true:
-			//NOTE: We're using pandoc as our default processor
-			src, err := pandocProcessor([]byte(strings.TrimPrefix(val, CommonMarkPrefix)), "commonmark_x", "html")
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, MarkdownPrefix) == true:
-			//NOTE: We're using pandoc's flavor Markdown as our processor
-			src, err := pandocProcessor([]byte(strings.TrimPrefix(val, MarkdownPrefix)), "markdown", "html")
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, MarkdownStrictPrefix) == true:
-			//NOTE: We're using origanal John Gruber Markdown
-			src, err := pandocProcessor([]byte(strings.TrimPrefix(val, MarkdownStrictPrefix)), "markdown_strict", "html")
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, GfmMarkdownPrefix) == true:
-			//NOTE: We're using pandoc as our default processor
-			src, err := pandocProcessor([]byte(strings.TrimPrefix(val, GfmMarkdownPrefix)), "gfm", "html")
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, JiraPrefix) == true:
-			//NOTE: We're using pandoc as our default processor
-			src, err := pandocProcessor([]byte(strings.TrimPrefix(val, JiraPrefix)), "jira", "html")
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, TextilePrefix) == true:
-			//NOTE: We're using pandoc as our default processor
-			src, err := pandocProcessor([]byte(strings.TrimPrefix(val, TextilePrefix)), "textile", "html")
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, ReStructureTextPrefix) == true:
-			//NOTE: We're using pandoc as our default processor
-			src, err := pandocProcessor([]byte(strings.TrimPrefix(val, ReStructureTextPrefix)), "rst", "html")
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, FountainPrefix) == true:
-			src, err := fountainProcessor([]byte(strings.TrimPrefix(val, FountainPrefix)))
-			if err != nil {
-				return out, err
-			}
-			out[key] = fmt.Sprintf("%s", src)
-		case strings.HasPrefix(val, JSONPrefix) == true:
-			var o interface{}
-			err := json.Unmarshal(bytes.TrimPrefix([]byte(val), []byte(JSONPrefix)), &o)
-			if err != nil {
-				return out, fmt.Errorf("Can't JSON decode (%s) %s, %s", key, val, err)
-			}
-			out[key] = o
-		case strings.HasPrefix(val, JSONGeneratorPrefix) == true:
-			//NOTE: JSONGenerator expects a command line that results
-			// in JSON written to stdout. It then passes this back to
-			// be processed by pandoc in the metadata file.
-			var o interface{}
-			cmd := strings.TrimPrefix(val, JSONGeneratorPrefix)
-			err := JSONGenerator(cmd, &o)
-			if err != nil {
-				return out, fmt.Errorf("(key: %q) %q failed, %s", key, cmd, err)
-			}
-			out[key] = o
-		case strings.HasPrefix(val, "http://") == true || strings.HasPrefix(val, "https://") == true:
-			resp, err := http.Get(val)
-			if err != nil {
-				return out, fmt.Errorf("Error from (%s) %s, %s", key, val, err)
-			}
-			defer resp.Body.Close()
-			if resp.StatusCode == 200 {
-				buf, err := ioutil.ReadAll(resp.Body)
-				if err != nil {
-					return out, err
-				}
-				fmType, fmSrc, docSrc := SplitFrontMatter(buf)
-				if len(fmSrc) > 0 {
-					buf = docSrc
-					fmData := map[string]interface{}{}
-					if err := UnmarshalFrontMatter(fmType, fmSrc, &fmData); err != nil {
-						return out, fmt.Errorf("Can't process front matter (%s), %q, %q", key, val, err)
-					}
-					// Update, Overwrite `out` with front matter values
-					for k, v := range fmData {
-						out[k] = v
-					}
-				}
-				if contentTypes, ok := resp.Header["Content-Type"]; ok == true {
-					switch {
-					case isContentType(contentTypes, "application/json") == true:
-						var o interface{}
-						err := json.Unmarshal(buf, &o)
-						if err != nil {
-							return out, fmt.Errorf("Can't JSON decode (%s) %s, %s", key, val, err)
-						}
-						out[key] = o
-					case isContentType(contentTypes, "text/markdown") == true:
-						src, err := pandocProcessor(buf, "", "html")
-						if err != nil {
-							return nil, err
-						}
-						out[key] = fmt.Sprintf("%s", src)
-					case isContentType(contentTypes, "text/commonmark") == true:
-						src, err := pandocProcessor(buf, "commonmark_x", "html")
-						if err != nil {
-							return nil, err
-						}
-						out[key] = fmt.Sprintf("%s", src)
-					case isContentType(contentTypes, "text/mmark") == true:
-						src, err := pandocProcessor(buf, "mmark", "html")
-						if err != nil {
-							return nil, err
-						}
-						out[key] = fmt.Sprintf("%s", src)
-					case isContentType(contentTypes, "text/fountain") == true:
-						src, err := fountainProcessor(buf)
-						if err != nil {
-							return nil, err
-						}
-						out[key] = fmt.Sprintf("%s", src)
-					default:
-						out[key] = string(buf)
-					}
-				} else {
-					out[key] = string(buf)
-				}
-			}
-		default:
-			ext := path.Ext(val)
-			buf, err := ioutil.ReadFile(val)
-			if err != nil {
-				return out, fmt.Errorf("Can't read (%s) %q, %s", key, val, err)
-			}
-			//NOTE: We only split front matter for supported markup
-			// formats, e.g. MultiMarkdown, CommonMark, Markdown, Textile,
-			// ReStructureText, JiraText, Fountain
-			if strings.Compare(ext, ".json") != 0 {
-				fmType, fmSrc, docSrc := SplitFrontMatter(buf)
-				if len(fmSrc) > 0 {
-					buf = docSrc
-					fmData := map[string]interface{}{}
-					if err := UnmarshalFrontMatter(fmType, fmSrc, &fmData); err != nil {
-						return out, fmt.Errorf("Can't process front matter (%s), %q, %q", key, val, err)
-					}
-					// Update, Overwrite `out` with front matter values
-					for k, v := range fmData {
-						out[k] = v
-					}
-				}
-			}
-			switch {
-			case strings.Compare(ext, ".fountain") == 0 ||
-				strings.Compare(ext, ".spmd") == 0:
-				src, err := fountainProcessor(buf)
-				if err != nil {
-					return nil, err
-				}
-				out[key] = fmt.Sprintf("%s", src)
-			case strings.Compare(ext, ".md") == 0:
-				src, err := pandocProcessor(buf, "", "html")
-				if err != nil {
-					return nil, err
-				}
-				out[key] = fmt.Sprintf("%s", src)
-			case strings.Compare(ext, ".mmd") == 0:
-				src, err := pandocProcessor(buf, "markdown_mmd", "html")
-				if err != nil {
-					return nil, err
-				}
-				out[key] = fmt.Sprintf("%s", src)
-			case strings.Compare(ext, ".rst") == 0:
-				src, err := pandocProcessor(buf, "rst", "html")
-				if err != nil {
-					return nil, err
-				}
-				out[key] = fmt.Sprintf("%s", src)
-			case strings.Compare(ext, ".textile") == 0:
-				src, err := pandocProcessor(buf, "textile", "html")
-				if err != nil {
-					return nil, err
-				}
-				out[key] = fmt.Sprintf("%s", src)
-			case strings.Compare(ext, ".jira") == 0:
-				src, err := pandocProcessor(buf, "jira", "html")
-				if err != nil {
-					return nil, err
-				}
-				out[key] = fmt.Sprintf("%s", src)
-			case strings.Compare(ext, ".json") == 0:
-				var o interface{}
-				err := json.Unmarshal(buf, &o)
-				if err != nil {
-					return out, fmt.Errorf("Can't JSON decode (%s) %s, %s", key, val, err)
-				}
-				out[key] = o
-			default:
-				out[key] = string(buf)
-			}
-		}
-	}
-	return out, nil
-}
-
 //
 // RelativeDocPath calculate the relative path from source to target based on
 // implied common base.
@@ -610,8 +333,8 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *RSS2) error {
 		if err != nil {
 			return err
 		}
-		feed.PubDate = dt.Format(time.RFC1123)
-		feed.LastBuildDate = dt.Format(time.RFC1123)
+		feed.PubDate = dt.Format(time.RFC1123Z)
+		feed.LastBuildDate = dt.Format(time.RFC1123Z)
 	}
 	if len(blog.Language) > 0 {
 		feed.Language = blog.Language
@@ -635,16 +358,26 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *RSS2) error {
 					// NOTE: We only want to process Markdown documents.
 					// We look for Markdown related file extensions.
 					includeDescription := false
+					linkPath := post.Document
 					for _, ext := range []string{".md", ".markdown", ".txt", ".asciidoc"} {
 						if strings.HasSuffix(post.Document, ext) {
 							includeDescription = true
+							linkPath = strings.TrimSuffix(post.Document, ext) + ".html"
 						}
 					}
 					item := new(Item)
 					item.Title = post.Title
-					item.Link = strings.Join([]string{blog.BaseURL, post.Document}, "/")
-					item.GUID = item.Link
-					item.PubDate = pubDate.Format(time.RFC1123)
+					if strings.Contains(blog.BaseURL, "://") {
+						item.Link = strings.Join([]string{blog.BaseURL, linkPath}, "/")
+					} else {
+						item.Link = strings.TrimSuffix(feed.Link, "/") + "/" + strings.TrimPrefix(linkPath, "/")
+					}
+					if strings.Contains(item.Link, "://") {
+						item.GUID = item.Link
+					} else {
+						item.GUID = strings.TrimSuffix(feed.Link, "/") + "/" + strings.TrimPrefix(item.Link, "/")
+					}
+					item.PubDate = pubDate.Format(time.RFC1123Z)
 					if len(post.Description) == 0 && len(post.Document) > 0 {
 						// Read the article, extract a description
 						buf, err := ioutil.ReadFile(post.Document)
@@ -779,9 +512,13 @@ func WalkRSS(feed *RSS2, htdocs string, excludeList string, titleExp string, byl
 				return err
 			}
 		}
-		pubDate = dt.Format(time.RFC1123)
+		pubDate = dt.Format(time.RFC1123Z)
 		item := new(Item)
-		item.GUID = articleURL
+		if strings.Contains(articleURL, "://") {
+			item.GUID = articleURL
+		} else {
+			item.GUID = strings.TrimSuffix(feed.Link, "/") + "/" + strings.TrimPrefix(articleURL, "/")
+		}
 		item.Title = title
 		item.Author = author
 		item.PubDate = pubDate
@@ -866,248 +603,6 @@ func (block *MetadataBlock) Unmarshal(src []byte) error {
 
 func (block *MetadataBlock) Marshal() ([]byte, error) {
 	return json.Marshal(block)
-}
-
-func fmtPandocError(err error) error {
-	if err == nil {
-		return nil
-	}
-	parts := []string{
-		"Pandoc error (see https://pandoc.org), ",
-		fmt.Sprintf("%s", err),
-	}
-
-	// Provide context where error is related to the PATH
-	if strings.Contains(parts[1], "PATH") {
-		parts = append(parts, fmt.Sprintf("PATH is %q", os.Getenv("PATH")))
-	}
-	return fmt.Errorf("%s", strings.Join(parts, "\n  "))
-}
-
-// Return the Pandoc version that will be used when calling Pandoc.
-func GetPandocVersion() (string, error) {
-	var (
-		out, eOut bytes.Buffer
-	)
-	pandoc, err := exec.LookPath("pandoc")
-	if err != nil {
-		return "", fmtPandocError(err)
-	}
-	cmd := exec.Command(pandoc, "--version")
-	cmd.Stdout = &out
-	cmd.Stderr = &eOut
-	err = cmd.Run()
-	if err != nil {
-		if eOut.Len() > 0 {
-			err = fmt.Errorf("%q says, %s\n%s", pandoc, eOut.String(), err)
-		} else {
-			err = fmt.Errorf("%q exit error, %s", pandoc, err)
-		}
-		return "", fmtPandocError(err)
-	}
-	if eOut.Len() > 0 {
-		fmt.Fprintf(os.Stderr, "%q warns, %s", pandoc, eOut.String())
-	}
-	return out.String(), fmtPandocError(err)
-}
-
-// pandocProcessor accepts an array of bytes as input and returns
-// a `pandoc -f {From} -t html` output of an array if
-// bytes and error.
-func pandocProcessor(input []byte, from string, to string) ([]byte, error) {
-	var (
-		out, eOut bytes.Buffer
-	)
-
-	if from == "" {
-		from = PandocFrom
-	}
-	if to == "" {
-		to = PandocTo
-	}
-	pandoc, err := exec.LookPath("pandoc")
-	if err != nil {
-		return nil, fmtPandocError(err)
-	}
-	options := []string{}
-	if from != "" {
-		options = append(options, "-f", from)
-	}
-	if to != "" {
-		options = append(options, "-t", to)
-	}
-	cmd := exec.Command(pandoc, options...)
-	cmd.Stdin = bytes.NewReader(input)
-	cmd.Stdout = &out
-	cmd.Stderr = &eOut
-	err = cmd.Run()
-	if err != nil {
-		if eOut.Len() > 0 {
-			err = fmt.Errorf("%q says, %s\n%s", pandoc, eOut.String(), err)
-		} else {
-			err = fmt.Errorf("%q exit error, %s", pandoc, err)
-		}
-		return nil, fmtPandocError(err)
-	}
-	if eOut.Len() > 0 {
-		fmt.Fprintf(os.Stderr, "%q warns, %s", pandoc, eOut.String())
-	}
-	return out.Bytes(), fmtPandocError(err)
-}
-
-// MakePandoc resolves key/value map rendering metadata suitable for processing with pandoc along with template information
-// rendering and returns an error if something goes wrong
-func MakePandoc(wr io.Writer, templateName string, keyValues map[string]string) error {
-	var (
-		out, eOut bytes.Buffer
-		options   []string
-	)
-
-	pandoc, err := exec.LookPath("pandoc")
-	if err != nil {
-		return fmtPandocError(err)
-	}
-	data, err := ResolveData(keyValues)
-	if err != nil {
-		return fmt.Errorf("Data resolution error: %s", err)
-	}
-	// NOTE: If a template is not provided (empty string) then
-	// see is one is specified in the metadata
-	if templateName == "" {
-		if val, ok := data["template"]; ok == true {
-			templateName = val.(string)
-		}
-	}
-	// NOTE: Pandocs default template expects content to be called $body$.
-	// we need to remap from data["content"] to data["body"] otherwise
-	// we need to look in data to see if a template was specified.
-	if templateName == "" {
-		if val, ok := data["content"]; ok == true {
-			delete(data, "content")
-			data["body"] = val
-		}
-	}
-	// NOTE: when using a template, title metadata is required.
-	if _, ok := data["title"]; !ok {
-		// Insert a title to prevent warning.
-		data["title"] = "..."
-	}
-
-	src, err := json.Marshal(data)
-	if err != nil {
-		return fmt.Errorf("Marshal error, %q", err)
-	}
-	metadata, err := ioutil.TempFile(".", "pandoc.*.json")
-	if err != nil {
-		return fmt.Errorf("Cannot create temp metadata file, %s", err)
-	}
-	if _, err := metadata.Write(src); err != nil {
-		return fmt.Errorf("Write error, %q", err)
-	}
-	defer os.Remove(metadata.Name())
-	// Check if document has front matter, split and write to temp files.
-	options = []string{}
-	if PandocFrom != "" {
-		options = append(options, "-f", PandocFrom)
-	}
-	if PandocTo != "" {
-		options = append(options, "-t", PandocTo)
-	}
-	options = append(options, "--metadata-file", metadata.Name())
-	if templateName != "" {
-		options = append(options, []string{"--template", templateName}...)
-	} else {
-		options = append(options, "--standalone")
-	}
-	cmd := exec.Command(pandoc, options...)
-	cmd.Stdout = &out
-	cmd.Stderr = &eOut
-	err = cmd.Run()
-	if err != nil {
-		if eOut.Len() > 0 {
-			err = fmt.Errorf("%q says, %s\n%s", pandoc, eOut.String(), err)
-		} else {
-			err = fmt.Errorf("%q exit error, %s", pandoc, err)
-		}
-		return fmtPandocError(err)
-	}
-	if eOut.Len() > 0 {
-		fmt.Fprintf(os.Stderr, "%q warns, %s", pandoc, eOut.String())
-	}
-	wr.Write(out.Bytes())
-	return fmtPandocError(err)
-}
-
-// MakePandocString resolves key/value map rendering metadata suitable for processing with pandoc along with template information
-// rendering and returns an error if something goes wrong
-func MakePandocString(tmplSrc string, keyValues map[string]string) (string, error) {
-	var (
-		out, eOut bytes.Buffer
-		options   []string
-	)
-
-	pandoc, err := exec.LookPath("pandoc")
-	if err != nil {
-		return "", fmtPandocError(err)
-	}
-	data, err := ResolveData(keyValues)
-	if err != nil {
-		return "", fmt.Errorf("Data resolution error: %s", err)
-	}
-
-	src, err := json.Marshal(data)
-	if err != nil {
-		return "", fmt.Errorf("Marshal error, %q", err)
-	}
-	metadata, err := ioutil.TempFile(".", "pandoc.*.json")
-	if err != nil {
-		return "", fmt.Errorf("Cannot create temp metadata file, %s", err)
-	}
-	if _, err := metadata.Write(src); err != nil {
-		return "", fmt.Errorf("Write error, %q", err)
-	}
-	defer os.Remove(metadata.Name())
-
-	options = []string{}
-	if PandocFrom != "" {
-		options = append(options, "-f", PandocFrom)
-	}
-	if PandocTo != "" {
-		options = append(options, "-t", PandocTo)
-	}
-	options = append(options, "--metadata-file", metadata.Name())
-	if tmplSrc != "" {
-		// Pandoc expects to read the template from disc so write
-		// out to a temp file.
-		// Check if document has front matter, split and write to temp files.
-		template, err := ioutil.TempFile(".", "pandoc.*.tmpl")
-		if err != nil {
-			return "", fmt.Errorf("Cannot create temp template file, %s", err)
-		}
-		if _, err := template.Write([]byte(tmplSrc)); err != nil {
-			return "", fmt.Errorf("Write error, %q", err)
-		}
-		defer os.Remove(template.Name())
-		options = append(options, []string{"--template", template.Name()}...)
-	} else {
-		options = append(options, "--standalone")
-	}
-	cmd := exec.Command(pandoc, options...)
-	cmd.Stdout = &out
-	cmd.Stderr = &eOut
-	err = cmd.Run()
-	if err != nil {
-		if eOut.Len() > 0 {
-			err = fmt.Errorf("%q says, %s\n%s", pandoc, eOut.String(), err)
-		} else {
-			err = fmt.Errorf("%q exit error, %s", pandoc, err)
-		}
-		return "", fmtPandocError(err)
-	}
-	if eOut.Len() > 0 {
-		return "", fmt.Errorf("%q warns, %s", pandoc, eOut.String())
-	}
-	return fmt.Sprintf("%s", out.Bytes()), nil
 }
 
 func scanArgs(s string) (string, []string) {

@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 	"time"
 
 	// My packages
@@ -18,12 +19,11 @@ import (
 
 var (
 	// Standard options
-	showHelp    bool
-	inputFName  string
-	outputFName string
+	showHelp bool
 
 	// App specific options
 	excludeList        string
+	atomLink           string
 	channelLanguage    string
 	channelTitle       string
 	channelDescription string
@@ -49,8 +49,7 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	// Standard options
 	flagSet.BoolVar(&showHelp, "h", false, "display help")
 	flagSet.BoolVar(&showHelp, "help", false, "display help")
-	flagSet.StringVar(&inputFName, "i", "", "set input filename")
-	flagSet.StringVar(&outputFName, "o", "", "set output filename")
+	flagSet.StringVar(&atomLink, "atom-link", "", "set atom:link href")
 
 	// App specific options
 	flagSet.StringVar(&excludeList, "e", "", "A colon delimited list of path exclusions")
@@ -63,33 +62,15 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	flagSet.StringVar(&channelBuildDate, "channel-builddate", "", "Build Date for channel (e.g. 2006-01-02 15:04:05 -0700)")
 	flagSet.StringVar(&channelCopyright, "channel-copyright", "", "Copyright for channel")
 	flagSet.StringVar(&channelCategory, "channel-category", "", "category for channel")
-	flagSet.StringVar(&dateExp, "d,date-format", DateExp, "set date regexp")
-	flagSet.StringVar(&titleExp, "t,title", TitleExp, "set title regexp")
-	flagSet.StringVar(&bylineExp, "b,byline", BylineExp, "set byline regexp")
+	flagSet.StringVar(&dateExp, "date-format", DateExp, "set date regexp")
+	flagSet.StringVar(&titleExp, "title", TitleExp, "set title regexp")
+	flagSet.StringVar(&bylineExp, "byline", BylineExp, "set byline regexp")
 
 	flagSet.Parse(options)
 	args := flagSet.Args()
 
 	// Setup IO
 	var err error
-
-	in := os.Stdin
-
-	if inputFName != "" {
-		in, err = os.Open(inputFName)
-		if err != nil {
-			return nil, err
-		}
-		defer in.Close()
-	}
-
-	if outputFName != "" {
-		out, err := os.Create(outputFName)
-		if err != nil {
-			return nil, err
-		}
-		defer out.Close()
-	}
 
 	// Process options
 	if showHelp {
@@ -113,6 +94,13 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	feed.Title = channelTitle
 	feed.Description = channelDescription
 	feed.Link = channelLink
+	feed.AtomNameSpace = "http://www.w3.org/2005/Atom"
+	if atomLink != "" {
+		feed.AtomLink = new(AtomLink)
+		feed.AtomLink.HRef = atomLink
+		feed.AtomLink.Rel = "self"
+		feed.AtomLink.Type = "application/rss+xml"
+	}
 	if len(channelLanguage) > 0 {
 		feed.Language = channelLanguage
 	}
@@ -129,37 +117,40 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 	}
 	now := time.Now()
 	if len(channelPubDate) == 0 {
-		// RSS spec shows RTF 1123 dates
-		//feed.PubDate = now.Format(time.RFC1123)
-		// Validators indicate the RFC822Z and "UTC" isn't that.
-		feed.PubDate = now.Format(time.RFC822Z)
+		// RSS spec shows RFC 1123 dates
+		// Validators indicate the RFC-822, note UTC isn't list on RFC-822
+		//feed.PubDate = now.Format(time.RFC822Z)
+		feed.PubDate = now.Format(time.RFC1123Z)
 	} else {
 		dt, err := NormalizeDate(channelPubDate)
 		if err != nil {
 			return nil, fmt.Errorf("Can't parse %q, %s\n", channelPubDate, err)
 		}
-		feed.PubDate = dt.Format(time.RFC1123)
+		// RSS spec shows RFC 1123 dates
+		// Validators indicate the RFC-822 and "UTC" isn't that.
+		//feed.PubDate = dt.Format(time.RFC822Z)
+		feed.PubDate = dt.Format(time.RFC1123Z)
 	}
 	if len(channelBuildDate) == 0 {
-		// RSS spec shows RTF 1123 dates
+		// RSS spec shows RFC 1123 dates
+		// Validators indicate the RFC-822
 		//feed.LastBuildDate = now.Format(time.RFC822Z)
-		feed.LastBuildDate = now.Format(time.RFC1123)
+		feed.LastBuildDate = now.Format(time.RFC1123Z)
 	} else {
 		dt, err := NormalizeDate(channelBuildDate)
 		if err != nil {
 			return nil, fmt.Errorf("Can't parse %q, %s\n", channelBuildDate, err)
 		}
-		feed.LastBuildDate = dt.Format(time.RFC1123)
+		// RSS spec shows RFC 1123 dates
+		// Validators indicate the RFC-822
+		//feed.LastBuildDate = dt.Format(time.RFC822Z)
+		feed.LastBuildDate = dt.Format(time.RFC1123Z)
 	}
 
 	// Process command line parameters
 	htdocs := "."
-	rssPath := ""
 	if len(args) > 0 {
 		htdocs = args[0]
-	}
-	if len(args) > 1 {
-		rssPath = args[1]
 	}
 	blogJSON := path.Join(htdocs, "blog.json")
 	if _, err := os.Stat(blogJSON); os.IsNotExist(err) {
@@ -185,13 +176,6 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 		return nil, err
 	}
 
-	txt := fmt.Sprintf(`<?xml version="1.0"?>
-%s`, src)
-	if len(rssPath) > 0 {
-		err = ioutil.WriteFile(rssPath, []byte(txt), 0664)
-		if err != nil {
-			return nil, err
-		}
-	}
+	txt := strings.ReplaceAll(fmt.Sprintf(`%s%s`, xml.Header, src), "></atom:link>", "/>")
 	return []byte(txt), nil
 }

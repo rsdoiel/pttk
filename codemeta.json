@@ -6,7 +6,7 @@
     "dateCreated": "2022-07-22",
     "issueTracker": "https://github.com/rsdoiel/pdtk/issues",
     "name": "pdtk",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "pdtk is a Pandoc preproccessor. The primary use case is rendering JSON documents via Pandoc templates. ",
     "releaseNotes": "This is an initial experiment",
     "developmentStatus": "concept",

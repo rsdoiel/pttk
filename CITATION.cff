@@ -8,6 +8,6 @@ authors:
 abstract: pdtk is a Pandoc preproccessor. The primary use case is rendering JSON documents via Pandoc templates. 
 repository-code: "git+https://github.com/rsdoiel/pdtk"
 type: software
-version: 0.0.0
+version: 0.0.1
 license-url: "https://spdx.org/licenses/BSD-3-Clause"
-date-released: 2022-07-30
+date-released: 2022-07-31
