@@ -4,8 +4,7 @@
 
 # NAME
 
-pdtk - pandoc tool kit, a set of tools for website generation using Pandoc
-
+pdtk - a writers tool kit for static site generation using Pandoc
 
 # SYNOPSIS
 
@@ -13,12 +12,30 @@ pdtk [OPTIONS] verb [VERB_OPTIONS] [-- [PANDOC_OPTIONS] ... ]
 
 # DESCRIPTION
 
-pdtk started as a Pandoc preprocessor. It can read JSON 
-or YAML from standard input and passes that via an internal 
-pipe to Pandoc as YAML front matter. Pandoc can then process it
-accordingly Pandoc options. Pandoc options are those options
-coming after a "--" marker. Options before "--" are for
-the pdtk preprossor. 
+pdtk is a toolkit for writing.  The main focus is on static
+site generation with Pandoc. The tool kit provides those missing
+elements from a deconstricted content management system that
+Pandoc does not (possibly should not) provide. Using pdtk with
+Pandoc should provide the core features expected in producing
+a website or blog in the early 21st century. These include
+a prep processor called "prep" which lets you take JSON
+and transform it into Markdown frontmatter that is
+directly passed to Pandoc for processing. You might want to
+do this for things like generating a CITATION.cff from a
+codemeta.json file or an about page from a codemeta.json file.
+Included is "blogit" tool that manages taking a Markdown source
+document and placing it in a blog directory struction while
+maintaining a "blog.json" metadata file describing the whole blog.
+Another tool is "rss" that generates RSS files for a website or
+blog. All these tools are easily scripted via Makefile or your
+favorite programming language (e.g. Python, Lua, Go).
+
+Finally there is a tool called "ws" which provides you with
+a "localhost" web server for preview your website or blog
+before you publish it.
+
+"Verbs" are the way you select the tool you want to work
+with in the tool kit, e.g. prep, blogit, rss.
 
 # VERBS
 
@@ -32,7 +49,7 @@ pdtk has grown to include features provide through simple
 : Preprocess JSON or YAML into YAML front matter and run through Pandoc
 
 **ws**
-: Runs a simple static web server for checking static site development
+: Runs a simple static web server for previewing content in your web browser
 
 **blogit**
 : Renders a blog directory structure by "importing" Markdown documents
@@ -143,7 +160,7 @@ Running a static web server to view rendering site
 
 # SEE ALSO
 
-- manual pages for [pdtk-prep](pdtk-prep.1.html), [pdtk-blogit](pdtk-blogit.1.html), [pdtk-rss](pdtk-rss.1.html)
+- manual pages for [pdtk-prep](pdtk-prep.1.html), [pdtk-blogit](pdtk-blogit.1.html), [pdtk-rss](pdtk-rss.1.html), [pdtk-ws](pdtk-ws.1.html)
 - pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
 - The source code is avialable from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
 
