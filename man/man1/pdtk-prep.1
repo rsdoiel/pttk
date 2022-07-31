@@ -7,15 +7,16 @@
 pdtk prep
 .SH SYNOPSIS
 .PP
-pdtk prep OPTIONS [\[en] [PANDOC_OPTIONS] \&... ]
+pdtk prep OPTIONS [\f[C]-- [PANDOC_OPTIONS] ...\f[R]]
 .SH DESCRIPTION
 .PP
 pdtk prep is a Pandoc preprocessor.
 It can read JSON or YAML from standard input and passes that via an
 internal pipe to Pandoc as YAML front matter.
 Pandoc can then process it accordingly Pandoc options.
-Pandoc options are those options coming after a \[lq]\[en]\[rq] marker.
-Options before \[lq]\[en]\[rq] are for the pdtk preprossor.
+Pandoc options are those options coming after a \[lq]\f[C]--\f[R]\[rq]
+marker.
+Options before \[lq]\f[C]--\f[R]\[rq] are for the pdtk preprossor.
 .SH OPTIONS
 .TP
 -help
@@ -33,7 +34,7 @@ A redirect \[lq]<\[rq] is used to pipe the content of
 .IP
 .nf
 \f[C]
-pdtk prep -- --template example.tmpl < example.json
+    pdtk prep -- --template example.tmpl < example.json
 \f[R]
 .fi
 .PP
@@ -43,7 +44,7 @@ and \[lq]-t\[rq] (to tell Pandoc the output format)
 .IP
 .nf
 \f[C]
-pdtk prep -- -s -t markdown < example.json
+    pdtk prep -- -s -t markdown < example.json
 \f[R]
 .fi
 .PP
@@ -54,9 +55,9 @@ produce Markdown output).
 .IP
 .nf
 \f[C]
-pdtk prep -i codemeta.json \[rs]
-    -- --template codemeta-md.tmpl \[rs]
-    >about.md
+    pdtk prep -i codemeta.json \[rs]
+        -- --template codemeta-md.tmpl \[rs]
+        >about.md
 \f[R]
 .fi
 .PP

@@ -36,13 +36,13 @@
 <p>The rss renders an RSS file based on the content found in the directory tree provided. If it encounters a “blog.json” file then it’ll use that file to generate feed content for that directory and it’s content otherwise it’ll generate a feed backed on Markdown front matter encountered in Markdown documents with corresponding html file.</p>
 <p>pdtk rss walks the file system to generate a RSS2 file. It assumes that the directory for HTDOCS is is the base directory containing subdirectories in the form of /YYYY/MM/DD/ARTICLE_HTML where YYYY/MM/DD (Year, Month, Day) corresponds to the publication date of ARTICLE_HTML.</p>
 <p>If our htdocs folder is our document root and out blog is htdocs/myblog.</p>
-<pre><code>pdtk rss \
-    -atom-link=&quot;http://blog.example.org/rss.xml&quot; \
-    -base-url=&quot;http://blog.example.org&quot; \
-    -channel-title=&quot;This Great Beyond&quot; \
-    -channel-description=&quot;Blog to save the world&quot; \
-    -channel-link=&quot;http://blog.example.org&quot; \
-    htdocs &gt;htdocs/rss.xml</code></pre>
+<pre class="shell"><code>    pdtk rss \
+        -atom-link=&quot;http://blog.example.org/rss.xml&quot; \
+        -base-url=&quot;http://blog.example.org&quot; \
+        -channel-title=&quot;This Great Beyond&quot; \
+        -channel-description=&quot;Blog to save the world&quot; \
+        -channel-link=&quot;http://blog.example.org&quot; \
+        htdocs &gt;htdocs/rss.xml</code></pre>
 <p>This would build an RSS 2 file in htdocs/rss.xml from the articles in htdocs/myblog/YYYY/MM/DD.</p>
 <h1 id="options">OPTIONS</h1>
 <p>What follows is are the options supported by the rss verb.</p>
@@ -54,10 +54,10 @@
 <dd>set site base url for links
 </dd>
 <dt>-byline string</dt>
-<dd>set byline regexp (default “<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>y\s+(\w|\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$”)
+<dd>set byline regexp (default <code>"^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$"</code>)
 </dd>
 <dt>-channel-builddate string</dt>
-<dd>Build Date for channel (e.g. 2006-01-02 15:04:05 -0700)
+<dd>Build Date for channel (e.g. <code>2006-01-02 15:04:05 -0700</code>)
 </dd>
 <dt>-channel-category string</dt>
 <dd>category for channel
@@ -78,13 +78,13 @@
 <dd>link to channel
 </dd>
 <dt>-channel-pubdate string</dt>
-<dd>Pub Date for channel (e.g. 2006-01-02 15:04:05 -0700)
+<dd>Pub Date for channel (e.g. <code>2006-01-02 15:04:05 -0700</code>)
 </dd>
 <dt>-channel-title string</dt>
 <dd>Title of channel
 </dd>
 <dt>-date-format string</dt>
-<dd>set date regexp (default “[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]”)
+<dd>set date regexp (default <code>"[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]"</code>)
 </dd>
 <dt>-e string</dt>
 <dd>A colon delimited list of path exclusions
@@ -93,19 +93,13 @@
 <dd>display rss help
 </dd>
 <dt>-title string</dt>
-<dd>set title regexp (default “^#\s+(\w|\s|.)+$”)
+<dd>set title regexp (default <code>"^#\\s+(\\w|\\s|.)+$"</code>)
 </dd>
 </dl>
 <h1 id="example">EXAMPLE</h1>
 <h1 id="see-also">SEE ALSO</h1>
 <p>pdtk website at https://rsdoiel.github.io/pdtk</p>
 <p>The source code is avialable from https://github.com/rsdoiel/pdtk</p>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>B|b<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
 </section>
 
 <footer>

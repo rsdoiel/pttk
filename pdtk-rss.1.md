@@ -28,6 +28,7 @@ of ARTICLE_HTML.
 If our htdocs folder is our document root and out blog is
 htdocs/myblog.
 
+```shell
     pdtk rss \
         -atom-link="http://blog.example.org/rss.xml" \
         -base-url="http://blog.example.org" \
@@ -35,6 +36,7 @@ htdocs/myblog.
         -channel-description="Blog to save the world" \
         -channel-link="http://blog.example.org" \
         htdocs >htdocs/rss.xml
+```
 
 This would build an RSS 2 file in htdocs/rss.xml from the
 articles in htdocs/myblog/YYYY/MM/DD.
@@ -50,10 +52,10 @@ What follows is are the options supported by the rss verb.
 : set site base url for links
 
 -byline string
-: set byline regexp (default "^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$")
+: set byline regexp (default `"^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$"`)
 
 -channel-builddate string
-: Build Date for channel (e.g. 2006-01-02 15:04:05 -0700)
+: Build Date for channel (e.g. `2006-01-02 15:04:05 -0700`)
 
 -channel-category string
 : category for channel
@@ -74,13 +76,13 @@ What follows is are the options supported by the rss verb.
 : link to channel
 
 -channel-pubdate string
-: Pub Date for channel (e.g. 2006-01-02 15:04:05 -0700)
+: Pub Date for channel (e.g. `2006-01-02 15:04:05 -0700`)
 
 -channel-title string
 : Title of channel
 
 -date-format string
-: set date regexp (default "[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]")
+: set date regexp (default `"[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]"`)
 
 -e string
 : A colon delimited list of path exclusions
@@ -89,7 +91,7 @@ What follows is are the options supported by the rss verb.
 : display rss help
 
 -title string
-: set title regexp (default "^#\\s+(\\w|\\s|.)+$")
+: set title regexp (default `"^#\\s+(\\w|\\s|.)+$"`)
 
 
 # EXAMPLE

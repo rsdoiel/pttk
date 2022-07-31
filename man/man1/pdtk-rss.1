@@ -27,13 +27,13 @@ If our htdocs folder is our document root and out blog is htdocs/myblog.
 .IP
 .nf
 \f[C]
-pdtk rss \[rs]
-    -atom-link=\[dq]http://blog.example.org/rss.xml\[dq] \[rs]
-    -base-url=\[dq]http://blog.example.org\[dq] \[rs]
-    -channel-title=\[dq]This Great Beyond\[dq] \[rs]
-    -channel-description=\[dq]Blog to save the world\[dq] \[rs]
-    -channel-link=\[dq]http://blog.example.org\[dq] \[rs]
-    htdocs >htdocs/rss.xml
+    pdtk rss \[rs]
+        -atom-link=\[dq]http://blog.example.org/rss.xml\[dq] \[rs]
+        -base-url=\[dq]http://blog.example.org\[dq] \[rs]
+        -channel-title=\[dq]This Great Beyond\[dq] \[rs]
+        -channel-description=\[dq]Blog to save the world\[dq] \[rs]
+        -channel-link=\[dq]http://blog.example.org\[dq] \[rs]
+        htdocs >htdocs/rss.xml
 \f[R]
 .fi
 .PP
@@ -51,10 +51,10 @@ set site base url for links
 .TP
 -byline string
 set byline regexp (default
-\[lq][1]y\[rs]s+(\[rs]w|\[rs]s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$\[rq])
+\f[C]\[dq]\[ha][B|b]y\[rs]\[rs]s+(\[rs]\[rs]w|\[rs]\[rs]s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$\[dq]\f[R])
 .TP
 -channel-builddate string
-Build Date for channel (e.g.\ 2006-01-02 15:04:05 -0700)
+Build Date for channel (e.g.\ \f[C]2006-01-02 15:04:05 -0700\f[R])
 .TP
 -channel-category string
 category for channel
@@ -75,14 +75,14 @@ Language, e.g.\ en-ca
 link to channel
 .TP
 -channel-pubdate string
-Pub Date for channel (e.g.\ 2006-01-02 15:04:05 -0700)
+Pub Date for channel (e.g.\ \f[C]2006-01-02 15:04:05 -0700\f[R])
 .TP
 -channel-title string
 Title of channel
 .TP
 -date-format string
 set date regexp (default
-\[lq][0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]\[rq])
+\f[C]\[dq][0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]\[dq]\f[R])
 .TP
 -e string
 A colon delimited list of path exclusions
@@ -91,16 +91,13 @@ A colon delimited list of path exclusions
 display rss help
 .TP
 -title string
-set title regexp (default \[lq]\[ha]#\[rs]s+(\[rs]w|\[rs]s|.)+$\[rq])
+set title regexp (default
+\f[C]\[dq]\[ha]#\[rs]\[rs]s+(\[rs]\[rs]w|\[rs]\[rs]s|.)+$\[dq]\f[R])
 .SH EXAMPLE
 .SH SEE ALSO
 .PP
 pdtk website at https://rsdoiel.github.io/pdtk
 .PP
 The source code is avialable from https://github.com/rsdoiel/pdtk
-.SH NOTES
-.SS [1]
-.PP
-B|b
 .SH AUTHORS
 R. S. Doiel.
