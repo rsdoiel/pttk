@@ -4,7 +4,7 @@
 pdtk
 ====
 
-**pdtk** is a tool kit for writing. It a focuses on static site
+**pdtk** is a tool kit for writing. The main focus is on static site
 generation using Pandoc.  The metaphor behind the tool kit is a
 deconstructed a content management system. It is easily scripted
 from your favorite POSIX shell or Makefile. It provides a number of
