@@ -30,33 +30,25 @@
 <h1 id="ideas">Ideas</h1>
 <h2 id="a-question-and-ideas">A Question and Ideas</h2>
 <ul>
-<li>What would be the minimum additional tools besides GNU Make and
-Pandoc needed to make it easy to maintain my website?
+<li>What would be the minimum additional tools besides GNU Make and Pandoc needed to make it easy to maintain my website?
 <ul>
-<li>blogit, a tool for generating JSON presentation of blog posts and
-their metadata</li>
+<li>blogit, a tool for generating JSON presentation of blog posts and their metadata</li>
 <li>An RSS generator would be nice</li>
 <li>A working sitemap.xml generator would be nice</li>
-<li>Support for recent innovations that Dave Weiner has done with
-“reallysimple” feeds</li>
-<li>A simple static web server for viewing the review in the content
-rendered with blogit or pandoc</li>
+<li>Support for recent innovations that Dave Weiner has done with “reallysimple” feeds</li>
+<li>A simple static web server for viewing the review in the content rendered with blogit or pandoc</li>
 <li>A way to integrate fountain manuscripts</li>
-<li>A nice to have would be a way to generate breadcrumb navigation for
-both blogs and website
+<li>A nice to have would be a way to generate breadcrumb navigation for both blogs and website
 <ul>
-<li>Maybe this is driven by the top level index page’s front matter? Or
-an index.yaml file?</li>
+<li>Maybe this is driven by the top level index page’s front matter? Or an index.yaml file?</li>
 </ul></li>
-<li>A nice to have would be a LunrJS compatible index generator for
-integrate search</li>
+<li>A nice to have would be a LunrJS compatible index generator for integrate search</li>
 </ul></li>
 <li>Part of writing is reading, how can pdtk help with that?
 <ul>
 <li>A feed READ might be nice</li>
 </ul></li>
-<li>Part of writing includes citing things and looking things up, how
-can pdtk help with that?
+<li>Part of writing includes citing things and looking things up, how can pdtk help with that?
 <ul>
 <li>A personal search would be nice</li>
 </ul></li>
@@ -65,15 +57,19 @@ can pdtk help with that?
 <ul>
 <li>A set of verbs to processing more complex actions
 <ul>
-<li>“prep” should expose the simple pre-processor implemented in pdtmpl
-experiment</li>
-<li>“blogit” should be a fresh implementation of the blogit CLI from
-mkpage</li>
-<li>“rss” should generate appropriate, modern RSS 2.0 for
-syndication</li>
-<li>“sitemap” should generate a sitemap for a website and support
-sub-sitemaps were appropraite</li>
+<li>“prep” should expose the simple pre-processor implemented in pdtmpl experiment</li>
+<li>“blogit” should be a fresh implementation of the blogit CLI from mkpage</li>
+<li>“rss” should generate appropriate, modern RSS 2.0 for syndication</li>
+<li>“sitemap” should generate a sitemap for a website and support sub-sitemaps were appropraite</li>
 </ul></li>
+</ul>
+<h2 id="improvements">Improvements</h2>
+<p>Dave Weiner’s feeder is a great way of reading a feed. As Dave pointed out my rss.xml doesn’t look great, need to fix that. The test URL is http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml</p>
+<p>Compare that with James Fallows http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed</p>
+<h2 id="feeds">Feeds</h2>
+<ul>
+<li>gofeed package provides a universal reader, appears to be still maintained</li>
+<li>Gorrilla provides a RSS generator, Gorrilla is looking for a new maintainer and appears to have stopped evolving (i.e. is current stable, may not have a community to update it in the future)</li>
 </ul>
 </section>
 
