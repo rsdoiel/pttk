@@ -65,6 +65,7 @@ install: build man .FORCE
 	@cp -v man/man1/pdtk-prep.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pdtk-blogit.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pdtk-rss.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pdtk-ws.1 $(PREFIX)/man/man1/
 	@echo ""
 	@echo "Make sure $(PREFIX)/man is in your MANPATH"
 	@echo ""
@@ -76,8 +77,9 @@ uninstall: .FORCE
 	-rm $(PREFIX)/man/man1/pdtk-prep.1
 	-rm $(PREFIX)/man/man1/pdtk-blogit.1
 	-rm $(PREFIX)/man/man1/pdtk-rss.1
+	-rm $(PREFIX)/man/man1/pdtk-ws.1
 
-man: man/man1/pdtk.1 man/man1/pdtk-prep.1 man/man1/pdtk-blogit.1 man/man1/pdtk-rss.1 .FORCE
+man: man/man1/pdtk.1 man/man1/pdtk-prep.1 man/man1/pdtk-blogit.1 man/man1/pdtk-rss.1 man/man1/pdtk-ws.1 .FORCE
 
 man/man1/pdtk.1: pdtk.1.md
 	mkdir -p man/man1
@@ -94,6 +96,10 @@ man/man1/pdtk-blogit.1: pdtk-blogit.1.md
 man/man1/pdtk-rss.1: pdtk-rss.1.md
 	mkdir -p man/man1
 	pandoc pdtk-rss.1.md -s -t man -o man/man1/pdtk-rss.1
+
+man/man1/pdtk-ws.1: pdtk-ws.1.md
+	mkdir -p man/man1
+	pandoc pdtk-ws.1.md -s -t man -o man/man1/pdtk-ws.1
 
 #website: page.tmpl README.md nav.md INSTALL.md LICENSE css/site.css
 #	bash mk-website.bash
