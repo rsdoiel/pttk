@@ -28,8 +28,9 @@
 <section>
 <!--  <h1>IDEAS</h1> -->
 
-<h1 id="ideas">Ideas</h1>
-<h2 id="a-question-and-ideas">A Question and Ideas</h2>
+<h1 id="ideasmusings">Ideas/Musings</h1>
+<p>This is a document is an exploration of what pdtk could be.</p>
+<h2 id="a-question-and-possibilities">A Question and Possibilities</h2>
 <ul>
 <li>What would be the minimum additional tools besides GNU Make and Pandoc needed to make it easy to maintain my website?
 <ul>
@@ -52,22 +53,52 @@
 <li>Part of writing includes citing things and looking things up, how can pdtk help with that?
 <ul>
 <li>A personal search would be nice</li>
+<li>A way to read/reference freeds like Dave Wiener’s feed mailbox with a link to cite it my blog or read it in Pocket</li>
+<li>A way to display OPML of interesting sites</li>
+</ul></li>
+<li>Should your site search be simple (site only) or a “personal search engine”?
+<ul>
+<li>A “personal search engine” would take a set of OPML files, RSS feeds index their content for easy retrieval</li>
+<li>A “personal search engine” would return links to the object, citation and link to “read in pocket”</li>
+<li>A “personal search engine” would also index documentation sites so you could easily look up code questions with out getting the spam and poor quality links of comercial general search engines (e.g. Google, Bing, DuckDuckGo)</li>
 </ul></li>
 </ul>
-<h2 id="verbs">Verbs</h2>
+<h2 id="potential-verbs-actions">Potential Verbs (actions)</h2>
 <ul>
 <li>A set of verbs to processing more complex actions
 <ul>
-<li>“prep” should expose the simple pre-processor implemented in pdtmpl experiment</li>
+<li>“prep” should expose the simple pre-processor implemented in pdtmpl experiment, this could be used to do things like generate an “about.md” page directly from codemeta.json of a project.</li>
 <li>“blogit” should be a fresh implementation of the blogit CLI from mkpage</li>
 <li>“rss” should generate appropriate, modern RSS 2.0 for syndication</li>
 <li>“sitemap” should generate a sitemap for a website and support sub-sitemaps were appropraite</li>
+<li>“search” would let you search your site’s content perhaps using LunrJS indexes
+<ul>
+<li>“search” also might function as a personal search engine</li>
+</ul></li>
+<li>“index” would generate a search index like LunrJS indexes used by the “search” verb
+<ul>
+<li>should be able to index all Markdown content and front matter</li>
+<li>should be able to index content provided via an OPML file</li>
+<li>should be able to index content provided by an RSS feed</li>
+<li>should be able to index content distributed as JSON such as the context synsitive help you have in VSCode from Mozilla developer website, Python or Golang’s documentation websites</li>
+</ul></li>
+<li>“reader” would provide a feed reading experiences similar to Dave Weiner’s mailbox feed reader
+<ul>
+<li>could be browser based building on a localhost web server</li>
+<li>should include a citation link</li>
+<li>should include a “read in pocket” link</li>
+<li>should include a link to the original content</li>
+</ul></li>
 </ul></li>
 </ul>
-<h2 id="improvements">Improvements</h2>
-<p>Dave Weiner’s feeder is a great way of reading a feed. As Dave pointed out my rss.xml doesn’t look great, need to fix that. The test URL is http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml</p>
-<p>Compare that with James Fallows http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed</p>
-<h2 id="feeds">Feeds</h2>
+<h2 id="current-innovations">Current Innovations</h2>
+<ul>
+<li>Dave Weiner’s feeder is a great way of reading a feed. As Dave pointed out my rss.xml doesn’t look great, need to fix that. The test URL is <a href="http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml">http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml</a>
+<ul>
+<li>Compare that with James Fallows <a href="http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed">http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed</a></li>
+</ul></li>
+</ul>
+<h2 id="go-packages-to-look-at">Go packages to look at</h2>
 <ul>
 <li>gofeed package provides a universal reader, appears to be still maintained</li>
 <li>Gorrilla provides a RSS generator, Gorrilla is looking for a new maintainer and appears to have stopped evolving (i.e. is current stable, may not have a community to update it in the future)</li>
