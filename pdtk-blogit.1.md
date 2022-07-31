@@ -82,8 +82,10 @@ repository is in my "Sites" folder under "Sites/me.example.org".
 Adding "my-vacation-day.md" to the blog me.example.org would
 use the following command.
 
+```shell
    cd Sites/me.example.org
    pdtk blogit my-vacation-day.md 2021-07-01
+```
 
 The *pdtk blogit* command will copy "my-vacation-day.md",
 creating any necessary file directories to 
@@ -97,10 +99,12 @@ template for listing recent posts.
 the blog posting.  In this way you could have separate blogs 
 structures for things like podcasts or videocasts.
 
+```shell
     # Add a landing page for the podcast
     pdtk blogit -prefix=podcast my-vacation.md 2021-07-01
     # Add an audio file containing the podcast
     pdtk blogit -prefix=podcast my-vacation.wav 2021-07-01
+```
 
 Where "-p, -prefix" sets the prefix path before the YYYY/MM/DD path.
 
@@ -109,15 +113,16 @@ If you have an existing blog paths in the form of
 PREFIX/YYYY/MM/DD you can use blogit to create/update/recreate
 the blog.json file.
 
+```shell
     pdtk blogit -prefix=blog -refresh=2021
+```
 
 The option "-refresh" is what indicates you want to crawl
 for blog posts for that year.
 
 # SEE ALSO
 
-pdtk website at https://rsdoiel.github.io/pdtk
-
-The source code is avialable from https://github.com/rsdoiel/pdtk
-
+- manual pages for pdtk, pdtk-prep, pdtk-rss
+- pdtk website at https://rsdoiel.github.io/pdtk
+- The source code is avialable from https://github.com/rsdoiel/pdtk
 

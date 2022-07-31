@@ -70,35 +70,38 @@
 </dl>
 <h1 id="examples">EXAMPLES</h1>
 <h2 id="prep">prep</h2>
-<p>In this example we have a JSON object document called “example.json” and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used to pipe the content of “example.json” into the command line tool pdtk.</p>
-<pre><code>pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
+<p>In this example we have a JSON object document called “example.json” and a Pandoc template called “example.tmpl”. A redirect “<code>&lt;</code>” is used to pipe the content of “example.json” into the command line tool pdtk.</p>
+<pre class="shell"><code>    pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
 <p>Render example.json as Markdown document. We need to use Pandoc’s own options of “-s” (stand alone) and “-t” (to tell Pandoc the output format)</p>
-<pre><code>pdtk prep -- -s -t markdown &lt; example.json</code></pre>
+<pre class="shell"><code>    pdtk prep -- -s -t markdown &lt; example.json</code></pre>
 <p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an about page in Markdown via Pandocs template processing (the “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown output).</p>
-<pre><code>pdtk prep -i codemeta.json -o about.md \
-    -- --template codemeta-md.tmpl</code></pre>
+<pre class="shell"><code>    pdtk prep -i codemeta.json -o about.md \
+        -- --template codemeta-md.tmpl</code></pre>
 <p>Using pdtk to manage blog content with the “blogit” verb.</p>
 <h2 id="blogit">blogit</h2>
 <p>Adding a blog “first-post.md” to “myblog”.</p>
-<pre><code>pdtk blogit myblog $HOME/Documents/first-post.md</code></pre>
+<pre class="shell"><code>    pdtk blogit myblog $HOME/Documents/first-post.md</code></pre>
 <p>Adding/Updating the “first-post.md” on “2022-07-22”</p>
-<pre><code>pdtk blogit myblog $HOME/Documents/first-post.md &quot;2022-07-22&quot;</code></pre>
+<pre class="shell"><code>    pdtk blogit myblog $HOME/Documents/first-post.md &quot;2022-07-22&quot;</code></pre>
 <p>Added additional material for posts on “2022-07-22”</p>
-<pre><code>pdtk blogit myblog $HOME/Documents/charts/my-graph.svg &quot;2022-07-22&quot;</code></pre>
+<pre class="shell"><code>    pdtk blogit myblog $HOME/Documents/charts/my-graph.svg &quot;2022-07-22&quot;</code></pre>
 <p>Refreshing the blogs’s blog.json file.</p>
-<pre><code>pdtk blogit myblog</code></pre>
+<pre class="shell"><code>    pdtk blogit myblog</code></pre>
 <h2 id="rss">rss</h2>
 <p>Using pdtk to generate RSS for “myblog”</p>
-<pre><code>pdtk rss myblog</code></pre>
+<pre class="shell"><code>    pdtk rss myblog</code></pre>
 <h2 id="sitemap">sitemap</h2>
 <p>Generating a sitemap in a current directory</p>
-<pre><code>pdtk sitemap .</code></pre>
+<pre class="shell"><code>    pdtk sitemap .</code></pre>
 <h2 id="ws">ws</h2>
 <p>Running a static web server to view rendering site</p>
-<pre><code>pdtk ws $HOME/Sites/myblog</code></pre>
+<pre class="shell"><code>    pdtk ws $HOME/Sites/myblog</code></pre>
 <h1 id="see-also">SEE ALSO</h1>
-<p>pdtk website at https://rsdoiel.github.io/pdtk</p>
-<p>The source code is avialable from https://github.com/rsdoiel/pdtk</p>
+<ul>
+<li>manual pages for pdtk-prep, pdtk-blogit, pdtk-rss</li>
+<li>pdtk website at https://rsdoiel.github.io/pdtk</li>
+<li>The source code is avialable from https://github.com/rsdoiel/pdtk</li>
+</ul>
 </section>
 
 <footer>

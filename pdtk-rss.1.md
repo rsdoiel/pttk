@@ -14,10 +14,10 @@ pdtk rss [OPTIONS] PATH_TO_SITE
 
 The rss renders an RSS file based on the content found in the
 directory tree provided. If it encounters a "blog.json" file then
-it'll use that file to generate feed content for that directory
-and it's content otherwise it'll generate a feed backed on Markdown
-front matter encountered in Markdown documents with corresponding
-html file.
+base of that tree it'll use that file to generate feed content 
+any subdirectories found otherwise it'll generate a feed based
+on Markdown front matter encountered in Markdown documents with
+corresponding html files.
 
 pdtk rss walks the file system to generate a RSS2 file. It assumes 
 that the directory for HTDOCS is is the base directory containing 
@@ -52,7 +52,7 @@ What follows is are the options supported by the rss verb.
 : set site base url for links
 
 -byline string
-: set byline regexp (default `"^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$"`)
+: set byline regexp (default "`^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$`")
 
 -channel-builddate string
 : Build Date for channel (e.g. `2006-01-02 15:04:05 -0700`)
@@ -82,7 +82,7 @@ What follows is are the options supported by the rss verb.
 : Title of channel
 
 -date-format string
-: set date regexp (default `"[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]"`)
+: set date regexp (default "`[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]`")
 
 -e string
 : A colon delimited list of path exclusions
@@ -91,15 +91,27 @@ What follows is are the options supported by the rss verb.
 : display rss help
 
 -title string
-: set title regexp (default `"^#\\s+(\\w|\\s|.)+$"`)
+: set title regexp (default "`^#\\s+(\\w|\\s|.)+$`")
 
 
 # EXAMPLE
 
+Here's an example for generating an RSS feed for a blog managed with "blogit"
+in a directory called blog.
+
+```shell
+	pdtk rss -channel-title="My Blog" \
+		-atom-link="https://blog.example.org/rss.xml" \
+		-base-url="https://blog.example.org" \
+        -channel-description="My blog, lots-O-rott" \
+        -channel-link="https://blog.example.org/blog" \
+        blog >rss.xml
+```
+
 # SEE ALSO
 
-pdtk website at https://rsdoiel.github.io/pdtk
-
-The source code is avialable from https://github.com/rsdoiel/pdtk
+- manual pages for pdtk, pdtk-prep, pdtk-blogit
+- pdtk website at https://rsdoiel.github.io/pdtk
+- The source code is avialable from https://github.com/rsdoiel/pdtk
 
 

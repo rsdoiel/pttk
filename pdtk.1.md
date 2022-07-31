@@ -63,24 +63,30 @@ metadata and supportting RSS rendering.
 
 In this example we have a JSON object document called
 "example.json" and a Pandoc template called "example.tmpl".
-A redirect "<" is used to pipe the content of "example.json"
+A redirect "`<`" is used to pipe the content of "example.json"
 into the command line tool pdtk.
 
+```shell
     pdtk prep -- --template example.tmpl < example.json
+```
 
 Render example.json as Markdown document. We need to use
 Pandoc's own options of "-s" (stand alone) and "-t" (to
 tell Pandoc the output format)
 
+```shell
     pdtk prep -- -s -t markdown < example.json
+```
 
 Process a "codemeta.json" file with "codemeta-md.tmpl" to
 produce an about page in Markdown via Pandocs template
 processing (the "codemeta-md.tmpl" is a Pandoc template
 marked up to produce Markdown output).
 
+```shell
     pdtk prep -i codemeta.json -o about.md \
         -- --template codemeta-md.tmpl
+```
 
 Using pdtk to manage blog content with the "blogit"
 verb. 
@@ -89,42 +95,56 @@ verb.
 
 Adding a blog "first-post.md" to "myblog".
 
+```shell
     pdtk blogit myblog $HOME/Documents/first-post.md
+```
 
 Adding/Updating the "first-post.md" on "2022-07-22"
 
+```shell
     pdtk blogit myblog $HOME/Documents/first-post.md "2022-07-22"
+```
 
 Added additional material for posts on "2022-07-22"
 
+```shell
     pdtk blogit myblog $HOME/Documents/charts/my-graph.svg "2022-07-22"
+```
 
 Refreshing the blogs's blog.json file.
 
+```shell
     pdtk blogit myblog
+```
 
 ## rss
 
 Using pdtk to generate RSS for "myblog"
 
+```shell
     pdtk rss myblog
+```
 
 ## sitemap
 
 Generating a sitemap in a current directory
 
+```shell
     pdtk sitemap .
+```
 
 ## ws
 
 Running a static web server to view rendering site
 
+```shell
     pdtk ws $HOME/Sites/myblog
+```
 
 # SEE ALSO
 
-pdtk website at https://rsdoiel.github.io/pdtk
-
-The source code is avialable from https://github.com/rsdoiel/pdtk
+- manual pages for pdtk-prep, pdtk-blogit, pdtk-rss
+- pdtk website at https://rsdoiel.github.io/pdtk
+- The source code is avialable from https://github.com/rsdoiel/pdtk
 
 

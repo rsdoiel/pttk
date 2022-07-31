@@ -59,12 +59,12 @@ display version
 In this example we have a JSON object document called
 \[lq]example.json\[rq] and a Pandoc template called
 \[lq]example.tmpl\[rq].
-A redirect \[lq]<\[rq] is used to pipe the content of
+A redirect \[lq]\f[C]<\f[R]\[rq] is used to pipe the content of
 \[lq]example.json\[rq] into the command line tool pdtk.
 .IP
 .nf
 \f[C]
-pdtk prep -- --template example.tmpl < example.json
+    pdtk prep -- --template example.tmpl < example.json
 \f[R]
 .fi
 .PP
@@ -74,7 +74,7 @@ and \[lq]-t\[rq] (to tell Pandoc the output format)
 .IP
 .nf
 \f[C]
-pdtk prep -- -s -t markdown < example.json
+    pdtk prep -- -s -t markdown < example.json
 \f[R]
 .fi
 .PP
@@ -85,8 +85,8 @@ produce Markdown output).
 .IP
 .nf
 \f[C]
-pdtk prep -i codemeta.json -o about.md \[rs]
-    -- --template codemeta-md.tmpl
+    pdtk prep -i codemeta.json -o about.md \[rs]
+        -- --template codemeta-md.tmpl
 \f[R]
 .fi
 .PP
@@ -97,7 +97,7 @@ Adding a blog \[lq]first-post.md\[rq] to \[lq]myblog\[rq].
 .IP
 .nf
 \f[C]
-pdtk blogit myblog $HOME/Documents/first-post.md
+    pdtk blogit myblog $HOME/Documents/first-post.md
 \f[R]
 .fi
 .PP
@@ -105,7 +105,7 @@ Adding/Updating the \[lq]first-post.md\[rq] on \[lq]2022-07-22\[rq]
 .IP
 .nf
 \f[C]
-pdtk blogit myblog $HOME/Documents/first-post.md \[dq]2022-07-22\[dq]
+    pdtk blogit myblog $HOME/Documents/first-post.md \[dq]2022-07-22\[dq]
 \f[R]
 .fi
 .PP
@@ -113,7 +113,7 @@ Added additional material for posts on \[lq]2022-07-22\[rq]
 .IP
 .nf
 \f[C]
-pdtk blogit myblog $HOME/Documents/charts/my-graph.svg \[dq]2022-07-22\[dq]
+    pdtk blogit myblog $HOME/Documents/charts/my-graph.svg \[dq]2022-07-22\[dq]
 \f[R]
 .fi
 .PP
@@ -121,7 +121,7 @@ Refreshing the blogs\[cq]s blog.json file.
 .IP
 .nf
 \f[C]
-pdtk blogit myblog
+    pdtk blogit myblog
 \f[R]
 .fi
 .SS rss
@@ -130,7 +130,7 @@ Using pdtk to generate RSS for \[lq]myblog\[rq]
 .IP
 .nf
 \f[C]
-pdtk rss myblog
+    pdtk rss myblog
 \f[R]
 .fi
 .SS sitemap
@@ -139,7 +139,7 @@ Generating a sitemap in a current directory
 .IP
 .nf
 \f[C]
-pdtk sitemap .
+    pdtk sitemap .
 \f[R]
 .fi
 .SS ws
@@ -148,13 +148,15 @@ Running a static web server to view rendering site
 .IP
 .nf
 \f[C]
-pdtk ws $HOME/Sites/myblog
+    pdtk ws $HOME/Sites/myblog
 \f[R]
 .fi
 .SH SEE ALSO
-.PP
+.IP \[bu] 2
+manual pages for pdtk-prep, pdtk-blogit, pdtk-rss
+.IP \[bu] 2
 pdtk website at https://rsdoiel.github.io/pdtk
-.PP
+.IP \[bu] 2
 The source code is avialable from https://github.com/rsdoiel/pdtk
 .SH AUTHORS
 R. S. Doiel.

@@ -44,7 +44,7 @@
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>In this example we have a JSON object document called “example.json” and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used to pipe the content of “example.json” into the command line tool pdtk.</p>
+<p>In this example we have a JSON object document called “example.json” and a Pandoc template called “example.tmpl”. A redirect “<code>&lt;</code>” is used to pipe the content of “example.json” into the command line tool pdtk.</p>
 <pre class="shell"><code>    pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
 <p>Render example.json as Markdown document. We need to use Pandoc’s own options of “-s” (stand alone) and “-t” (to tell Pandoc the output format)</p>
 <pre class="shell"><code>    pdtk prep -- -s -t markdown &lt; example.json</code></pre>
@@ -54,8 +54,11 @@
         &gt;about.md</code></pre>
 <p>Using pdtk to manage blog content with the “blogit” verb.</p>
 <h1 id="see-also">SEE ALSO</h1>
-<p>pdtk website at https://rsdoiel.github.io/pdtk</p>
-<p>The source code is avialable from https://github.com/rsdoiel/pdtk</p>
+<ul>
+<li>manual pages for pdtk, pdtk-blogit, pdtk-rss</li>
+<li>pdtk website at https://rsdoiel.github.io/pdtk</li>
+<li>The source code is avialable from https://github.com/rsdoiel/pdtk</li>
+</ul>
 </section>
 
 <footer>

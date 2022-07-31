@@ -78,8 +78,13 @@ I\[cq]ve written \[lq]my-vacation-day.md\[rq] in my home
 \[lq]Sites\[rq] folder under \[lq]Sites/me.example.org\[rq].
 Adding \[lq]my-vacation-day.md\[rq] to the blog me.example.org would use
 the following command.
-.PP
-cd Sites/me.example.org pdtk blogit my-vacation-day.md 2021-07-01
+.IP
+.nf
+\f[C]
+   cd Sites/me.example.org
+   pdtk blogit my-vacation-day.md 2021-07-01
+\f[R]
+.fi
 .PP
 The \f[I]pdtk blogit\f[R] command will copy
 \[lq]my-vacation-day.md\[rq], creating any necessary file directories to
@@ -96,10 +101,10 @@ podcasts or videocasts.
 .IP
 .nf
 \f[C]
-# Add a landing page for the podcast
-pdtk blogit -prefix=podcast my-vacation.md 2021-07-01
-# Add an audio file containing the podcast
-pdtk blogit -prefix=podcast my-vacation.wav 2021-07-01
+    # Add a landing page for the podcast
+    pdtk blogit -prefix=podcast my-vacation.md 2021-07-01
+    # Add an audio file containing the podcast
+    pdtk blogit -prefix=podcast my-vacation.wav 2021-07-01
 \f[R]
 .fi
 .PP
@@ -111,16 +116,18 @@ can use blogit to create/update/recreate the blog.json file.
 .IP
 .nf
 \f[C]
-pdtk blogit -prefix=blog -refresh=2021
+    pdtk blogit -prefix=blog -refresh=2021
 \f[R]
 .fi
 .PP
 The option \[lq]-refresh\[rq] is what indicates you want to crawl for
 blog posts for that year.
 .SH SEE ALSO
-.PP
+.IP \[bu] 2
+manual pages for pdtk, pdtk-prep, pdtk-rss
+.IP \[bu] 2
 pdtk website at https://rsdoiel.github.io/pdtk
-.PP
+.IP \[bu] 2
 The source code is avialable from https://github.com/rsdoiel/pdtk
 .SH AUTHORS
 R. S. Doiel.

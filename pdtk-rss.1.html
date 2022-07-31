@@ -33,7 +33,7 @@
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>pdtk rss <a href="#options">OPTIONS</a> PATH_TO_SITE</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>The rss renders an RSS file based on the content found in the directory tree provided. If it encounters a “blog.json” file then it’ll use that file to generate feed content for that directory and it’s content otherwise it’ll generate a feed backed on Markdown front matter encountered in Markdown documents with corresponding html file.</p>
+<p>The rss renders an RSS file based on the content found in the directory tree provided. If it encounters a “blog.json” file then base of that tree it’ll use that file to generate feed content any subdirectories found otherwise it’ll generate a feed based on Markdown front matter encountered in Markdown documents with corresponding html files.</p>
 <p>pdtk rss walks the file system to generate a RSS2 file. It assumes that the directory for HTDOCS is is the base directory containing subdirectories in the form of /YYYY/MM/DD/ARTICLE_HTML where YYYY/MM/DD (Year, Month, Day) corresponds to the publication date of ARTICLE_HTML.</p>
 <p>If our htdocs folder is our document root and out blog is htdocs/myblog.</p>
 <pre class="shell"><code>    pdtk rss \
@@ -54,7 +54,7 @@
 <dd>set site base url for links
 </dd>
 <dt>-byline string</dt>
-<dd>set byline regexp (default <code>"^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$"</code>)
+<dd>set byline regexp (default “<code>^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$</code>”)
 </dd>
 <dt>-channel-builddate string</dt>
 <dd>Build Date for channel (e.g. <code>2006-01-02 15:04:05 -0700</code>)
@@ -84,7 +84,7 @@
 <dd>Title of channel
 </dd>
 <dt>-date-format string</dt>
-<dd>set date regexp (default <code>"[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]"</code>)
+<dd>set date regexp (default “<code>[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]</code>”)
 </dd>
 <dt>-e string</dt>
 <dd>A colon delimited list of path exclusions
@@ -93,13 +93,23 @@
 <dd>display rss help
 </dd>
 <dt>-title string</dt>
-<dd>set title regexp (default <code>"^#\\s+(\\w|\\s|.)+$"</code>)
+<dd>set title regexp (default “<code>^#\\s+(\\w|\\s|.)+$</code>”)
 </dd>
 </dl>
 <h1 id="example">EXAMPLE</h1>
+<p>Here’s an example for generating an RSS feed for a blog managed with “blogit” in a directory called blog.</p>
+<pre class="shell"><code>    pdtk rss -channel-title=&quot;My Blog&quot; \
+        -atom-link=&quot;https://blog.example.org/rss.xml&quot; \
+        -base-url=&quot;https://blog.example.org&quot; \
+        -channel-description=&quot;My blog, lots-O-rott&quot; \
+        -channel-link=&quot;https://blog.example.org/blog&quot; \
+        blog &gt;rss.xml</code></pre>
 <h1 id="see-also">SEE ALSO</h1>
-<p>pdtk website at https://rsdoiel.github.io/pdtk</p>
-<p>The source code is avialable from https://github.com/rsdoiel/pdtk</p>
+<ul>
+<li>manual pages for pdtk, pdtk-prep, pdtk-blogit</li>
+<li>pdtk website at https://rsdoiel.github.io/pdtk</li>
+<li>The source code is avialable from https://github.com/rsdoiel/pdtk</li>
+</ul>
 </section>
 
 <footer>

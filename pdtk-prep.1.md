@@ -2,7 +2,6 @@
 % R. S. Doiel
 % July, 31, 2022
 
-
 # NAME
 
 pdtk prep
@@ -32,7 +31,7 @@ the pdtk preprossor.
 
 In this example we have a JSON object document called
 "example.json" and a Pandoc template called "example.tmpl".
-A redirect "<" is used to pipe the content of "example.json"
+A redirect "`<`" is used to pipe the content of "example.json"
 into the command line tool pdtk.
 
 ```shell
@@ -63,9 +62,9 @@ verb.
 
 # SEE ALSO
 
-pdtk website at https://rsdoiel.github.io/pdtk
-
-The source code is avialable from https://github.com/rsdoiel/pdtk
+- manual pages for pdtk, pdtk-blogit, pdtk-rss
+- pdtk website at https://rsdoiel.github.io/pdtk
+- The source code is avialable from https://github.com/rsdoiel/pdtk
 
 
 
