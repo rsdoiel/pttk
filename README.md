@@ -4,18 +4,15 @@
 pdtk
 ====
 
-**pdtk** is a tool kit for writing with a focus on static site
+**pdtk** is a tool kit for writing. It a focuses on static site
 generation using Pandoc.  The metaphor behind the tool kit is a
-deconstructed a content management system. It is easily scriptable
+deconstructed a content management system. It is easily scripted
 from your favorite POSIX shell or Makefile. It provides a number of
 functions including a Pandoc preprocessor called prep, a blogging
-tool called blogit as well as RSS and Sitemap generators. In this way
+tool called blogit as well as an RSS generator. In this way
 you should be able to have many of the website features you'd expect
 from a dynamic content management system like Wordpress without the
-need to run one. The tool kit features a blog post manager, RSS
-and Sitemap generator as well as a Pandoc preprocessor called "prep"
-that will let your treat a JSON file as direct input to Pandoc for
-processing.
+need to run one. 
 
 **pdtk** is a proof-of-concept Go package which makes it easy to extend
 your Go application to incorporate Pandoc template processing or develop
