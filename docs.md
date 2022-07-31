@@ -1,9 +1,9 @@
 ---
-title: pdtk man pages
+title: pdtk user manual
 ---
 
-pdtk man pages
-==============
+user manual pages
+=================
 
 - [pdtk.1](pdtk.1.html)
 - [pdtk-prep.1](pdtk-prep.1.html)
