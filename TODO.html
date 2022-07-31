@@ -31,23 +31,29 @@
 <h1 id="todo">TODO</h1>
 <h2 id="bugs">Bugs</h2>
 <ul class="task-list">
-<li><input type="checkbox" disabled="" />
+<li><input type="checkbox" disabled="" checked="" />
 RSS Feed isn’t passing validation,<ul>
-<li><input type="checkbox" disabled="" />
-Dates must comply with http://www.faqs.org/rfcs/rfc822.html</li>
-<li><input type="checkbox" disabled="" />
+<li><input type="checkbox" disabled="" checked="" />
+Dates must comply with http://www.faqs.org/rfcs/rfc822.html<ul>
+<li>NOTE: For Go time.Time what passes validators is RFC1123Z formatted dates.</li>
+</ul></li>
+<li><input type="checkbox" disabled="" checked="" />
 Missing Atom relationship element</li>
+<li><input type="checkbox" disabled="" checked="" />
+Links need to point at .html files not .md files</li>
 <li>Make sure it passes with at least two validators
 <ul class="task-list">
-<li><input type="checkbox" disabled="" />
+<li><input type="checkbox" disabled="" checked="" />
 W3C validator: https://validator.w3.org/feed/</li>
-<li><input type="checkbox" disabled="" />
+<li><input type="checkbox" disabled="" checked="" />
 RSS Board: https://www.rssboard.org/rss-validator/</li>
 </ul></li>
 </ul></li>
 </ul>
 <h2 id="next">Next</h2>
 <ul class="task-list">
+<li><input type="checkbox" disabled="" />
+Add support for source namespace so I can do source:markdown element per Dave Weiner’s reallysimple feeds</li>
 <li><input type="checkbox" disabled="" />
 blog.json needs to contain enough metadata to easily render the RSS feeed. The addtional data could be set via blogit options</li>
 <li><input type="checkbox" disabled="" />
@@ -56,6 +62,8 @@ rss should be able to produce a “feed” for all pages in a website using Mark
 rss should be able to understandard a blog.json file and transform it into RSS 2 with Markdown source elements where appropriate</li>
 <li><input type="checkbox" disabled="" />
 sitemap needs to be implemented and support links to sub-site maps</li>
+<li><input type="checkbox" disabled="" />
+need “byline” and “titleline” extractors implemented</li>
 </ul>
 </section>
 
