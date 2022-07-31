@@ -86,7 +86,7 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 
 	// Setup IO
 	if showHelp {
-		usage(appName, verb, 1)
+		usage(appName, verb, 0)
 	}
 	if showVerbose {
 		quiet = false
