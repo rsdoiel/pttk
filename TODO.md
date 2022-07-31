@@ -5,6 +5,13 @@ TODO
 Bugs
 ----
 
+- [ ] RSS Feed isn't passing validation, 
+    - [ ] Dates must comply with http://www.faqs.org/rfcs/rfc822.html
+    - [ ] Missing Atom relationship element
+    - Make sure it passes with at least two validators
+        - [ ] W3C validator: https://validator.w3.org/feed/
+        - [ ] RSS Board: https://www.rssboard.org/rss-validator/
+
 
 Next
 ----
