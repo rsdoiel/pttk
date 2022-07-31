@@ -20,6 +20,7 @@ import (
 	"github.com/rsdoiel/pdtk"
 	"github.com/rsdoiel/pdtk/blogit"
 	"github.com/rsdoiel/pdtk/prep"
+	"github.com/rsdoiel/pdtk/rss"
 	"github.com/rsdoiel/pdtk/ws"
 )
 
@@ -230,7 +231,11 @@ func main() {
 			handleError(err)
 		}
 	case "rss":
-		handleError(fmt.Errorf("%s %s not implemented", appName, verb))
+		src, err := rss.RunRSS(appName, verb, args)
+		handleError(err)
+		if len(src) > 0 {
+			fmt.Printf("%s\n", src)
+		}
 	case "sitemap":
 		handleError(fmt.Errorf("%s %s not implemented", appName, verb))
 	default:
