@@ -5,7 +5,7 @@ summary: pdtk is a toolkit for writing with Pandoc # 79 char long summary
 description: |
   pdtk is a tool kit for writing. The main focus is on static site
   generation using Pandoc.  The metaphor behind the tool kit is a
-  deconstructed a content management system. It is easily scripted from
+  deconstructed content management system. It is easily scripted from
   your favorite POSIX shell or Makefile. It provides a number of functions
   including a Pandoc preprocessor called prep, a blogging tool called
   blogit as well as an RSS generator. In this way you should be able to
