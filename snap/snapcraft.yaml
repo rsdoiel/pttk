@@ -25,12 +25,12 @@ apps:
       - network
 
 parts:
-  pandoc:
-    plugin: conda
-    conda-packages:
-      - -c
-      - conda-forge
-      - pandoc
+#  pandoc:
+#    plugin: conda
+#    conda-packages:
+#      - -c
+#      - conda-forge
+#      - pandoc
   pdtk:
     plugin: go
     go-channel: stable
@@ -38,3 +38,5 @@ parts:
         - "CGO_ENABLED" : "1"
     source-type: git
     source: https://github.com/rsdoiel/pdtk
+    stage-packages:
+      - pandoc
