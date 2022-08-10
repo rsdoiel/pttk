@@ -5,7 +5,7 @@ title: pdtk
 About this software
 ===================
 
-pdtk 0.0.1
+pdtk 0.0.2
 ----------------
 
 ### Authors
@@ -32,7 +32,7 @@ pdtk is a tool kit for writing. The main focus is on static site generation usin
 
 ### Software Requiremets
 
-- Pandoc 2.18 or better
+- Pandoc 2.19 or better
 - GNU Make (recommended)
 
 ### Related Links
