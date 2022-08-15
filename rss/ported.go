@@ -475,7 +475,13 @@ func WalkRSS(feed *RSS2, htdocs string, baseURL string, excludeList string, titl
 			byline = Grep(bylineExp, src)
 		}
 		if val, ok := fMatter["pubDate"]; ok {
-			pubDate = val.(string)
+			switch val.(type) {
+			case string:
+				pubDate = val.(string)
+			case time.Time:
+				dt := val.(time.Time)
+				pubDate = dt.Format(blogit.DateFmt)
+			}
 		} else {
 			pubDate = Grep(dateExp, byline)
 		}

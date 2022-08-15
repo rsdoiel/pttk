@@ -11,6 +11,7 @@
 package blogit
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -22,11 +23,16 @@ import (
 	"strings"
 	"time"
 
+	// My packages
+	stn "github.com/rsdoiel/stngo"
+	"github.com/rsdoiel/stngo/report"
+
 	// 3rd Party Packages
 	"gopkg.in/yaml.v3"
 )
 
 const (
+
 	//
 	// Supported types for Front Matter
 	//
@@ -439,7 +445,7 @@ func (dy *DayObj) updatePosts(ymd []string, targetName string) error {
 			post.Created = dt.(string)
 		case time.Time:
 			t := dt.(time.Time)
-			post.Created = t.Format("2006-01-02")
+			post.Created = t.Format(DateFmt)
 		}
 	}
 	if updated, ok := obj["updated"]; ok {
@@ -448,7 +454,7 @@ func (dy *DayObj) updatePosts(ymd []string, targetName string) error {
 			post.Updated = updated.(string)
 		case time.Time:
 			t := updated.(time.Time)
-			post.Updated = t.Format("2006-01-02")
+			post.Updated = t.Format(DateFmt)
 		}
 	}
 
@@ -595,7 +601,7 @@ func (meta *BlogMeta) BlogAsset(prefix string, fName string, dateString string) 
 	if err != nil {
 		return err
 	} else {
-		os.MkdirAll(dPath, 0777)
+		os.MkdirAll(dPath, 0775)
 		targetName = path.Join(dPath, path.Base(fName))
 		out, err = os.Create(targetName)
 		if err != nil {
@@ -606,6 +612,131 @@ func (meta *BlogMeta) BlogAsset(prefix string, fName string, dateString string) 
 		}
 		in.Close()
 		out.Close()
+	}
+	return nil
+}
+
+// BlogSTN is a tool for posting and updating a blog directory
+// structure based on the contents of an [stn](https://rsdoiel.github.io/stngo) (Simple Timesheet Notation). Entries are mapped to blog
+// posts to populate the blog.
+func (meta *BlogMeta) BlogSTN(prefix string, fName string, author string) error {
+	in, err := os.Open(fName)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	scanner := bufio.NewScanner(in)
+
+	entry := new(stn.Entry)
+	aggregation := new(report.EntryAggregation)
+	activeDate := time.Now().Format(DateFmt)
+
+	lineNo := 0
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		lineNo++
+		if stn.IsDateLine(line) == true {
+			activeDate = stn.ParseDateLine(line)
+		} else if stn.IsEntry(line) {
+			entry, err = stn.ParseEntry(activeDate, line)
+			if err != nil {
+				return fmt.Errorf("line %5d: can't parse entry %q\n", lineNo, line)
+			}
+			aggregation.Aggregate(entry)
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		return err
+	}
+
+	dayFmt := `Monday, January 2, 2006`
+	timeFmt := `15:03 MST`
+	hourMinFmt := `15:03`
+	ext := path.Ext(fName)
+	// postFName (based on STN provided filename) but written
+	// to the appropriate date path.
+	postFName := strings.TrimSuffix(path.Base(fName), ext) + ".md"
+	tot := len(aggregation.Entries)
+	for i, entry := range aggregation.Entries {
+		// entry metadata
+		series := ""
+		keywords := []string{}
+		if len(entry.Annotations) > 0 {
+			series = entry.Annotations[0]
+		}
+		if len(entry.Annotations) > 1 {
+			if strings.Contains(entry.Annotations[1], ",") {
+				for _, word := range strings.Split(entry.Annotations[1], ",") {
+					keywords = append(keywords, word)
+				}
+			} else {
+				keywords = append(keywords, entry.Annotations[1])
+			}
+		}
+		title := fmt.Sprintf("%s", series)
+		if len(keywords) > 0 {
+			title = fmt.Sprintf("%s: %s", series, strings.Join(keywords, ", "))
+		}
+		issueNo := tot - i
+		pubDate := entry.Start.Format(DateFmt)
+		// Make sure we have a path to write the file
+		ymd, err := calcYMD(pubDate)
+		if err != nil {
+			return fmt.Errorf("entry %5d: %q %s\n", i, pubDate, err)
+		}
+		dPath, err := calcPath(prefix, ymd)
+		if err != nil {
+			return fmt.Errorf("entry %5d: %q %s\n", i, pubDate, err)
+		}
+		os.MkdirAll(dPath, 0775)
+		targetName := path.Join(dPath, postFName)
+		out, err := os.Create(targetName)
+		if err != nil {
+			return fmt.Errorf("entry %5d: %q %s\n", i, targetName, err)
+		}
+		// Write front matter in YAML to the file
+		fmt.Fprintf(out, "---\n")
+		fmt.Fprintf(out, "title: %q\n", title)
+		if author != "" {
+			fmt.Fprintf(out, "author: %q\n", author)
+		}
+		fmt.Fprintf(out, "pubDate: %s\n", pubDate)
+		if series != "" {
+			fmt.Fprintf(out, "series: %q\n", series)
+		}
+		fmt.Fprintf(out, "no: %d\n", issueNo)
+		if len(keywords) > 0 {
+			fmt.Fprintf(out, "keywords:\n")
+			for _, word := range keywords {
+				fmt.Fprintf(out, "  - %q\n", strings.TrimSpace(word))
+			}
+		}
+		fmt.Fprintf(out, "---\n\n")
+		// Write the body content to the file
+		fmt.Fprintf(out, "# %s\n\n", title)
+		if author != "" {
+			// Add a by line
+			fmt.Fprintf(out, "By %s, %s\n\n", author, entry.Start.Format(DateFmt))
+		} else {
+			fmt.Fprintf(out, "Post: %s, %s - %s\n\n", entry.Start.Format(dayFmt),
+				entry.Start.Format(hourMinFmt), entry.End.Format(timeFmt))
+		}
+		l := len(entry.Annotations)
+		switch {
+		case l > 2:
+			fmt.Fprintf(out, "%s\n\n", strings.Join(entry.Annotations[2:], "\n"))
+		case l > 1:
+			fmt.Fprintf(out, "%s\n\n", strings.Join(entry.Annotations[1:], "\n"))
+		default:
+			fmt.Fprintf(out, "%s\n\n", strings.Join(entry.Annotations, "\n"))
+		}
+		out.Close()
+		// Refresh the blog betatadata structure as needed.
+		meta.Updated = time.Now().Format(DateFmt)
+		if err := meta.updateYears(ymd, targetName); err != nil {
+			return fmt.Errorf("%q %s, %s\n", postFName, entry.Start.Format(DateFmt), err)
+		}
 	}
 	return nil
 }
@@ -625,7 +756,7 @@ func (meta *BlogMeta) BlogIt(prefix string, fName string, dateString string) err
 	)
 	// Check to see if dateStr is empty, if so default to today.
 	if dateString == "" {
-		dateString = time.Now().Format("2015-05-07")
+		dateString = time.Now().Format(DateFmt)
 	}
 	// Check to see if path.join(prefix, datePath(dateStr)) exists
 	// and create it if needed.
@@ -645,7 +776,7 @@ func (meta *BlogMeta) BlogIt(prefix string, fName string, dateString string) err
 	if err != nil {
 		return err
 	} else {
-		os.MkdirAll(dPath, 0777)
+		os.MkdirAll(dPath, 0775)
 		targetName = path.Join(dPath, path.Base(fName))
 		out, err = os.Create(targetName)
 		if err != nil {

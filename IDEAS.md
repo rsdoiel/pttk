@@ -48,6 +48,7 @@ Potential Verbs (actions)
         - should include a citation link
         - should include a "read in pocket" link
         - should include a link to the original content
+    - "readit" would take a list of URLs (e.g. .newsboat/url), scan them and gerate a pocket reading list, or a RSS file that could be fed to Dave Weiner's mailbox style feed reader
 
 
 Current Innovations

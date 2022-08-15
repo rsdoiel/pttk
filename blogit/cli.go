@@ -30,6 +30,8 @@ var (
 	// Application Options
 	saveAsYAML bool
 
+	stnImport      string
+	author         string
 	prefixPath     string
 	docName        string
 	dateString     string
@@ -65,6 +67,8 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 	flagSet.BoolVar(&showVerbose, "verbose", false, "verbose output")
 
 	// Application specific options
+	flagSet.StringVar(&author, "author", "", `Set the author name for use with "Simple Timesheet Notation" file for blog posts`)
+	flagSet.StringVar(&stnImport, "stn", "", `Use a "Simple Timesheet Notation" file for blog posts`)
 	flagSet.BoolVar(&saveAsYAML, "save-as-yaml", false, "save as YAML file instead of blog.yaml file")
 	flagSet.StringVar(&prefixPath, "prefix", "", "Set the prefix path before YYYY/MM/DD.")
 	flagSet.StringVar(&refreshBlog, "refresh", "", "Refresh blog.json for a given year")
@@ -140,6 +144,17 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 		meta.PostTmpl = setPostTmpl
 	}
 
+	// Handle Import of STN for blog posts
+	if stnImport != "" {
+		if err := meta.BlogSTN(prefixPath, stnImport, author); err != nil {
+			return fmt.Errorf("%s\n", err)
+		}
+		if err := meta.Save(blogMetadataName); err != nil {
+			return fmt.Errorf("%s\n", err)
+		}
+		return nil
+	}
+
 	// handle option terminating case of refreshBlog
 	if refreshBlog != "" {
 		years := []string{}
@@ -182,6 +197,7 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 		}
 		usage(appName, verb, 1)
 	}
+
 	// Handle Copy Asset terminating case
 	if blogAsset {
 		fmt.Printf("Adding asset %q to posts for %q\n", docName, dateString)
