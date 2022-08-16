@@ -1,6 +1,6 @@
 % pdtk-blogit(1) pdtk user manual
 % R. S. Doiel
-% July, 31, 2022
+% August 15, 2022
 
 # NAME
 
@@ -10,12 +10,16 @@ pdtk blogit
 
 pdtk blogit [OPTIONS] POST_MARKDOWN_FILE [YYYY_MM_DD]
 
+pdtk blogit [OPTIONS] -stn STN_FILENAME
+
 # DESCRIPTION
 
 pdtk blogit provides a quick tool to add or replace blog content
 organized around a date oriented file path. In addition to
 placing documents it also will generate simple markdown documents
-for inclusion in navigation.
+for inclusion in navigation. 
+
+pdtk also includes an option to extract short (one paragraph) blog posts froom [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file.
 
 # OPTIONS
 
@@ -69,6 +73,13 @@ What follows are the options supported by the blogit verb.
 -url string
 : Set blog's URL
 
+-stn
+: Import short blog posts from an [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file
+
+-author
+: Set the "author" string when importing from a simple timesheet notation file.
+
+
 -verbose
 : verbose output
 
@@ -120,9 +131,17 @@ the blog.json file.
 The option "-refresh" is what indicates you want to crawl
 for blog posts for that year.
 
+Importing or updating blog posts from a simple timesheet notation
+file called "project-log.txt".
+
+```
+    pdtk blogit -prefix=blog -author 'Jane Doe' -stn project-log.txt
+```
+
 # SEE ALSO
 
 - manual pages for [pdtk](pdtk.1.html), [pdtk-prep](pdtk-prep.1.html), [pdtk-rss](pdtk-rss.1.html)
 - pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
 - The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
+- Simple timesheet notation at [https://rsdoiel.github.io/stngo/docs/stn.html](https://rsdoiel.github.io/stngo/docs/stn.html)
 

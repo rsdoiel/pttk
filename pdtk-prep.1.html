@@ -31,33 +31,53 @@
 <h1 id="name">NAME</h1>
 <p>pdtk prep</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>pdtk prep <a href="#options">OPTIONS</a> [<code>-- [PANDOC_OPTIONS] ...</code>]</p>
+<p>pdtk prep <a href="#options">OPTIONS</a>
+[<code>-- [PANDOC_OPTIONS] ...</code>]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>pdtk prep is a Pandoc preprocessor. It can read JSON or YAML from standard input and passes that via an internal pipe to Pandoc as YAML front matter. Pandoc can then process it accordingly Pandoc options. Pandoc options are those options coming after a “<code>--</code>” marker. Options before “<code>--</code>” are for the pdtk preprocessor.</p>
+<p>pdtk prep is a Pandoc preprocessor. It can read JSON or YAML from
+standard input and passes that via an internal pipe to Pandoc as YAML
+front matter. Pandoc can then process it accordingly Pandoc options.
+Pandoc options are those options coming after a “<code>--</code>”
+marker. Options before “<code>--</code>” are for the pdtk
+preprocessor.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>display prep usage
+<dd>
+display prep usage
 </dd>
 <dt>-i</dt>
-<dd>read from a file instead of standard input
+<dd>
+read from a file instead of standard input
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>In this example we have a JSON object document called “example.json” and a Pandoc template called “example.tmpl”. A redirect “<code>&lt;</code>” is used to pipe the content of “example.json” into the command line tool pdtk.</p>
+<p>In this example we have a JSON object document called “example.json”
+and a Pandoc template called “example.tmpl”. A redirect
+“<code>&lt;</code>” is used to pipe the content of “example.json” into
+the command line tool pdtk.</p>
 <pre class="shell"><code>    pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
-<p>Render example.json as Markdown document. We need to use Pandoc’s own options of “-s” (stand alone) and “-t” (to tell Pandoc the output format)</p>
+<p>Render example.json as Markdown document. We need to use Pandoc’s own
+options of “-s” (stand alone) and “-t” (to tell Pandoc the output
+format)</p>
 <pre class="shell"><code>    pdtk prep -- -s -t markdown &lt; example.json</code></pre>
-<p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an about page in Markdown via Pandocs template processing (the “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown output).</p>
+<p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an
+about page in Markdown via Pandocs template processing (the
+“codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown
+output).</p>
 <pre class="shell"><code>    pdtk prep -i codemeta.json \
         -- --template codemeta-md.tmpl \
         &gt;about.md</code></pre>
 <p>Using pdtk to manage blog content with the “blogit” verb.</p>
 <h1 id="see-also">SEE ALSO</h1>
 <ul>
-<li>manual pages for <a href="pdtk.1.html">pdtk</a>, <a href="pdtk-blogit.1.html">pdtk-blogit</a>, <a href="pdtk-rss.1.html">pdtk-rss</a></li>
-<li>pdtk website at <a href="https://rsdoiel.github.io/pdtk">https://rsdoiel.github.io/pdtk</a></li>
-<li>The source code is available from <a href="https://github.com/rsdoiel/pdtk">https://github.com/rsdoiel/pdtk</a></li>
+<li>manual pages for <a href="pdtk.1.html">pdtk</a>, <a
+href="pdtk-blogit.1.html">pdtk-blogit</a>, <a
+href="pdtk-rss.1.html">pdtk-rss</a></li>
+<li>pdtk website at <a
+href="https://rsdoiel.github.io/pdtk">https://rsdoiel.github.io/pdtk</a></li>
+<li>The source code is available from <a
+href="https://github.com/rsdoiel/pdtk">https://github.com/rsdoiel/pdtk</a></li>
 </ul>
 </section>
 

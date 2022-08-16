@@ -32,76 +32,111 @@
 <p>This is a document is an exploration of what pdtk could be.</p>
 <h2 id="a-question-and-possibilities">A Question and Possibilities</h2>
 <ul>
-<li>What would be the minimum additional tools besides GNU Make and Pandoc needed to make it easy to maintain my website?
+<li>What would be the minimum additional tools besides GNU Make and
+Pandoc needed to make it easy to maintain my website?
 <ul>
-<li>blogit, a tool for generating JSON presentation of blog posts and their metadata</li>
+<li>blogit, a tool for generating JSON presentation of blog posts and
+their metadata</li>
 <li>An RSS generator would be nice</li>
 <li>A working sitemap.xml generator would be nice</li>
-<li>Support for recent innovations that Dave Weiner has done with “reallysimple” feeds</li>
-<li>A simple static web server for viewing the review in the content rendered with blogit or pandoc</li>
+<li>Support for recent innovations that Dave Weiner has done with
+“reallysimple” feeds</li>
+<li>A simple static web server for viewing the review in the content
+rendered with blogit or pandoc</li>
 <li>A way to integrate fountain manuscripts</li>
-<li>A nice to have would be a way to generate breadcrumb navigation for both blogs and website
+<li>A nice to have would be a way to generate breadcrumb navigation for
+both blogs and website
 <ul>
-<li>Maybe this is driven by the top level index page’s front matter? Or an index.yaml file?</li>
+<li>Maybe this is driven by the top level index page’s front matter? Or
+an index.yaml file?</li>
 </ul></li>
-<li>A nice to have would be a LunrJS compatible index generator for integrate search</li>
+<li>A nice to have would be a LunrJS compatible index generator for
+integrate search</li>
 </ul></li>
 <li>Part of writing is reading, how can pdtk help with that?
 <ul>
 <li>A feed READ might be nice</li>
 </ul></li>
-<li>Part of writing includes citing things and looking things up, how can pdtk help with that?
+<li>Part of writing includes citing things and looking things up, how
+can pdtk help with that?
 <ul>
 <li>A personal search would be nice</li>
-<li>A way to read/reference freeds like Dave Wiener’s feed mailbox with a link to cite it my blog or read it in Pocket</li>
+<li>A way to read/reference freeds like Dave Wiener’s feed mailbox with
+a link to cite it my blog or read it in Pocket</li>
 <li>A way to display OPML of interesting sites</li>
 </ul></li>
-<li>Should your site search be simple (site only) or a “personal search engine”?
+<li>Should your site search be simple (site only) or a “personal search
+engine”?
 <ul>
-<li>A “personal search engine” would take a set of OPML files, RSS feeds index their content for easy retrieval</li>
-<li>A “personal search engine” would return links to the object, citation and link to “read in pocket”</li>
-<li>A “personal search engine” would also index documentation sites so you could easily look up code questions with out getting the spam and poor quality links of comercial general search engines (e.g. Google, Bing, DuckDuckGo)</li>
+<li>A “personal search engine” would take a set of OPML files, RSS feeds
+index their content for easy retrieval</li>
+<li>A “personal search engine” would return links to the object,
+citation and link to “read in pocket”</li>
+<li>A “personal search engine” would also index documentation sites so
+you could easily look up code questions with out getting the spam and
+poor quality links of comercial general search engines (e.g. Google,
+Bing, DuckDuckGo)</li>
 </ul></li>
 </ul>
 <h2 id="potential-verbs-actions">Potential Verbs (actions)</h2>
 <ul>
 <li>A set of verbs to processing more complex actions
 <ul>
-<li>“prep” should expose the simple pre-processor implemented in pdtmpl experiment, this could be used to do things like generate an “about.md” page directly from codemeta.json of a project.</li>
-<li>“blogit” should be a fresh implementation of the blogit CLI from mkpage</li>
-<li>“rss” should generate appropriate, modern RSS 2.0 for syndication</li>
-<li>“sitemap” should generate a sitemap for a website and support sub-sitemaps were appropraite</li>
-<li>“search” would let you search your site’s content perhaps using LunrJS indexes
+<li>“prep” should expose the simple pre-processor implemented in pdtmpl
+experiment, this could be used to do things like generate an “about.md”
+page directly from codemeta.json of a project.</li>
+<li>“blogit” should be a fresh implementation of the blogit CLI from
+mkpage</li>
+<li>“rss” should generate appropriate, modern RSS 2.0 for
+syndication</li>
+<li>“sitemap” should generate a sitemap for a website and support
+sub-sitemaps were appropraite</li>
+<li>“search” would let you search your site’s content perhaps using
+LunrJS indexes
 <ul>
 <li>“search” also might function as a personal search engine</li>
 </ul></li>
-<li>“index” would generate a search index like LunrJS indexes used by the “search” verb
+<li>“index” would generate a search index like LunrJS indexes used by
+the “search” verb
 <ul>
 <li>should be able to index all Markdown content and front matter</li>
 <li>should be able to index content provided via an OPML file</li>
 <li>should be able to index content provided by an RSS feed</li>
-<li>should be able to index content distributed as JSON such as the context synsitive help you have in VSCode from Mozilla developer website, Python or Golang’s documentation websites</li>
+<li>should be able to index content distributed as JSON such as the
+context synsitive help you have in VSCode from Mozilla developer
+website, Python or Golang’s documentation websites</li>
 </ul></li>
-<li>“reader” would provide a feed reading experiences similar to Dave Weiner’s mailbox feed reader
+<li>“reader” would provide a feed reading experiences similar to Dave
+Weiner’s mailbox feed reader
 <ul>
 <li>could be browser based building on a localhost web server</li>
 <li>should include a citation link</li>
 <li>should include a “read in pocket” link</li>
 <li>should include a link to the original content</li>
 </ul></li>
+<li>“readit” would take a list of URLs (e.g. .newsboat/url), scan them
+and gerate a pocket reading list, or a RSS file that could be fed to
+Dave Weiner’s mailbox style feed reader</li>
 </ul></li>
 </ul>
 <h2 id="current-innovations">Current Innovations</h2>
 <ul>
-<li>Dave Weiner’s feeder is a great way of reading a feed. As Dave pointed out my rss.xml doesn’t look great, need to fix that. The test URL is <a href="http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml">http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml</a>
+<li>Dave Weiner’s feeder is a great way of reading a feed. As Dave
+pointed out my rss.xml doesn’t look great, need to fix that. The test
+URL is <a
+href="http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml">http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Frsdoiel.github.io/rss.xml</a>
 <ul>
-<li>Compare that with James Fallows <a href="http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed">http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed</a></li>
+<li>Compare that with James Fallows <a
+href="http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed">http://feeder.scripting.com/?template=mailbox&amp;feedurl=https%3A%2F%2Ffallows.substack.com%2Ffeed</a></li>
 </ul></li>
 </ul>
 <h2 id="go-packages-to-look-at">Go packages to look at</h2>
 <ul>
-<li>gofeed package provides a universal reader, appears to be still maintained</li>
-<li>Gorrilla provides a RSS generator, Gorrilla is looking for a new maintainer and appears to have stopped evolving (i.e. is current stable, may not have a community to update it in the future)</li>
+<li>gofeed package provides a universal reader, appears to be still
+maintained</li>
+<li>Gorrilla provides a RSS generator, Gorrilla is looking for a new
+maintainer and appears to have stopped evolving (i.e. is current stable,
+may not have a community to update it in the future)</li>
 </ul>
 </section>
 
