@@ -651,12 +651,15 @@ func (meta *BlogMeta) BlogSTN(prefix string, fName string, author string) error 
 	}
 
 	dayFmt := `Monday, January 2, 2006`
-	timeFmt := `15:03 MST`
-	hourMinFmt := `15:03`
+	timeFmt := `3:04 PM`
+	//hourMinFmt := `15:03`
+	postFmt := `Monday, January 2, 2006 15:03 MST`
+	fileExtFmt := `2006-01-02_150304`
 	ext := path.Ext(fName)
 	// postFName (based on STN provided filename) but written
-	// to the appropriate date path.
-	postFName := strings.TrimSuffix(path.Base(fName), ext) + ".md"
+	// to the appropriate date path but without an extension.
+	// The end date and time of entry will complete the name.
+	postFName := strings.TrimSuffix(path.Base(fName), ext)
 	tot := len(aggregation.Entries)
 	for i, entry := range aggregation.Entries {
 		// entry metadata
@@ -674,12 +677,16 @@ func (meta *BlogMeta) BlogSTN(prefix string, fName string, author string) error 
 				keywords = append(keywords, entry.Annotations[1])
 			}
 		}
-		title := fmt.Sprintf("%s", series)
+		title := fmt.Sprintf("%s", entry.End.Format(timeFmt))
+		if series != "" {
+			title = fmt.Sprintf("%s, %s", entry.End.Format(timeFmt), series)
+		}
 		if len(keywords) > 0 {
-			title = fmt.Sprintf("%s: %s", series, strings.Join(keywords, ", "))
+			title = fmt.Sprintf("%s: %s", title, strings.Join(keywords, ", "))
 		}
 		issueNo := tot - i
-		pubDate := entry.Start.Format(DateFmt)
+		pubDate := entry.End.Format(DateFmt)
+		fileExtDate := entry.End.Format(fileExtFmt)
 		// Make sure we have a path to write the file
 		ymd, err := calcYMD(pubDate)
 		if err != nil {
@@ -690,7 +697,7 @@ func (meta *BlogMeta) BlogSTN(prefix string, fName string, author string) error 
 			return fmt.Errorf("entry %5d: %q %s\n", i, pubDate, err)
 		}
 		os.MkdirAll(dPath, 0775)
-		targetName := path.Join(dPath, postFName)
+		targetName := path.Join(dPath, fmt.Sprintf("%s-%s.md", postFName, fileExtDate))
 		out, err := os.Create(targetName)
 		if err != nil {
 			return fmt.Errorf("entry %5d: %q %s\n", i, targetName, err)
@@ -717,10 +724,9 @@ func (meta *BlogMeta) BlogSTN(prefix string, fName string, author string) error 
 		fmt.Fprintf(out, "# %s\n\n", title)
 		if author != "" {
 			// Add a by line
-			fmt.Fprintf(out, "By %s, %s\n\n", author, entry.Start.Format(DateFmt))
+			fmt.Fprintf(out, "By %s, %s\n\n", author, entry.End.Format(postFmt))
 		} else {
-			fmt.Fprintf(out, "Post: %s, %s - %s\n\n", entry.Start.Format(dayFmt),
-				entry.Start.Format(hourMinFmt), entry.End.Format(timeFmt))
+			fmt.Fprintf(out, "Post: %s, %s\n\n", entry.End.Format(dayFmt), entry.End.Format(timeFmt))
 		}
 		l := len(entry.Annotations)
 		switch {
@@ -748,7 +754,9 @@ func (meta *BlogMeta) BlogSTN(prefix string, fName string, author string) error 
 // @param prefix - a prefix path for the blog (relative to working dir)
 // @param fName - the name of the file to publish to generated blog path
 // @param dateString - A date string used to calculate the blog path, e.g.
-//                  YYYY-MM-DD maps to YYYY/MM/DD.
+//
+//	YYYY-MM-DD maps to YYYY/MM/DD.
+//
 // @returns an error type
 func (meta *BlogMeta) BlogIt(prefix string, fName string, dateString string) error {
 	var (
