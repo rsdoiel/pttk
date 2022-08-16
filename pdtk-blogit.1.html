@@ -29,18 +29,17 @@
 <!--  <h1>pdtk-blogit.1</h1> -->
 
 <h1 id="name">NAME</h1>
-<p>pdtk blogit</p>
+<p>pdtk</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>pdtk blogit <a href="#options">OPTIONS</a> POST_MARKDOWN_FILE
-[YYYY_MM_DD]</p>
+<p>pdtk blogit <a href="#options">OPTIONS</a></p>
 <p>pdtk blogit <a href="#options">OPTIONS</a> -stn STN_FILENAME</p>
 <h1 id="description">DESCRIPTION</h1>
 <p>pdtk blogit provides a quick tool to add or replace blog content
 organized around a date oriented file path. In addition to placing
 documents it also will generate simple markdown documents for inclusion
 in navigation.</p>
-<p>pdtk also includes an option to extract short (one paragraph) blog
-posts froom <a
+<p><strong>pdtk blogit</strong> also includes an option to extract short
+(one paragraph) blog posts froom <a
 href="https://rsdoiel.github.io/stngo/docs/stn.html">simple timesheet
 notation</a> file.</p>
 <h1 id="options">OPTIONS</h1>
@@ -96,7 +95,9 @@ Set the blog quip.
 </dd>
 <dt>-refresh string</dt>
 <dd>
-Refresh blog.json for a given year
+This will create/refresh the blog.json file for given year(s), if more
+than one year is to be refresh separate each year with a comma, no
+spaces. E.g. “2021,2022,2023”
 </dd>
 <dt>-save-as-yaml</dt>
 <dd>
@@ -143,21 +144,25 @@ the directory tree and and generate/update a posts.json in the
 listing recent posts.</p>
 <p><em>pdtk blogit</em> includes an option to set the prefix path to the
 blog posting. In this way you could have separate blogs structures for
-things like podcasts or video casts.</p>
+things like podcasts or videocasts.</p>
 <pre class="shell"><code>    # Add a landing page for the podcast
     pdtk blogit -prefix=podcast my-vacation.md 2021-07-01
     # Add an audio file containing the podcast
     pdtk blogit -prefix=podcast my-vacation.wav 2021-07-01</code></pre>
-<p>Where “-p, -prefix” sets the prefix path before the YYYY/MM/DD
-path.</p>
+<p>Where “-prefix” sets the prefix path before the YYYY/MM/DD path.</p>
 <p>If you have an existing blog paths in the form of PREFIX/YYYY/MM/DD
 you can use blogit to create/update/recreate the blog.json file.</p>
 <pre class="shell"><code>    pdtk blogit -prefix=blog -refresh=2021</code></pre>
 <p>The option “-refresh” is what indicates you want to crawl for blog
 posts for that year.</p>
-<p>Importing or updating blog posts from a simple timesheet notation
-file called “project-log.txt”.</p>
+<p>In this final example I am updating blog posts from a <a
+href="https://rsdoiel.github.io/stngo/docs/stn.html">simple timesheet
+notation</a> file called “project-log.txt”. I am sending those blog
+posts to the prefix directory “blog” and using the author name, “Jane
+Doe”.</p>
 <pre><code>    pdtk blogit -prefix=blog -author &#39;Jane Doe&#39; -stn project-log.txt</code></pre>
+<p>This will create individual, time stamp titled posts for each of the
+simple timesheet notation entries found in “project-log.txt”.</p>
 <h1 id="see-also">SEE ALSO</h1>
 <ul>
 <li>manual pages for <a href="pdtk.1.html">pdtk</a>, <a

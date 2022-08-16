@@ -1,14 +1,14 @@
-% pdtk-blogit(1) pdtk user manual
+% pdtk-blogit(1) pdtk-blogit user manual
 % R. S. Doiel
-% August 15, 2022
+% August 14, 2022
 
 # NAME
 
-pdtk blogit
+pdtk
 
 # SYNOPSIS
 
-pdtk blogit [OPTIONS] POST_MARKDOWN_FILE [YYYY_MM_DD]
+pdtk blogit [OPTIONS]
 
 pdtk blogit [OPTIONS] -stn STN_FILENAME
 
@@ -17,9 +17,9 @@ pdtk blogit [OPTIONS] -stn STN_FILENAME
 pdtk blogit provides a quick tool to add or replace blog content
 organized around a date oriented file path. In addition to
 placing documents it also will generate simple markdown documents
-for inclusion in navigation. 
+for inclusion in navigation.
 
-pdtk also includes an option to extract short (one paragraph) blog posts froom [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file.
+__pdtk blogit__ also includes an option to extract short (one paragraph) blog posts froom [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file.
 
 # OPTIONS
 
@@ -62,7 +62,7 @@ What follows are the options supported by the blogit verb.
 : Set the blog quip.
 
 -refresh string
-: Refresh blog.json for a given year
+: This will create/refresh the blog.json file for given year(s), if more than one year is to be refresh separate each year with a comma, no spaces.  E.g. "2021,2022,2023"
 
 -save-as-yaml
 : save as YAML file instead of blog.yaml file
@@ -79,10 +79,8 @@ What follows are the options supported by the blogit verb.
 -author
 : Set the "author" string when importing from a simple timesheet notation file.
 
-
 -verbose
 : verbose output
-
 
 # EXAMPLES
 
@@ -93,10 +91,10 @@ repository is in my "Sites" folder under "Sites/me.example.org".
 Adding "my-vacation-day.md" to the blog me.example.org would
 use the following command.
 
-```shell
+~~~shell
    cd Sites/me.example.org
    pdtk blogit my-vacation-day.md 2021-07-01
-```
+~~~
 
 The *pdtk blogit* command will copy "my-vacation-day.md",
 creating any necessary file directories to 
@@ -108,35 +106,39 @@ template for listing recent posts.
 
 *pdtk blogit* includes an option to set the prefix path to
 the blog posting.  In this way you could have separate blogs 
-structures for things like podcasts or video casts.
+structures for things like podcasts or videocasts.
 
-```shell
+~~~shell
     # Add a landing page for the podcast
     pdtk blogit -prefix=podcast my-vacation.md 2021-07-01
     # Add an audio file containing the podcast
     pdtk blogit -prefix=podcast my-vacation.wav 2021-07-01
-```
+~~~
 
-Where "-p, -prefix" sets the prefix path before the YYYY/MM/DD path.
+Where "-prefix" sets the prefix path before the YYYY/MM/DD path.
 
 
 If you have an existing blog paths in the form of
 PREFIX/YYYY/MM/DD you can use blogit to create/update/recreate
 the blog.json file.
 
-```shell
+~~~shell
     pdtk blogit -prefix=blog -refresh=2021
-```
+~~~
 
 The option "-refresh" is what indicates you want to crawl
 for blog posts for that year.
 
-Importing or updating blog posts from a simple timesheet notation
-file called "project-log.txt".
 
-```
+In this final example I am updating blog posts from a [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file called "project-log.txt". I am sending those blog posts to the
+prefix directory "blog" and using the author name, "Jane Doe".
+
+~~~
     pdtk blogit -prefix=blog -author 'Jane Doe' -stn project-log.txt
-```
+~~~
+
+This will create individual, time stamp titled posts for each of the simple timesheet notation entries found in "project-log.txt".
+
 
 # SEE ALSO
 
@@ -144,4 +146,6 @@ file called "project-log.txt".
 - pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
 - The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
 - Simple timesheet notation at [https://rsdoiel.github.io/stngo/docs/stn.html](https://rsdoiel.github.io/stngo/docs/stn.html)
+
+
 
