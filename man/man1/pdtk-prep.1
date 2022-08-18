@@ -14,9 +14,10 @@ pdtk prep is a Pandoc preprocessor.
 It can read JSON or YAML from standard input and passes that via an
 internal pipe to Pandoc as YAML front matter.
 Pandoc can then process it accordingly Pandoc options.
-Pandoc options are those options coming after a \[lq]\f[C]--\f[R]\[rq]
-marker.
-Options before \[lq]\f[C]--\f[R]\[rq] are for the pdtk preprocessor.
+Pandoc options are those options coming after a bare
+\[lq]\f[C]--\f[R]\[rq] marker.
+Options before a bare \[lq]\f[C]--\f[R]\[rq] marker are for the pdtk
+preprocessor prep.
 .SH OPTIONS
 .TP
 -help
@@ -38,30 +39,36 @@ A redirect \[lq]\f[C]<\f[R]\[rq] is used to pipe the content of
 \f[R]
 .fi
 .PP
-Render example.json as Markdown document.
-We need to use Pandoc\[cq]s own options of \[lq]-s\[rq] (stand alone)
-and \[lq]-t\[rq] (to tell Pandoc the output format)
+Or without using redirection the same result would work with
 .IP
 .nf
 \f[C]
-    pdtk prep -- -s -t markdown < example.json
+    pdtk prep example.json -- --template example.tmpl
 \f[R]
 .fi
 .PP
-Process a \[lq]codemeta.json\[rq] file with \[lq]codemeta-md.tmpl\[rq]
-to produce an about page in Markdown via Pandocs template processing
-(the \[lq]codemeta-md.tmpl\[rq] is a Pandoc template marked up to
-produce Markdown output).
+Render example.json as Markdown document.
+We need to use Pandoc\[cq]s own options of \[lq]-s\[rq] (stand alone)
+and \[lq]\[en]to\[rq] (to tell Pandoc the output format).
 .IP
 .nf
 \f[C]
-    pdtk prep -i codemeta.json \[rs]
+    pdtk prep example.json -- -s --t markdown
+\f[R]
+.fi
+.PP
+This example processes a \[lq]codemeta.json\[rq] file through
+\[lq]codemeta-md.tmpl\[rq] to produce an about page in Markdown via
+Pandocs template processing (the \[lq]codemeta-md.tmpl\[rq] is a Pandoc
+template marked up to produce Markdown output).
+.IP
+.nf
+\f[C]
+    pdtk prep codemeta.json \[rs]
         -- --template codemeta-md.tmpl \[rs]
         >about.md
 \f[R]
 .fi
-.PP
-Using pdtk to manage blog content with the \[lq]blogit\[rq] verb.
 .SH SEE ALSO
 .IP \[bu] 2
 manual pages for pdtk, pdtk-blogit, pdtk-rss

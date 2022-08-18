@@ -1,4 +1,4 @@
-// pdtk.go is a package (with sub-packages) for managing static content
+// pdtk.go is a package (with sub-packages) for managing static web content,
 // blogs and documentation via Pandoc.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>

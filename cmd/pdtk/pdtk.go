@@ -24,14 +24,9 @@ import (
 	"github.com/rsdoiel/pdtk/ws"
 )
 
-func version(appName string) string {
-	return fmt.Sprintf("%s %s\n", path.Base(appName), pdtk.Version)
-}
-
-func license(appName string) string {
-	appName = path.Base(appName)
-	src := `
-BSD 3-Clause License
+const (
+	licenseText = `
+{app_name} {version}
 
 Copyright (c) 2022, R. S. Doiel
 All rights reserved.
@@ -61,14 +56,20 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 `
-	return strings.ReplaceAll(src, "{app_name}", appName)
-}
 
-func usage(appName string) string {
-	return strings.ReplaceAll(`
-USAGE:
+	helpText = `% {app_name}(1) {app_name} user manual
+% R. S. Doiel
+% August 18, 2022
 
-  {app_name} [OPTIONS] verb [VERB_OPTIONS] [-- [PANDOC_OPTIONS] ... ]
+# NAME
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] verb [VERB_OPTIONS] [-- [PANDOC_OPTIONS] ... ]
+
+# DESCRIPTION
 
 {app_name} started as a Pandoc preprocessor. It can read JSON 
 or YAML from standard input and passes that via an internal 
@@ -79,6 +80,22 @@ the {app_name} preprossor.
 
 {app_name} has grown to include features provide through simple
 "verbs". The verbs include the following.
+
+# OPTIONS
+
+-help
+: Display help
+
+-license
+: Display license
+
+-version
+: Display version
+
+-i
+: Input filename
+
+# VERBS
 
 **help**
 : Display this help page.
@@ -101,68 +118,107 @@ metadata and supportting RSS rendering.
 : Renders sitemap.xml files for a static website
 
 
-OPTIONS
+# EXAMPLES
 
-  -help       display usage
-  -license    display license
-  -version    display version
-
-BASIC EXAMPLES
+## prep verb
 
 In this example we have a JSON object document called
 "example.json" and a Pandoc template called "example.tmpl".
 A redirect "<" is used to pipe the content of "example.json"
 into the command line tool {app_name}.
 
+~~~shell
   {app_name} prep -- --template example.tmpl < example.json
+~~~
 
 Render example.json as Markdown document. We need to use
 Pandoc's own options of "-s" (stand alone) and "-t" (to
 tell Pandoc the output format)
 
+~~~shell
   {app_name} prep -- -s -t markdown < example.json
+~~~
 
 Process a "codemeta.json" file with "codemeta-md.tmpl" to
 produce an about page in Markdown via Pandocs template
 processing (the "codemeta-md.tmpl" is a Pandoc template
 marked up to produce Markdown output).
 
+~~~shell
   {app_name} prep -i codemeta.json -o about.md \
              -- --template codemeta-md.tmpl
+~~~
+
+## blogit verb
 
 Using {app_name} to manage blog content with the "blogit"
 verb. 
 
 Adding a blog "first-post.md" to "myblog".
 
+~~~shell
   {app_name} blogit myblog $HOME/Documents/first-post.md
+~~~
 
 Adding/Updating the "first-post.md" on "2022-07-22"
 
+~~~shell
   {app_name} blogit myblog $HOME/Documents/first-post.md "2022-07-22"
+~~~
 
 Added additional material for posts on "2022-07-22"
 
+~~~shell
   {app_name} blogit myblog $HOME/Documents/charts/my-graph.svg "2022-07-22"
+~~~
 
 Refreshing the blogs's blog.json file.
 
+~~~shell
   {app_name} blogit myblog
+~~~
+
+## rss verb
 
 Using {app_name} to generate RSS for "myblog"
 
+~~~shell
   {app_name} rss myblog
+~~~
 
-Generating a sitemap in a current directory
+## sitemap verb
 
+Generating a sitemap in a current directory (i.e. the "." directory)
+
+~~~shell
   {app_name} sitemap .
+~~~
+
+## ws verb
 
 Running a static web server to view rendering site
 
+~~~shell
   {app_name} ws $HOME/Sites/myblog
+~~~
 
-`, "{app_name}", appName)
+`
+)
 
+func fmtText(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
+
+func version(appName string) string {
+	return fmt.Sprintf("%s %s\n", path.Base(appName), pdtk.Version)
+}
+
+func license(appName string) string {
+	return fmtText(licenseText, appName, pdtk.Version)
+}
+
+func usage(appName string) string {
+	return fmtText(helpText, appName, pdtk.Version)
 }
 
 func handleError(err error) {

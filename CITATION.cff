@@ -10,4 +10,4 @@ repository-code: "git+https://github.com/rsdoiel/pdtk"
 type: software
 version: 0.0.3
 license-url: "https://spdx.org/licenses/BSD-3-Clause"
-date-released: 2022-08-15
+date-released: 2022-08-18

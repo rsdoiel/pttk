@@ -16,8 +16,8 @@ pdtk prep is a Pandoc preprocessor. It can read JSON
 or YAML from standard input and passes that via an internal 
 pipe to Pandoc as YAML front matter. Pandoc can then process it
 accordingly Pandoc options. Pandoc options are those options
-coming after a "`--`" marker. Options before "`--`" are for
-the pdtk preprocessor. 
+coming after a bare "`--`" marker. Options before a bare "`--`" 
+marker are for the pdtk preprocessor prep. 
 
 # OPTIONS
 
@@ -38,27 +38,30 @@ into the command line tool pdtk.
     pdtk prep -- --template example.tmpl < example.json
 ```
 
-Render example.json as Markdown document. We need to use
-Pandoc's own options of "-s" (stand alone) and "-t" (to
-tell Pandoc the output format)
+Or without using redirection the same result would work with
 
 ```shell
-    pdtk prep -- -s -t markdown < example.json
+    pdtk prep example.json -- --template example.tmpl
 ```
 
-Process a "codemeta.json" file with "codemeta-md.tmpl" to
-produce an about page in Markdown via Pandocs template
-processing (the "codemeta-md.tmpl" is a Pandoc template
-marked up to produce Markdown output).
+Render example.json as Markdown document. We need to use
+Pandoc's own options of "-s" (stand alone) and "--to" (to
+tell Pandoc the output format).
 
 ```shell
-    pdtk prep -i codemeta.json \
+    pdtk prep example.json -- -s --t markdown
+```
+
+This example processes a "codemeta.json" file through 
+"codemeta-md.tmpl" to produce an about page in Markdown
+via Pandocs template processing (the "codemeta-md.tmpl"
+is a Pandoc template marked up to produce Markdown output).
+
+```shell
+    pdtk prep codemeta.json \
         -- --template codemeta-md.tmpl \
         >about.md
 ```
-
-Using pdtk to manage blog content with the "blogit"
-verb. 
 
 # SEE ALSO
 
