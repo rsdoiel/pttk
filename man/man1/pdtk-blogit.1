@@ -14,14 +14,14 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "pdtk-blogit" "1" "Aug, 15, 2022" "pdtk user manual" ""
+.TH "pdtk-blogit" "1" "August 14, 2022" "pdtk-blogit user manual" ""
 .hy
 .SH NAME
 .PP
-pdtk blogit
+pdtk
 .SH SYNOPSIS
 .PP
-pdtk blogit OPTIONS POST_MARKDOWN_FILE [YYYY_MM_DD]
+pdtk blogit OPTIONS
 .PP
 pdtk blogit OPTIONS -stn STN_FILENAME
 .SH DESCRIPTION
@@ -31,8 +31,8 @@ organized around a date oriented file path.
 In addition to placing documents it also will generate simple markdown
 documents for inclusion in navigation.
 .PP
-pdtk also includes an option to extract short (one paragraph) blog posts
-froom simple timesheet
+\f[B]pdtk blogit\f[R] also includes an option to extract short (one
+paragraph) blog posts froom simple timesheet
 notation (https://rsdoiel.github.io/stngo/docs/stn.html) file.
 .SH OPTIONS
 .PP
@@ -76,7 +76,11 @@ Set the prefix path before YYYY/MM/DD.
 Set the blog quip.
 .TP
 -refresh string
-Refresh blog.json for a given year
+This will create/refresh the blog.json file for given year(s), if more
+than one year is to be refresh separate each year with a comma, no
+spaces.
+E.g.
+\[lq]2021,2022,2023\[rq]
 .TP
 -save-as-yaml
 save as YAML file instead of blog.yaml file
@@ -125,7 +129,7 @@ can be used in your home page template for listing recent posts.
 \f[I]pdtk blogit\f[R] includes an option to set the prefix path to the
 blog posting.
 In this way you could have separate blogs structures for things like
-podcasts or video casts.
+podcasts or videocasts.
 .IP
 .nf
 \f[C]
@@ -136,8 +140,7 @@ podcasts or video casts.
 \f[R]
 .fi
 .PP
-Where \[lq]-p, -prefix\[rq] sets the prefix path before the YYYY/MM/DD
-path.
+Where \[lq]-prefix\[rq] sets the prefix path before the YYYY/MM/DD path.
 .PP
 If you have an existing blog paths in the form of PREFIX/YYYY/MM/DD you
 can use blogit to create/update/recreate the blog.json file.
@@ -151,14 +154,20 @@ can use blogit to create/update/recreate the blog.json file.
 The option \[lq]-refresh\[rq] is what indicates you want to crawl for
 blog posts for that year.
 .PP
-Importing or updating blog posts from a simple timesheet notation file
-called \[lq]project-log.txt\[rq].
+In this final example I am updating blog posts from a simple timesheet
+notation (https://rsdoiel.github.io/stngo/docs/stn.html) file called
+\[lq]project-log.txt\[rq].
+I am sending those blog posts to the prefix directory \[lq]blog\[rq] and
+using the author name, \[lq]Jane Doe\[rq].
 .IP
 .nf
 \f[C]
     pdtk blogit -prefix=blog -author \[aq]Jane Doe\[aq] -stn project-log.txt
 \f[R]
 .fi
+.PP
+This will create individual, time stamp titled posts for each of the
+simple timesheet notation entries found in \[lq]project-log.txt\[rq].
 .SH SEE ALSO
 .IP \[bu] 2
 manual pages for pdtk, pdtk-prep, pdtk-rss

@@ -13,7 +13,6 @@ package prep
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -27,15 +26,17 @@ func usage(appName string, verb string, exitCode int) {
 	os.Exit(exitCode)
 }
 
-func RunPrep(appName string, verb string, args []string) ([]byte, error) {
+func RunPrep(appName string, verb string, args []string) error {
 	var (
 		showHelp bool
 		input    string
+		output   string
 		err      error
 	)
 	flagSet := flag.NewFlagSet(appName, flag.ExitOnError)
 	flagSet.BoolVar(&showHelp, "help", false, "display help")
 	flagSet.StringVar(&input, "i", "", "read JSON or YAML from file")
+	flagSet.StringVar(&output, "o", "", "write Pandoc output to file")
 	flagSet.BoolVar(&verbose, "verbose", false, "verbose output")
 	flagSet.Parse(args)
 
@@ -44,18 +45,45 @@ func RunPrep(appName string, verb string, args []string) ([]byte, error) {
 		usage(appName, verb, 0)
 	}
 	SetVerbose(verbose)
+
+	if input == "" && len(args) > 0 && args[0] != "--" {
+		input = args[0]
+		args = args[1:]
+	}
+	if output == "" && len(args) > 0 && args[0] != "--" {
+		output = args[0]
+		args = args[1:]
+	}
+	// Copy out pandoc options after "--"
+	options := []string{}
+	if len(args) > 0 {
+		copyOpt := false
+		for _, arg := range args {
+			if copyOpt {
+				options = append(options, arg)
+			}
+			if arg == "--" {
+				copyOpt = true
+			}
+		}
+	}
+
 	// The default action is to just processing JSON/YAML
 	in := os.Stdin
+	out := os.Stdout
 	if input != "" && input != "-" {
 		in, err = os.Open(input)
 		if err != nil {
-			return nil, err
+			return err
 		}
 		defer in.Close()
 	}
-	buf, err := ioutil.ReadAll(in)
-	if err != nil {
-		return nil, err
+	if output != "" && output != "-" {
+		out, err = os.Create(output)
+		if err != nil {
+			return err
+		}
+		defer out.Close()
 	}
-	return Apply(buf, args)
+	return ApplyIO(in, out, options)
 }

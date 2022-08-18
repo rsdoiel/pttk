@@ -37,16 +37,17 @@ func SetVerbose(onoff bool) {
 // Buffers it. Then uses Apply and options return
 // a slice of bytes and error value.
 //
-//```shell
-//    // Options passed to Pandoc
-//    opt := []string{}
-//    out, err := pdtmpl.ReadAll(os.Stdin, "page.tmpl", opt)
-//    if err != nil {
-//       // ... handle error
-//    }
-//    fmt.Fprintf(os.Stdout, "%s\n", out)
-//```
+// ```shell
 //
+//	// Options passed to Pandoc
+//	opt := []string{}
+//	out, err := pdtmpl.ReadAll(os.Stdin, "page.tmpl", opt)
+//	if err != nil {
+//	   // ... handle error
+//	}
+//	fmt.Fprintf(os.Stdout, "%s\n", out)
+//
+// ```
 func ReadAll(r io.Reader, options []string) ([]byte, error) {
 	// Read the JSON input
 	src, err := ioutil.ReadAll(r)
@@ -67,21 +68,22 @@ func ReadFile(name string, options []string) ([]byte, error) {
 	return Apply(src, options)
 }
 
-// ApplyIO reads in JSON from an io.Reader, applies the template
-// and parameters via Format() writing the result to the io.Writer.
-// returns an error value.
+// ApplyIO reads in JSON from an io.Reader, passes options
+// such on to pandoc.
 //
-//```
-//  // Options passed to Pandoc
-//  opt := []string{}
-//  err := pdtmpl.ApplyIO(os.Stdin, os.Stdout, "example.tmpl", opt)
-//  if err != nil {
-//     // ... handle error
-//  }
-//```
+// ```
 //
+//	// Options passed to Pandoc
+//	opt := []string{"-s", "--template", "example.tmpl"}
+//	err := pdtmpl.ApplyIO(os.Stdin, os.Stdout, opt)
+//	if err != nil {
+//	   // ... handle error
+//	}
+//
+// ```
 func ApplyIO(r io.Reader, w io.Writer, options []string) error {
-	src, err := ReadAll(r, options)
+	buf, err := ioutil.ReadAll(r)
+	src, err := Apply(buf, options)
 	if err != nil {
 		return err
 	}
@@ -90,26 +92,26 @@ func ApplyIO(r io.Reader, w io.Writer, options []string) error {
 }
 
 // Apply takes a byte array (like you could read from os.Stdin
-// containing JSON or YAML. It creates a temp file and passes that to
-// Pandoc via `--metadata-file` option along with any additional
-// pandoc options provided. Pandoc then renders the output either
-// using the template name (if non-empty string) and the
-// additional options passed to Pandoc.
+// containing JSON or YAML. It creates a in memory representation
+// of Pandoc YAML front matter and pipes it to Pandoc via Pandoc's
+// standard input. Pandoc then renders the output. Apply's options
+// are simply passed as is to Pandoc when invoked.
 //
-//```
-//  src, err := ioutil.ReadFile("example.json")
-//  if err != nil {
-//     // ... handle error
-//  }
-//  // Options passed to Pandoc
-//  opt := []string{"--template", "example.tmpl"}
-//  src, err := pdtmpl.Apply(src, opt)
-//  if err != nil {
-//     // ... handle error
-//  }
-//  fmt.Printf("%s\n", src)
-//```
+// ```
 //
+//	src, err := ioutil.ReadFile("example.json")
+//	if err != nil {
+//	   // ... handle error
+//	}
+//	// Options passed to Pandoc
+//	opt := []string{"--template", "example.tmpl"}
+//	src, err := pdtmpl.Apply(src, opt)
+//	if err != nil {
+//	   // ... handle error
+//	}
+//	fmt.Printf("%s\n", src)
+//
+// ```
 func Apply(src []byte, options []string) ([]byte, error) {
 	pandoc, err := exec.LookPath("pandoc")
 	if err != nil {

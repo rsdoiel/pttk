@@ -92,10 +92,10 @@ the {app_name} preprossor.
 -version
 : Display version
 
--i
-: Input filename
-
 # VERBS
+
+Verbs have their one options. You can see a list of them
+with the form ` + "`" + `{app_name} VERB -h` + "`" + `
 
 **help**
 : Display this help page.
@@ -270,10 +270,8 @@ func main() {
 		fmt.Printf("%s\n", usage(appName))
 		os.Exit(0)
 	case "prep":
-		src, err := prep.RunPrep(appName, verb, args)
-		handleError(err)
-		if len(src) > 0 {
-			fmt.Printf("%s\n", src)
+		if err := prep.RunPrep(appName, verb, args); err != nil {
+			handleError(err)
 		}
 	case "ws":
 		if err := ws.RunWS(appName, verb, args); err != nil {

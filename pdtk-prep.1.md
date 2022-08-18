@@ -1,6 +1,6 @@
-% pdtk-prep(1) pdtk user manual
+% pdtk-prep(1) pdtk-prep user manual
 % R. S. Doiel
-% July, 31, 2022
+% August 18, 2022
 
 # NAME
 
@@ -8,66 +8,70 @@ pdtk prep
 
 # SYNOPSIS
 
-pdtk prep [OPTIONS] [`-- [PANDOC_OPTIONS] ...`]
+pdtk prep [OPTIONS] [INPUT_FILENAME] [-- [PANDOC_OPTIONS] ... ]
 
-# DESCRIPTION
+DESCRIPTION
 
 pdtk prep is a Pandoc preprocessor. It can read JSON 
 or YAML from standard input and passes that via an internal 
 pipe to Pandoc as YAML front matter. Pandoc can then process it
 accordingly Pandoc options. Pandoc options are those options
-coming after a bare "`--`" marker. Options before a bare "`--`" 
-marker are for the pdtk preprocessor prep. 
+coming after a "--" marker. Options before "--" are for
+the pdtk preprossor. 
 
 # OPTIONS
 
 -help
-: display prep usage
+: display usage
 
 -i
 : read from a file instead of standard input
+
+-o
+: write to a file instead of standard output
 
 # EXAMPLES
 
 In this example we have a JSON object document called
 "example.json" and a Pandoc template called "example.tmpl".
-A redirect "`<`" is used to pipe the content of "example.json"
+A redirect "<" is used to pipe the content of "example.json"
 into the command line tool pdtk.
 
-```shell
+~~~shell
     pdtk prep -- --template example.tmpl < example.json
-```
-
-Or without using redirection the same result would work with
-
-```shell
-    pdtk prep example.json -- --template example.tmpl
-```
+~~~
 
 Render example.json as Markdown document. We need to use
-Pandoc's own options of "-s" (stand alone) and "--to" (to
-tell Pandoc the output format).
+Pandoc's own options of "-s" (stand alone) and "-t" (to
+tell Pandoc the output format)
 
-```shell
-    pdtk prep example.json -- -s --t markdown
-```
+~~~shell
+    pdtk prep -- -s -t markdown < example.json
+~~~
 
-This example processes a "codemeta.json" file through 
-"codemeta-md.tmpl" to produce an about page in Markdown
-via Pandocs template processing (the "codemeta-md.tmpl"
-is a Pandoc template marked up to produce Markdown output).
+You can specify the input file using the "-i" option or
+provide it as the first filename after "prep". These are
+equivallent.
 
-```shell
-    pdtk prep codemeta.json \
-        -- --template codemeta-md.tmpl \
-        >about.md
-```
+~~~shell
+    pdtk prep -- -s -t markdown < example.json
+    pdtk prep -i example.json -- i -s -t markdown
+    pdtk prep example.json -- i -s -t markdown
+~~~
+
+Process a "codemeta.json" file with "codemeta-md.tmpl" to
+produce an about page in Markdown via Pandocs template
+processing (the "codemeta-md.tmpl" is a Pandoc template
+marked up to produce Markdown output).
+
+~~~shell
+    pdtk prep codemeta.json about.md \
+        -- --template codemeta-md.tmpl
+~~~
 
 # SEE ALSO
 
-- manual pages for [pdtk](pdtk.1.html), [pdtk-blogit](pdtk-blogit.1.html), [pdtk-rss](pdtk-rss.1.html)
-- pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
-- The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
-
+- pdtk website at https://rsdoiel.github.io/pdtk
+- source code is avialable from https://github.com/rsdoiel/pdtk
 
 
