@@ -18,8 +18,11 @@ Bugs
 Next
 ----
 
-- [ ] Make sure my feeds look good in Dave Weiner's reallysimple readers
-    - [ ] Add support for source namespace so I can do source:markdown element per Dave Weiner's reallysimple feeds
+- [ ] Add support for [JSONFeed](https://www.jsonfeed.org/) 1.1
+    - [ ] Evaluate if that could be the cannonical feed used to render RSS 2.0 XML and Atom XML
+    - [ ] Figure out how JSONFeed plays with what Dave Winer is doing
+- [ ] Make sure my feeds look good in Dave Winer's reallysimple readers
+    - [ ] Add support for source namespace so I can do source:markdown element per Dave Winer's reallysimple feeds
       - [ ] rss should be able to understandard a markdown/html file relationship and transform it into RSS 2 with Markdown source elements where appropriate
     - See http://source.scripting.com/#1653758422000
     - Example, see http://feeder.scripting.com/?template=mailbox&feedurl=http://scripting.com/rss.xml
