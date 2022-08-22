@@ -18,6 +18,8 @@ Bugs
 Next
 ----
 
+- [ ] Review Micro.blog's [Archive Format](https://book.micro.blog/blog-archive-format/)
+    - [ ] Review implementation used by [Daring Fireball](https://daringfireball.net/feeds/json)
 - [ ] Add support for [JSONFeed](https://www.jsonfeed.org/) 1.1
     - [ ] Evaluate if that could be the cannonical feed used to render RSS 2.0 XML and Atom XML
     - [ ] Figure out how JSONFeed plays with what Dave Winer is doing
