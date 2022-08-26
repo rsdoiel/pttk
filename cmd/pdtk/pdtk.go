@@ -19,6 +19,7 @@ import (
 
 	"github.com/rsdoiel/pdtk"
 	"github.com/rsdoiel/pdtk/blogit"
+	"github.com/rsdoiel/pdtk/include"
 	"github.com/rsdoiel/pdtk/prep"
 	"github.com/rsdoiel/pdtk/rss"
 	"github.com/rsdoiel/pdtk/ws"
@@ -111,6 +112,9 @@ with the form ` + "`" + `{app_name} VERB -h` + "`" + `
 or updating existing ones. It maintains a blog.json document collecting
 metadata and supportting RSS rendering.
 
+**include**
+: Include any files indicated by an include directive (e.g. "#include(toc.md);"). Include operates recursively so included files can also include other files.
+
 **rss**
 : Renders RSS feeds from the contents of a blog.json document
 
@@ -202,6 +206,30 @@ Running a static web server to view rendering site
   {app_name} ws $HOME/Sites/myblog
 ~~~
 
+## include verb
+
+Including a table of contents "toc.md", and "chapters1.md"
+and "chapters2.md" in a file called "book.txt" and writing
+the result to "book.md".
+
+The "book.txt" file would look like
+
+~~~
+   # My Book
+
+   #include(toc.md);
+
+   #include(chapter1.md);
+
+   #include(chapter2.md);
+~~~
+
+Putting the "book" together as on file.
+
+~~~shell
+	{app_name} {verb} book.txt book.md
+~~~
+
 `
 )
 
@@ -286,6 +314,10 @@ func main() {
 		handleError(err)
 		if len(src) > 0 {
 			fmt.Printf("%s\n", src)
+		}
+	case "include":
+		if err := include.RunInclude(appName, verb, args); err != nil {
+			handleError(err)
 		}
 	case "sitemap":
 		handleError(fmt.Errorf("%s %s not implemented", appName, verb))

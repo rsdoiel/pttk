@@ -31,64 +31,66 @@
 <h1 id="todo">TODO</h1>
 <h2 id="bugs">Bugs</h2>
 <ul class="task-list">
-<li><input type="checkbox" disabled="" checked="" />RSS Feed isn’t
-passing validation,<ul>
-<li><input type="checkbox" disabled="" checked="" />Dates must comply
-with http://www.faqs.org/rfcs/rfc822.html<ul>
-<li>NOTE: For Go time.Time what passes validators is RFC1123Z formatted
-dates.</li>
+<li><input type="checkbox" disabled="" checked="" />
+RSS Feed isn’t passing validation,<ul>
+<li><input type="checkbox" disabled="" checked="" />
+Dates must comply with http://www.faqs.org/rfcs/rfc822.html<ul>
+<li>NOTE: For Go time.Time what passes validators is RFC1123Z formatted dates.</li>
 </ul></li>
-<li><input type="checkbox" disabled="" checked="" />Missing Atom
-relationship element</li>
-<li><input type="checkbox" disabled="" checked="" />Links need to point
-at .html files not .md files</li>
+<li><input type="checkbox" disabled="" checked="" />
+Missing Atom relationship element</li>
+<li><input type="checkbox" disabled="" checked="" />
+Links need to point at .html files not .md files</li>
 <li>Make sure it passes with at least two validators
 <ul class="task-list">
-<li><input type="checkbox" disabled="" checked="" />W3C validator:
-https://validator.w3.org/feed/</li>
-<li><input type="checkbox" disabled="" checked="" />RSS Board:
-https://www.rssboard.org/rss-validator/</li>
+<li><input type="checkbox" disabled="" checked="" />
+W3C validator: https://validator.w3.org/feed/</li>
+<li><input type="checkbox" disabled="" checked="" />
+RSS Board: https://www.rssboard.org/rss-validator/</li>
 </ul></li>
 </ul></li>
 </ul>
 <h2 id="next">Next</h2>
 <ul class="task-list">
-<li><input type="checkbox" disabled="" />Make sure my feeds look good in
-Dave Weiner’s reallysimple readers<ul>
-<li><input type="checkbox" disabled="" />Add support for source
-namespace so I can do source:markdown element per Dave Weiner’s
-reallysimple feeds<ul class="task-list">
-<li><input type="checkbox" disabled="" />rss should be able to
-understandard a markdown/html file relationship and transform it into
-RSS 2 with Markdown source elements where appropriate</li>
+<li><input type="checkbox" disabled="" />
+Review Micro.blog’s <a href="https://book.micro.blog/blog-archive-format/">Archive Format</a><ul class="task-list">
+<li><input type="checkbox" disabled="" />
+Review implementation used by <a href="https://daringfireball.net/feeds/json">Daring Fireball</a></li>
+</ul></li>
+<li><input type="checkbox" disabled="" />
+Add support for <a href="https://www.jsonfeed.org/">JSONFeed</a> 1.1<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+Evaluate if that could be the cannonical feed used to render RSS 2.0 XML and Atom XML</li>
+<li><input type="checkbox" disabled="" />
+Figure out how JSONFeed plays with what Dave Winer is doing</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />
+Make sure my feeds look good in Dave Winer’s reallysimple readers<ul>
+<li><input type="checkbox" disabled="" />
+Add support for source namespace so I can do source:markdown element per Dave Winer’s reallysimple feeds<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+rss should be able to understandard a markdown/html file relationship and transform it into RSS 2 with Markdown source elements where appropriate</li>
 </ul></li>
 <li>See http://source.scripting.com/#1653758422000</li>
-<li>Example, see
-http://feeder.scripting.com/?template=mailbox&amp;feedurl=http://scripting.com/rss.xml</li>
-<li>Example, see
-http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/index.xml</li>
-<li>Example, see
-http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/rss.xml</li>
+<li>Example, see http://feeder.scripting.com/?template=mailbox&amp;feedurl=http://scripting.com/rss.xml</li>
+<li>Example, see http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/index.xml</li>
+<li>Example, see http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/rss.xml</li>
 </ul></li>
-<li><input type="checkbox" disabled="" checked="" />blog.json needs to
-contain enough metadata to easily render the RSS feeed. The addtional
-data could be set via blogit options</li>
-<li><input type="checkbox" disabled="" checked="" />I need to support
-generating multiple feeds for a website, e.g. site, blog, article
-series<ul class="task-list">
-<li><input type="checkbox" disabled="" checked="" />rss should be able
-to produce a “feed” for all pages in a website using Markdown document’s
-front matter where there is a matching html document</li>
-<li><input type="checkbox" disabled="" checked="" />rss should be able
-to produce a “feed” for a selected set of pages driven from YAML front
-matter elements like “series” name</li>
+<li><input type="checkbox" disabled="" checked="" />
+blog.json needs to contain enough metadata to easily render the RSS feeed. The addtional data could be set via blogit options</li>
+<li><input type="checkbox" disabled="" checked="" />
+I need to support generating multiple feeds for a website, e.g. site, blog, article series<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />
+rss should be able to produce a “feed” for all pages in a website using Markdown document’s front matter where there is a matching html document</li>
+<li><input type="checkbox" disabled="" checked="" />
+rss should be able to produce a “feed” for a selected set of pages driven from YAML front matter elements like “series” name</li>
 </ul></li>
-<li><input type="checkbox" disabled="" />sitemap needs to be implemented
-and support links to sub-site maps</li>
-<li><input type="checkbox" disabled="" />I need to render an index
-listing pages from Front Matter of content pages<ul class="task-list">
-<li><input type="checkbox" disabled="" />Review how Rmarkdown/RStudio
-handle inclusion by front matter switches</li>
+<li><input type="checkbox" disabled="" />
+sitemap needs to be implemented and support links to sub-site maps</li>
+<li><input type="checkbox" disabled="" />
+I need to render an index listing pages from Front Matter of content pages<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+Review how Rmarkdown/RStudio handle inclusion by front matter switches</li>
 </ul></li>
 </ul>
 </section>

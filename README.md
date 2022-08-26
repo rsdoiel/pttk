@@ -48,6 +48,8 @@ __prep__
 : a Pandoc preprocess that accepts JSON and pipes it into
 Pandoc for processing
 
+__include__
+: A "include" preprocessor including files with via an "#include();" directive.
 
 __blogit__ is a tool to make it easy to separate website generation
 from where you might want to write your blog posts. It will generate
