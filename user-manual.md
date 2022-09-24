@@ -10,5 +10,6 @@ user manual
 - [Including files](pdtk-include.1.html)
 - [Blogging](pdtk-blogit.1.html)
 - [RSS Feeds](pdtk-rss.1.html)
-- [Preview your site](pdtk-ws.1.html)
+- [Preview your website](pdtk-ws.1.html)
+- [Preview in Gopher](pdtk-gs.1.html)
 
