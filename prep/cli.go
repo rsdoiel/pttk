@@ -26,47 +26,62 @@ func usage(appName string, verb string, exitCode int) {
 	os.Exit(exitCode)
 }
 
-func RunPrep(appName string, verb string, args []string) error {
+func RunPrep(appName string, verb string, vargs []string) error {
 	var (
 		showHelp bool
 		input    string
 		output   string
 		err      error
 	)
-	flagSet := flag.NewFlagSet(appName, flag.ExitOnError)
-	flagSet.BoolVar(&showHelp, "help", false, "display help")
-	flagSet.StringVar(&input, "i", "", "read JSON or YAML from file")
-	flagSet.StringVar(&output, "o", "", "write Pandoc output to file")
-	flagSet.BoolVar(&verbose, "verbose", false, "verbose output")
-	flagSet.Parse(args)
-
-	args = flagSet.Args()
-	if showHelp {
-		usage(appName, verb, 0)
-	}
-	SetVerbose(verbose)
-
-	if input == "" && len(args) > 0 && args[0] != "--" {
-		input = args[0]
-		args = args[1:]
-	}
-	if output == "" && len(args) > 0 && args[0] != "--" {
-		output = args[0]
-		args = args[1:]
-	}
 	// Copy out pandoc options after "--"
 	options := []string{}
-	if len(args) > 0 {
+	if len(vargs) > 0 {
 		copyOpt := false
-		for _, arg := range args {
+		cutPos := -1
+		for i, arg := range vargs {
 			if copyOpt {
 				options = append(options, arg)
 			}
 			if arg == "--" {
 				copyOpt = true
+				cutPos = i
 			}
 		}
+		if copyOpt && cutPos > -1 {
+			vargs = vargs[0:cutPos]
+		}
 	}
+
+	flagSet := flag.NewFlagSet(appName, flag.ExitOnError)
+	flagSet.BoolVar(&showHelp, "help", false, "display help")
+	flagSet.StringVar(&input, "i", "", "read JSON or YAML from file")
+	flagSet.StringVar(&output, "o", "", "write Pandoc output to file")
+	flagSet.BoolVar(&verbose, "verbose", false, "verbose output")
+
+	flagSet.Parse(vargs)
+	args := flagSet.Args()
+	if showHelp {
+		usage(appName, verb, 0)
+	}
+	SetVerbose(verbose)
+
+	//fmt.Printf("DEBUG vargs -> %+v\n", vargs)
+	//fmt.Printf("DEBUG args -> %+v\n", args)
+
+	if input == "" && len(args) > 0 && !strings.HasPrefix(args[0], "--") {
+		input = args[0]
+		args = args[1:]
+	}
+	if output == "" && len(args) > 0 && !strings.HasPrefix(args[0], "--") {
+		output = args[0]
+		args = args[1:]
+	}
+	if len(args) > 0 {
+		return fmt.Errorf("did not expect remaining args: %+v\n", args)
+	}
+
+	//fmt.Printf("DEBUG input %q, output %q\n", input, output)
+	//fmt.Printf("DEBUG options %+v\n", options)
 
 	// The default action is to just processing JSON/YAML
 	in := os.Stdin
@@ -85,5 +100,6 @@ func RunPrep(appName string, verb string, args []string) error {
 		}
 		defer out.Close()
 	}
+	//return fmt.Errorf("DEBUG test option processing")
 	return ApplyIO(in, out, options)
 }

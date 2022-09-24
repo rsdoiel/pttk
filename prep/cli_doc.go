@@ -11,7 +11,7 @@ const (
 
 # SYNOPSIS
 
-{app_name} {verb} [OPTIONS] [INPUT_FILENAME] [-- [PANDOC_OPTIONS] ... ]
+{app_name} {verb} [OPTIONS] [INPUT_FILENAME] [OUTPUT_FILENAME] [-- [PANDOC_OPTIONS] ... ]
 
 # DESCRIPTION
 

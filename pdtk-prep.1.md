@@ -8,16 +8,16 @@ pdtk prep
 
 # SYNOPSIS
 
-pdtk prep [OPTIONS] [INPUT_FILENAME] [-- [PANDOC_OPTIONS] ... ]
+pdtk prep [OPTIONS] [INPUT_FILENAME] [OUTPUT_FILENAME] [-- [PANDOC_OPTIONS] ... ]
 
-DESCRIPTION
+# DESCRIPTION
 
-pdtk prep is a Pandoc preprocessor. It can read JSON 
-or YAML from standard input and passes that via an internal 
+pdtk prep is a Pandoc preprocessor. It can read JSON
+or YAML from standard input and passes that via an internal
 pipe to Pandoc as YAML front matter. Pandoc can then process it
 accordingly Pandoc options. Pandoc options are those options
-coming after a "--" marker. Options before "--" are for
-the pdtk preprossor. 
+coming after a "--" (double dash) marker. Options before "--"
+are for the pdtk preprossor.
 
 # OPTIONS
 
