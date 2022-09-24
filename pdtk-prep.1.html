@@ -31,31 +31,48 @@
 <h1 id="name">NAME</h1>
 <p>pdtk prep</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>pdtk prep <a href="#options">OPTIONS</a> [INPUT_FILENAME] [– [PANDOC_OPTIONS] … ]</p>
+<p>pdtk prep <a href="#options">OPTIONS</a> [INPUT_FILENAME] [–
+[PANDOC_OPTIONS] … ]</p>
 <p>DESCRIPTION</p>
-<p>pdtk prep is a Pandoc preprocessor. It can read JSON or YAML from standard input and passes that via an internal pipe to Pandoc as YAML front matter. Pandoc can then process it accordingly Pandoc options. Pandoc options are those options coming after a “–” marker. Options before “–” are for the pdtk preprossor.</p>
+<p>pdtk prep is a Pandoc preprocessor. It can read JSON or YAML from
+standard input and passes that via an internal pipe to Pandoc as YAML
+front matter. Pandoc can then process it accordingly Pandoc options.
+Pandoc options are those options coming after a “–” marker. Options
+before “–” are for the pdtk preprossor.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>display usage
+<dd>
+display usage
 </dd>
 <dt>-i</dt>
-<dd>read from a file instead of standard input
+<dd>
+read from a file instead of standard input
 </dd>
 <dt>-o</dt>
-<dd>write to a file instead of standard output
+<dd>
+write to a file instead of standard output
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>In this example we have a JSON object document called “example.json” and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used to pipe the content of “example.json” into the command line tool pdtk.</p>
+<p>In this example we have a JSON object document called “example.json”
+and a Pandoc template called “example.tmpl”. A redirect “&lt;” is used
+to pipe the content of “example.json” into the command line tool
+pdtk.</p>
 <pre class="shell"><code>    pdtk prep -- --template example.tmpl &lt; example.json</code></pre>
-<p>Render example.json as Markdown document. We need to use Pandoc’s own options of “-s” (stand alone) and “-t” (to tell Pandoc the output format)</p>
+<p>Render example.json as Markdown document. We need to use Pandoc’s own
+options of “-s” (stand alone) and “-t” (to tell Pandoc the output
+format)</p>
 <pre class="shell"><code>    pdtk prep -- -s -t markdown &lt; example.json</code></pre>
-<p>You can specify the input file using the “-i” option or provide it as the first filename after “prep”. These are equivallent.</p>
+<p>You can specify the input file using the “-i” option or provide it as
+the first filename after “prep”. These are equivallent.</p>
 <pre class="shell"><code>    pdtk prep -- -s -t markdown &lt; example.json
     pdtk prep -i example.json -- i -s -t markdown
     pdtk prep example.json -- i -s -t markdown</code></pre>
-<p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an about page in Markdown via Pandocs template processing (the “codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown output).</p>
+<p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an
+about page in Markdown via Pandocs template processing (the
+“codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown
+output).</p>
 <pre class="shell"><code>    pdtk prep codemeta.json about.md \
         -- --template codemeta-md.tmpl</code></pre>
 <h1 id="see-also">SEE ALSO</h1>

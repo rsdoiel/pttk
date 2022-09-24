@@ -1,0 +1,18 @@
+1PDTK	/	localhost	7000
+
+Welcome to PDTK
+
+     PDTK is a deconstructed content management system for use
+     with rendering engines like Pandoc.
+
+This map is provided to test the "gs" verb provided by pdtk cli.
+
+hPandoc	GET /	pandoc.org	80
+
+hGitHub Repo	GET /rsdoiel/pdtk	github.com	80
+
+0README	/README.md	localhost	7000
+0IDEAS	/IDEAS.md	localhost	7000
+0TODO	/TODO.md	localhost	7000
+0CITATION	/CITATION.cff	localhost	7000
+<- 67 chars ------------------------------------------------------>

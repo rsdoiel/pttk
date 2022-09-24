@@ -18,6 +18,8 @@ Bugs
 Next
 ----
 
+- [ ] Review [Micropubs spec](https://micropub.spec.indieweb.org/)
+- [ ] Review [JSONFeed spec](https://www.jsonfeed.org/)
 - [ ] Review Micro.blog's [Archive Format](https://book.micro.blog/blog-archive-format/)
     - [ ] Review implementation used by [Daring Fireball](https://daringfireball.net/feeds/json)
 - [ ] Add support for [JSONFeed](https://www.jsonfeed.org/) 1.1

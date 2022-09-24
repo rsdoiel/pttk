@@ -1,5 +1,5 @@
-// ws.go is a sub-package pdtk. A packages for managing static content
-// blogs and documentation via Pandoc.
+// gs.go is a sub-package pdtk. This package for testing a static content
+// Gopher site.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>
 //
@@ -8,7 +8,7 @@
 //
 // License under the 3-Clause BSD License
 // See https://opensource.org/licenses/BSD-3-Clause
-package ws
+package gs
 
 const (
 	helpText = `% {app_name}-{verb}(1) {app_name}-{verb} user manual
@@ -19,20 +19,19 @@ const (
 
 {app_name} {verb}
 
-# USAGE
-
-{app_name} {verb} [HTDOC_PATH] [URL_TO_LISTEN_FOR] [OPTIONS]
-
 # SYNOPSIS
 
-{app_name} {verb} provides a simple static web server for
-testing the content you're rendering with Pandoc (or
-other static site generator).
+{app_name} {verb} [HTDOC_PATH] [OPTIONS]
+
+# DESCRIPTION
+
+{app_name} {verb} provides a simple static gopher server for
+testing the content you're Gopher content.
 
 # EXAMPLE
 
 In the example the htdoc directory is called "myblog"
-and you can view the result at http://localhost:8000.
+and you can view the result at gopher://localhost:7000.
 
   {app_name} {verb} $HOME/Sites/myblog
 

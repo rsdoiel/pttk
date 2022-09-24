@@ -19,6 +19,7 @@ import (
 
 	"github.com/rsdoiel/pdtk"
 	"github.com/rsdoiel/pdtk/blogit"
+	"github.com/rsdoiel/pdtk/gs"
 	"github.com/rsdoiel/pdtk/include"
 	"github.com/rsdoiel/pdtk/prep"
 	"github.com/rsdoiel/pdtk/rss"
@@ -72,12 +73,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # DESCRIPTION
 
-{app_name} started as a Pandoc preprocessor. It can read JSON 
-or YAML from standard input and passes that via an internal 
+{app_name} started as a Pandoc preprocessor. It can read JSON
+or YAML from standard input and passes that via an internal
 pipe to Pandoc as YAML front matter. Pandoc can then process it
 accordingly Pandoc options. Pandoc options are those options
 coming after a "--" marker. Options before "--" are for
-the {app_name} preprossor. 
+the {app_name} preprossor.
 
 {app_name} has grown to include features provide through simple
 "verbs". The verbs include the following.
@@ -106,6 +107,9 @@ with the form ` + "`" + `{app_name} VERB -h` + "`" + `
 
 **ws**
 : Runs a simple static web server for checking static site development
+
+**gs**
+: Runs a simple Gopher service for static site development
 
 **blogit**
 : Renders a blog directory structure by "importing" Markdown documents
@@ -156,7 +160,7 @@ marked up to produce Markdown output).
 ## blogit verb
 
 Using {app_name} to manage blog content with the "blogit"
-verb. 
+verb.
 
 Adding a blog "first-post.md" to "myblog".
 
@@ -204,6 +208,14 @@ Running a static web server to view rendering site
 
 ~~~shell
   {app_name} ws $HOME/Sites/myblog
+~~~
+
+## gs verb
+
+Running a static gopher server to view rendering site
+
+~~~
+  {app_name} gs $HOME/Sites/myblog
 ~~~
 
 ## include verb
@@ -303,6 +315,10 @@ func main() {
 		}
 	case "ws":
 		if err := ws.RunWS(appName, verb, args); err != nil {
+			handleError(err)
+		}
+	case "gs":
+		if err := gs.RunGS(appName, verb, args); err != nil {
 			handleError(err)
 		}
 	case "blogit":

@@ -24,7 +24,7 @@ endif
 
 OS = $(shell uname)
 
-EXT = 
+EXT =
 ifeq ($(OS), Windows)
 	EXT = .exe
 endif
@@ -46,7 +46,7 @@ CITATION.cff: .FORCE
 
 about.md: codemeta.json $(PROGRAMS)
 	./bin/pdtk prep -i codemeta.json -- --template codemeta-md.tmpl >about.md
-	
+
 
 $(PROGRAMS): cmd/*/*.go $(PACKAGE)
 	@mkdir -p bin
@@ -66,6 +66,7 @@ install: build man .FORCE
 	@cp -v man/man1/pdtk-blogit.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pdtk-rss.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pdtk-ws.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pdtk-gs.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pdtk-include.1 $(PREFIX)/man/man1/
 	@echo ""
 	@echo "Make sure $(PREFIX)/man is in your MANPATH"
@@ -79,9 +80,10 @@ uninstall: .FORCE
 	-rm $(PREFIX)/man/man1/pdtk-blogit.1
 	-rm $(PREFIX)/man/man1/pdtk-rss.1
 	-rm $(PREFIX)/man/man1/pdtk-ws.1
+	-rm $(PREFIX)/man/man1/pdtk-gs.1
 	-rm $(PREFIX)/man/man1/pdtk-include.1
 
-man: man/man1/pdtk.1 man/man1/pdtk-prep.1 man/man1/pdtk-blogit.1 man/man1/pdtk-rss.1 man/man1/pdtk-ws.1 man/man1/pdtk-include.1 .FORCE
+man: man/man1/pdtk.1 man/man1/pdtk-prep.1 man/man1/pdtk-blogit.1 man/man1/pdtk-rss.1 man/man1/pdtk-ws.1 man/man1/pdtk-gs.1 man/man1/pdtk-include.1 .FORCE
 
 man/man1/pdtk.1: pdtk.1.md
 	mkdir -p man/man1
@@ -103,6 +105,10 @@ man/man1/pdtk-ws.1: pdtk-ws.1.md
 	mkdir -p man/man1
 	pandoc pdtk-ws.1.md -s -t man -o man/man1/pdtk-ws.1
 
+man/man1/pdtk-gs.1: pdtk-gs.1.md
+	mkdir -p man/man1
+	pandoc pdtk-gs.1.md -s -t man -o man/man1/pdtk-gs.1
+
 man/man1/pdtk-include.1: pdtk-include.1.md
 	mkdir -p man/man1
 	pandoc pdtk-include.1.md -s -t man -o man/man1/pdtk-include.1
@@ -120,7 +126,7 @@ test: clean build
 cleanweb:
 	@if [ -f index.html ]; then rm *.html; fi
 
-clean: 
+clean:
 	@if [ -d bin ]; then rm -fR bin; fi
 	@if [ -d dist ]; then rm -fR dist; fi
 	@if [ -d testout ]; then rm -fR testout; fi

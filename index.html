@@ -28,111 +28,197 @@
 <section>
 <!--  <h1>README</h1> -->
 
-<p><a href="https://www.repostatus.org/#concept"><img src="https://www.repostatus.org/badges/latest/concept.svg" alt="Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept." /></a></p>
+<p><a href="https://www.repostatus.org/#concept"><img
+src="https://www.repostatus.org/badges/latest/concept.svg"
+alt="Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept." /></a></p>
 <h1 id="pdtk">pdtk</h1>
-<p><strong>pdtk</strong> is a tool kit for writing. The main focus is on static site generation using Pandoc. The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a Pandoc preprocessor called prep, a blogging tool called blogit as well as an RSS generator. In this way you should be able to have many of the website features you’d expect from a dynamic content management system like Wordpress without the need to run one.</p>
-<p><strong>pdtk</strong> is a proof-of-concept Go package which makes it easy to extend your Go application to incorporate Pandoc template processing or develop other content manage tools.</p>
+<p><strong>pdtk</strong> is a tool kit for writing. The main focus is on
+static site generation using Pandoc. The metaphor behind the tool kit is
+a deconstructed content management system. It is easily scripted from
+your favorite POSIX shell or Makefile. It provides a number of functions
+including a Pandoc preprocessor called prep, a blogging tool called
+blogit as well as an RSS generator. In this way you should be able to
+have many of the website features you’d expect from a dynamic content
+management system like Wordpress without the need to run one.</p>
+<p><strong>pdtk</strong> is a proof-of-concept Go package which makes it
+easy to extend your Go application to incorporate Pandoc template
+processing or develop other content manage tools.</p>
 <h2 id="a-command-line-tool-kit">A command line tool kit</h2>
-<p><strong>pdtk</strong> is a program that works on the command line or shell. <strong>pdtk</strong> usage is structured around the idea “verbs” or actions. Each “verb” can have it’s own set of options and command syntax.</p>
+<p><strong>pdtk</strong> is a program that works on the command line or
+shell. <strong>pdtk</strong> usage is structured around the idea “verbs”
+or actions. Each “verb” can have it’s own set of options and command
+syntax.</p>
 <p>The basic usage is as follows</p>
 <pre><code>   pdtk VERB [OPTIONS]</code></pre>
-<p>Currently there are four verbs supported by <strong>pdtk</strong>.</p>
+<p>Currently there are four verbs supported by
+<strong>pdtk</strong>.</p>
 <dl>
 <dt><strong>blogit</strong></dt>
-<dd>A tool for manage a blog directory structure and a “blog.json” metadata file
+<dd>
+A tool for manage a blog directory structure and a “blog.json” metadata
+file
 </dd>
 <dt><strong>rss</strong></dt>
-<dd>A tool for generating RSS files from blogit
+<dd>
+A tool for generating RSS files from blogit
 </dd>
 <dt><strong>sitemap</strong></dt>
-<dd>A tool for generating a sitemap.xml file.
+<dd>
+A tool for generating a sitemap.xml file.
 </dd>
 <dt><strong>prep</strong></dt>
-<dd>a Pandoc preprocess that accepts JSON and pipes it into Pandoc for processing
+<dd>
+a Pandoc preprocess that accepts JSON and pipes it into Pandoc for
+processing
 </dd>
 <dt><strong>include</strong></dt>
-<dd>A “include” preprocessor including files with via an “#include();” directive.
+<dd>
+A “include” preprocessor including files with via an “#include();”
+directive.
 </dd>
 </dl>
-<p><strong>blogit</strong> is a tool to make it easy to separate website generation from where you might want to write your blog posts. It will generate and maintain a blog style directory structure. A blog directory structure is usually in the form of <code>/YYYY/MM/DD/</code> where “YYYY” is a year, “MM” is a two digit month and “DD” is a two digit day representation. It also maintains a “blog.json” document that describes the metadata and layout for your blog. <strong>blogit</strong> uses the front matter in your Markdown documents to know things like titles, post dates and authorship. The two <strong>pdtk</strong> verbs “rss” and “sitemap” know how to interpret the blog.json to generate RSS and sitemap.xml respectively.</p>
+<p><strong>blogit</strong> is a tool to make it easy to separate website
+generation from where you might want to write your blog posts. It will
+generate and maintain a blog style directory structure. A blog directory
+structure is usually in the form of <code>/YYYY/MM/DD/</code> where
+“YYYY” is a year, “MM” is a two digit month and “DD” is a two digit day
+representation. It also maintains a “blog.json” document that describes
+the metadata and layout for your blog. <strong>blogit</strong> uses the
+front matter in your Markdown documents to know things like titles, post
+dates and authorship. The two <strong>pdtk</strong> verbs “rss” and
+“sitemap” know how to interpret the blog.json to generate RSS and
+sitemap.xml respectively.</p>
 <p>The form of the <strong>blogit</strong> command is</p>
 <pre class="shell"><code>    pdtk blogit PATH_TO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]</code></pre>
-<p>In this example I have a Markdown document I want to use as a blog post in <code>$HOME/Documents/pdtk-tutorial.md</code>. I’m generating my blog in a directory called <code>$HOME/Sites/my-website/blog</code>. If I want to “blog” the document I first change to “my-website” directory and use <strong>blogit</strong> to update my blog.</p>
+<p>In this example I have a Markdown document I want to use as a blog
+post in <code>$HOME/Documents/pdtk-tutorial.md</code>. I’m generating my
+blog in a directory called <code>$HOME/Sites/my-website/blog</code>. If
+I want to “blog” the document I first change to “my-website” directory
+and use <strong>blogit</strong> to update my blog.</p>
 <pre class="shell"><code>   cd $HOME/Sites/my-website/blog
    pdtk blogit $HOME/Documents/pdtk-tutorial.md</code></pre>
-<p>The <strong>blogit</strong> verb assumes you are in the current working directory where you have your blog.</p>
-<p>By default <strong>blogit</strong> will use the current date in “YYYY-MM-DD” format for the blog post. If you want to have the post on a specific day then you include the date for the post in “YYYY-MM-DD” format. Here’s an example of posting the tutorial on 2022-08-01 (August 8th, 2022).</p>
+<p>The <strong>blogit</strong> verb assumes you are in the current
+working directory where you have your blog.</p>
+<p>By default <strong>blogit</strong> will use the current date in
+“YYYY-MM-DD” format for the blog post. If you want to have the post on a
+specific day then you include the date for the post in “YYYY-MM-DD”
+format. Here’s an example of posting the tutorial on 2022-08-01 (August
+8th, 2022).</p>
 <pre class="shell"><code>   cd $HOME/Sites/my-website/blog
    pdtk blogit $HOME/Documents/pdtk-tutorial.md 2022-08-08</code></pre>
-<p><strong>rss</strong> is the verb used to generate an RSS feed from a <strong>blogit</strong> blog.json file. The format of the command is</p>
+<p><strong>rss</strong> is the verb used to generate an RSS feed from a
+<strong>blogit</strong> blog.json file. The format of the command is</p>
 <pre class="shell"><code>    pdtk rss PATH_TO_BLOG_JSON PATH_TO_RSS_FILE</code></pre>
-<p>If I want my blog feed to be <code>feeds/index.xml</code> in the Wordpress style for my blog in the <code>blog</code> directory I would change to <code>my-website</code> directory and then use the <strong>rss</strong> as follows.</p>
+<p>If I want my blog feed to be <code>feeds/index.xml</code> in the
+Wordpress style for my blog in the <code>blog</code> directory I would
+change to <code>my-website</code> directory and then use the
+<strong>rss</strong> as follows.</p>
 <pre class="shell"><code>    cd $HOME/Sites/my-website
     pdtk rss blog/blog.json feeds/index.xml</code></pre>
-<p>This will generate our <code>feeds/index.xml</code> document. If the feeds directory doesn’t exist it’ll get created. Updating the RSS picking up new post is just a matter of invoking <code>pdtk rss</code> the command again.</p>
-<p><strong>sitemap</strong> generates a “sitemap.xml” file that describes the site layout to searching crawlers. The specification for sitemap.xml stipulates a maximum number of entries in the sitemap.xml. For large websites this used to be a problem but the specification allows for multiple sitemaps to be used. The <strong>sitemap</strong> verb will generate a sitemap.xml in the root website directory and in any sub-directories of the website. If Markdown documents are found then it’ll use front matter for the matching HTML files and “blog.json” file for the blog content.</p>
+<p>This will generate our <code>feeds/index.xml</code> document. If the
+feeds directory doesn’t exist it’ll get created. Updating the RSS
+picking up new post is just a matter of invoking <code>pdtk rss</code>
+the command again.</p>
+<p><strong>sitemap</strong> generates a “sitemap.xml” file that
+describes the site layout to searching crawlers. The specification for
+sitemap.xml stipulates a maximum number of entries in the sitemap.xml.
+For large websites this used to be a problem but the specification
+allows for multiple sitemaps to be used. The <strong>sitemap</strong>
+verb will generate a sitemap.xml in the root website directory and in
+any sub-directories of the website. If Markdown documents are found then
+it’ll use front matter for the matching HTML files and “blog.json” file
+for the blog content.</p>
 <p>The form for <strong>sitemap</strong> is simple.</p>
 <pre><code>   ptdk sitemap [ROOT_WEBSITE_DIRECTORY]</code></pre>
 <p>Here’s an example for our “my-website” directory.</p>
 <pre><code>    pdtk sitemap $HOME/Sites/my-website</code></pre>
-<p>This wold generate a sitemap file of <code>$HOME/Sites/my-website/sitemap.xml</code> and if necessary ones in the sub directories like <code>blog</code>.</p>
-<p>The <strong>prep</strong> “verb” is the most elaborate. It accepts JSON, transforms it into YAML front matter and pipes it into Pandoc for further processing. That make it easy to transform the data structures using Pandoc as data template engine into documents such as web pages.</p>
+<p>This wold generate a sitemap file of
+<code>$HOME/Sites/my-website/sitemap.xml</code> and if necessary ones in
+the sub directories like <code>blog</code>.</p>
+<p>The <strong>prep</strong> “verb” is the most elaborate. It accepts
+JSON, transforms it into YAML front matter and pipes it into Pandoc for
+further processing. That make it easy to transform the data structures
+using Pandoc as data template engine into documents such as web
+pages.</p>
 <p><strong>prep</strong>’s syntax is elaborate. It’s form is</p>
 <pre><code>    pdtk prep [PREP_OPTIONS] -- [PANDOC_OPTIONS]</code></pre>
-<p>NOTE: The “–” delimits <strong>prep</strong>’s own options from Pandoc’s. Options on the left side of the “–” are processed by <strong>prep</strong> and the options listed to the right of “–” are passed on unchanged to Pandoc after preprocessing is completed.</p>
-<p>Here’s an example of processing <a href="example.json">example.json</a> JSON document using a Pandoc template called <a href="example.tmpl">example.tpml</a>.</p>
+<p>NOTE: The “–” delimits <strong>prep</strong>’s own options from
+Pandoc’s. Options on the left side of the “–” are processed by
+<strong>prep</strong> and the options listed to the right of “–” are
+passed on unchanged to Pandoc after preprocessing is completed.</p>
+<p>Here’s an example of processing <a
+href="example.json">example.json</a> JSON document using a Pandoc
+template called <a href="example.tmpl">example.tpml</a>.</p>
 <pre class="shell"><code>    pdtk prep -- --template example.tmpl &lt; example.json &gt; example.html</code></pre>
-<p>A more practical example is transforming a <a href="codemeta.json">codemeta.json</a> file into an about page. Here’s how I transform this project’s codemeta.json file into a Markdown document using a Pandoc template.</p>
+<p>A more practical example is transforming a <a
+href="codemeta.json">codemeta.json</a> file into an about page. Here’s
+how I transform this project’s codemeta.json file into a Markdown
+document using a Pandoc template.</p>
 <pre class="shell"><code>    pdtk prep -- --template codemeta-md.tmpl \
          &lt; codemeta.json &gt; about.md</code></pre>
-<p>Another example would be to use <strong>prep</strong> to process the “blog.json” file into a BibTeX citation list using a template called <a href="blog-bib.tmpl">blog-bib.tmpl</a>.</p>
+<p>Another example would be to use <strong>prep</strong> to process the
+“blog.json” file into a BibTeX citation list using a template called <a
+href="blog-bib.tmpl">blog-bib.tmpl</a>.</p>
 <pre class="shell"><code>    pdtk prep -- --template blog-bib.tmpl \
         &lt; blog/blog.json &gt; blog/blog.bib</code></pre>
 <h2 id="go-package">Go package</h2>
-<p>Here’s some simple use examples of the three functions supplied in the pdtk package.</p>
-<p>Given a JSON Object document as a slice of bytes render formatted output based on the Pandoc template <code>example.tmpl</code></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>    src, err := ioutil.ReadFile(<span class="st">&quot;example.json&quot;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>    <span class="kw">if</span> err != <span class="ot">nil</span> {</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>    }</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>    <span class="co">// options passed to Pandoc</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>    opt := []<span class="dt">string</span>{<span class="st">&quot;--template&quot;</span>, <span class="st">&quot;example.tmpl&quot;</span>}</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a>    src, err = pdtk.Apply(src, opt)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>    <span class="kw">if</span> err != <span class="ot">nil</span> {</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a>    }</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true"></a>    fmt.Fprintf(os.Stdout, <span class="st">&quot;%s&quot;</span>, src)</span></code></pre></div>
-<p>Using an <code>io.Reader</code> to retrieve the JSON content, process with the <code>example.tmpl</code> template and write standard output</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>    f, err := Open(<span class="st">&quot;example.json&quot;</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>    <span class="kw">if</span> err != <span class="ot">nil</span> {</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    }</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>    <span class="kw">defer</span> f.Close()</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a>    <span class="co">// options passed to Pandoc</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a>    opt := []<span class="dt">string</span>{<span class="st">&quot;--template&quot;</span>, <span class="st">&quot;example.tmpl&quot;</span>}</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a>    src, err := pdtk.ReadAll(f, opt)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a>    <span class="kw">if</span> err != <span class="ot">nil</span> {</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a>    }</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true"></a>    fmt.Fprintf(os.Stdout, <span class="st">&quot;%s&quot;</span>, src)</span></code></pre></div>
-<p>Using an <code>io.Reader</code> and <code>io.Writer</code> to read JSON source from standard input and write the processed Pandoc templated standard output.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>    <span class="co">// options passed to Pandoc</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>    opt := []<span class="dt">string</span>{<span class="st">&quot;--template&quot;</span>, <span class="st">&quot;example.tmpl&quot;</span>}</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a>    err := pdtk.ApplyIO(os.Stdin, os.Stdout, opt)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a>    <span class="kw">if</span> err != <span class="ot">nil</span> {</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a>        <span class="co">// ... handle error</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>Here’s some simple use examples of the three functions supplied in
+the pdtk package.</p>
+<p>Given a JSON Object document as a slice of bytes render formatted
+output based on the Pandoc template <code>example.tmpl</code></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode go"><code class="sourceCode go"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">:=</span> ioutil<span class="op">.</span>ReadFile<span class="op">(</span><span class="st">&quot;example.json&quot;</span><span class="op">)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">=</span> pdtk<span class="op">.</span>Apply<span class="op">(</span>src<span class="op">,</span> opt<span class="op">)</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Fprintf<span class="op">(</span>os<span class="op">.</span>Stdout<span class="op">,</span> <span class="st">&quot;%s&quot;</span><span class="op">,</span> src<span class="op">)</span></span></code></pre></div>
+<p>Using an <code>io.Reader</code> to retrieve the JSON content, process
+with the <code>example.tmpl</code> template and write standard
+output</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode go"><code class="sourceCode go"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>    f<span class="op">,</span> err <span class="op">:=</span> Open<span class="op">(</span><span class="st">&quot;example.json&quot;</span><span class="op">)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">defer</span> f<span class="op">.</span>Close<span class="op">()</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    src<span class="op">,</span> err <span class="op">:=</span> pdtk<span class="op">.</span>ReadAll<span class="op">(</span>f<span class="op">,</span> opt<span class="op">)</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Fprintf<span class="op">(</span>os<span class="op">.</span>Stdout<span class="op">,</span> <span class="st">&quot;%s&quot;</span><span class="op">,</span> src<span class="op">)</span></span></code></pre></div>
+<p>Using an <code>io.Reader</code> and <code>io.Writer</code> to read
+JSON source from standard input and write the processed Pandoc templated
+standard output.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode go"><code class="sourceCode go"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// options passed to Pandoc</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">:=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span><span class="st">&quot;--template&quot;</span><span class="op">,</span> <span class="st">&quot;example.tmpl&quot;</span><span class="op">}</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    err <span class="op">:=</span> pdtk<span class="op">.</span>ApplyIO<span class="op">(</span>os<span class="op">.</span>Stdin<span class="op">,</span> os<span class="op">.</span>Stdout<span class="op">,</span> opt<span class="op">)</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ... handle error</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div>
 <h2 id="requirements">Requirements</h2>
 <ul>
 <li><a href="https://pandoc.org">Pandoc</a> 2.18 or better</li>
-<li><a href="https://golang.org">Go</a> 1.18.4 or better to compile from source</li>
-<li><a href="https://www.gnu.org/software/make/">GNU Make</a> (optional) to automated compilation</li>
-<li><a href="https://git-scm.com/">Git</a> or other Git client to retrieve this repository</li>
+<li><a href="https://golang.org">Go</a> 1.18.4 or better to compile from
+source</li>
+<li><a href="https://www.gnu.org/software/make/">GNU Make</a> (optional)
+to automated compilation</li>
+<li><a href="https://git-scm.com/">Git</a> or other Git client to
+retrieve this repository</li>
 </ul>
 <h2 id="installation">Installation</h2>
 <ol type="1">
 <li>Clone https://github.com/rsdoiel/pdtk to your local machine</li>
-<li>Change directory into the git repository (i.e. <code>pdtk</code></li>
+<li>Change directory into the git repository
+(i.e. <code>pdtk</code></li>
 <li>Compile using <code>go build</code></li>
 <li>Install using <code>go install</code></li>
 </ol>
@@ -142,17 +228,38 @@
     git pull origin main
     go build -o bin/pdtk cmd/pdtk/pdtk.go
     go install</code></pre>
-<p>NOTE: This recipe assumes’ you are familiar with setting up a Go development environment (e.g. You’ve set GOPATH environment appropriately). See the <a href="https://golang.org">go website</a> for details about setting up and compiler programs.</p>
+<p>NOTE: This recipe assumes’ you are familiar with setting up a Go
+development environment (e.g. You’ve set GOPATH environment
+appropriately). See the <a href="https://golang.org">go website</a> for
+details about setting up and compiler programs.</p>
 <h2 id="license">License</h2>
 <p>BSD 3-Clause License</p>
 <p>Copyright (c) 2022, R. S. Doiel All rights reserved.</p>
-<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:</p>
 <ol type="1">
-<li><p>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</p></li>
-<li><p>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</p></li>
-<li><p>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</p></li>
+<li><p>Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.</p></li>
+<li><p>Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the
+distribution.</p></li>
+<li><p>Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.</p></li>
 </ol>
-<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+“AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 </section>
 
 <footer>

@@ -54,19 +54,35 @@ func exitOnError(w io.Writer, err error, exitCode int) {
 func RunWS(appName string, verb string, vargs []string) error {
 	flagSet := flag.NewFlagSet(verb, flag.ExitOnError)
 	flagSet.BoolVar(&showHelp, "help", false, fmt.Sprintf("display help for %s", verb))
-	flagSet.StringVar(&docRoot, "htdoc", ".", "set the document root")
+	flagSet.StringVar(&docRoot, "htdoc", "", "set the document root")
 	flagSet.StringVar(&sslKey, "ssl-key", "", "set the path to the SSL key")
 	flagSet.StringVar(&sslCert, "ssl-cert", "", "set the path to the SSL cert")
 	flagSet.StringVar(&CORSOrigin, "cors", "*.*", "set the path for CORS Origin")
 	flagSet.StringVar(&uri, "url", "http://localhost:8000", "set the URL to listen on")
 	flagSet.Parse(vargs)
+	args := flagSet.Args()
 
 	eout := os.Stderr
 
 	if showHelp {
 		usage(appName, verb, 0)
 	}
+	for _, arg := range args {
+		if _, err := os.Stat(arg); err == nil {
+			docRoot = arg
+		}
+		if strings.HasPrefix(arg, "http://") || strings.HasPrefix(arg, "https://") {
+			uri = arg
+		}
+	}
 
+	var err error
+	if docRoot == "" {
+		docRoot, err = os.Getwd()
+		if err != nil {
+			return err
+		}
+	}
 	log.Printf("DocRoot %s", docRoot)
 
 	u, err := url.Parse(uri)

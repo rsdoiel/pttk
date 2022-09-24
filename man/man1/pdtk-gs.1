@@ -14,23 +14,23 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "pdtk-ws" "1" "September 23, 2022" "pdtk-ws user manual" ""
+.TH "pdtk-gs" "1" "September 23, 2022" "pdtk-gs user manual" ""
 .hy
 .SH NAME
 .PP
-pdtk ws
-.SH USAGE
-.PP
-pdtk ws [HTDOC_PATH] [URL_TO_LISTEN_FOR] [OPTIONS]
+pdtk gs
 .SH SYNOPSIS
 .PP
-pdtk ws provides a simple static web server for testing the content
-you\[cq]re rendering with Pandoc (or other static site generator).
+pdtk gs [HTDOC_PATH] [OPTIONS]
+.SH DESCRIPTION
+.PP
+pdtk gs provides a simple static gopher server for testing the content
+you\[cq]re Gopher content.
 .SH EXAMPLE
 .PP
 In the example the htdoc directory is called \[lq]myblog\[rq] and you
-can view the result at http://localhost:8000.
+can view the result at gopher://localhost:7000.
 .PP
-pdtk ws $HOME/Sites/myblog
+pdtk gs $HOME/Sites/myblog
 .SH AUTHORS
 R. S. Doiel.

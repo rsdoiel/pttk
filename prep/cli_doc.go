@@ -13,14 +13,14 @@ const (
 
 {app_name} {verb} [OPTIONS] [INPUT_FILENAME] [-- [PANDOC_OPTIONS] ... ]
 
-DESCRIPTION
+# DESCRIPTION
 
-{app_name} {verb} is a Pandoc preprocessor. It can read JSON 
-or YAML from standard input and passes that via an internal 
+{app_name} {verb} is a Pandoc preprocessor. It can read JSON
+or YAML from standard input and passes that via an internal
 pipe to Pandoc as YAML front matter. Pandoc can then process it
 accordingly Pandoc options. Pandoc options are those options
-coming after a "--" (double dash) marker. Options before "--" 
-are for the {app_name} preprossor. 
+coming after a "--" (double dash) marker. Options before "--"
+are for the {app_name} preprossor.
 
 # OPTIONS
 
