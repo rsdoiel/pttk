@@ -5,7 +5,7 @@ TODO
 Bugs
 ----
 
-- [X] RSS Feed isn't passing validation, 
+- [X] RSS Feed isn't passing validation,
     - [X] Dates must comply with http://www.faqs.org/rfcs/rfc822.html
         - NOTE: For Go time.Time what passes validators is RFC1123Z formatted dates.
     - [X] Missing Atom relationship element
@@ -18,6 +18,11 @@ Bugs
 Next
 ----
 
+- [ ] Review Gopher and see about adding Gopher support
+    - [ ] Look at gophermap and see how it may tranlsate to/from RSS
+    - [ ] Look at autogenerating gophermap from blog.json
+- [ ] Review Gemini and see about adding Gemini support
+- [ ] Review yarn.social and see if it make sense to support in toolkit
 - [ ] Review [Micropubs spec](https://micropub.spec.indieweb.org/)
 - [ ] Review [JSONFeed spec](https://www.jsonfeed.org/)
 - [ ] Review Micro.blog's [Archive Format](https://book.micro.blog/blog-archive-format/)
