@@ -21,7 +21,7 @@ Next
 - [ ] Review Gopher and see about adding Gopher support
     - [ ] Look at gophermap and see how it may tranlsate to/from RSS
     - [ ] Look at autogenerating gophermap from blog.json
-- [ ] Review Gemini and see about adding Gemini support
+    - [ ] Update .editorconfig to fixed issues about converting tabs in gophermap
 - [ ] Review yarn.social and see if it make sense to support in toolkit
 - [ ] Review [Micropubs spec](https://micropub.spec.indieweb.org/)
 - [ ] Review [JSONFeed spec](https://www.jsonfeed.org/)

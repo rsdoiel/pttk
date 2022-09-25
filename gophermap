@@ -12,7 +12,8 @@ hPandoc	GET /	pandoc.org	80
 hGitHub Repo	GET /rsdoiel/pdtk	github.com	80
 
 0README	/README.md	localhost	7000
+1pdtk commands	/pdtk-cmds.gophermap	localhost	7000
 0IDEAS	/IDEAS.md	localhost	7000
 0TODO	/TODO.md	localhost	7000
 0CITATION	/CITATION.cff	localhost	7000
-<- 67 chars ------------------------------------------------------>
+
