@@ -21,7 +21,7 @@ a website or blog in the early 21st century. These include
 preprocessor called "prep" which lets you take a JSON file
 and transform it into Markdown front matter that is
 directly passed to Pandoc for processing. You might want to
-do this for things like generating a CITATION.cff or an 
+do this for things like generating a CITATION.cff or an
 about page from a codemeta.json. You might want to generate
 BibTeX from your Markdown pages front matter you collected.
 pdtk includes a tool called "blogit" that manages taking a
@@ -49,6 +49,9 @@ pdtk tools are accessed through "verbs". These
 or updating existing ones. It maintains a blog.json document collecting
 metadata and supporting RSS rendering.
 
+**include**
+: A preprocessor of doing recursive includes using an include directive like `#include(myfile.md);`
+
 **prep**
 : Preprocess JSON or YAML into YAML front matter and run through Pandoc
 
@@ -62,6 +65,9 @@ metadata and supporting RSS rendering.
 : Runs a simple static web server for previewing content in your web browser
 
 
+**gs**
+: Run a simlpe static gopher server for previewing content in your gopher client
+
 # OPTIONS
 
 -help
@@ -74,6 +80,7 @@ metadata and supporting RSS rendering.
 : display version
 
 # EXAMPLES
+
 
 ## blogit
 
@@ -100,6 +107,7 @@ Refreshing the blog's blog.json file.
 ```shell
     pdtk blogit myblog
 ```
+
 
 ## prep
 
@@ -131,7 +139,8 @@ marked up to produce Markdown output).
 ```
 
 Using pdtk to manage blog content with the "blogit"
-verb. 
+verb.
+
 
 ## rss
 
@@ -149,6 +158,7 @@ Generating a sitemap in a current directory
     pdtk sitemap .
 ```
 
+
 ## ws
 
 Running a static web server to view rendering site
@@ -156,6 +166,11 @@ Running a static web server to view rendering site
 ```shell
     pdtk ws $HOME/Sites/myblog
 ```
+
+## gs
+
+Running a static gopher server to view rendering site
+
 
 # SEE ALSO
 
