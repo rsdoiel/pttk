@@ -22,6 +22,9 @@ Next
     - [ ] Look at gophermap and see how it may tranlsate to/from RSS
     - [ ] Look at autogenerating gophermap from blog.json
     - [ ] Update .editorconfig to fixed issues about converting tabs in gophermap
+    - [ ] Look at modifying go-gopher to support "+" operator in the selector for hostname and port, or just auto create them in not supplied.
+        - gopher.Dir() is probably what I need to look at to modify.
+        - See http://gopherinfo.somnolescent.net/servers/customizing-menus/ for description of server side processing of gophermap
 - [ ] Review yarn.social and see if it make sense to support in toolkit
 - [ ] Review [Micropubs spec](https://micropub.spec.indieweb.org/)
 - [ ] Review [JSONFeed spec](https://www.jsonfeed.org/)
