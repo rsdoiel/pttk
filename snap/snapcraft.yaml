@@ -38,11 +38,3 @@ parts:
       - "CGO_ENABLED" : "1"
     source-type: git
     source: https://github.com/rsdoiel/pdtk
-#    stage-packages:
-#      - pandoc
-#      - pandoc-data
-#      - pandoc-citeproc
-#      - pandoc-citeproc-preamble
-#      - python3-pandocfilters
-#      - pandoc-sidenote
-
