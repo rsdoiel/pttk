@@ -67,6 +67,11 @@ Renders a blog directory structure by “importing” Markdown documents or
 updating existing ones. It maintains a blog.json document collecting
 metadata and supporting RSS rendering.
 </dd>
+<dt><strong>include</strong></dt>
+<dd>
+A preprocessor of doing recursive includes using an include directive
+like <code>#include(myfile.md);</code>
+</dd>
 <dt><strong>prep</strong></dt>
 <dd>
 Preprocess JSON or YAML into YAML front matter and run through Pandoc
@@ -83,6 +88,11 @@ Renders sitemap.xml files for a static website
 <dd>
 Runs a simple static web server for previewing content in your web
 browser
+</dd>
+<dt><strong>gs</strong></dt>
+<dd>
+Run a simlpe static gopher server for previewing content in your gopher
+client
 </dd>
 </dl>
 <h1 id="options">OPTIONS</h1>
@@ -136,6 +146,8 @@ output).</p>
 <h2 id="ws">ws</h2>
 <p>Running a static web server to view rendering site</p>
 <pre class="shell"><code>    pdtk ws $HOME/Sites/myblog</code></pre>
+<h2 id="gs">gs</h2>
+<p>Running a static gopher server to view rendering site</p>
 <h1 id="see-also">SEE ALSO</h1>
 <ul>
 <li>manual pages for <a href="pdtk-prep.1.html">pdtk-prep</a>, <a
