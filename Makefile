@@ -1,7 +1,7 @@
 #
 # Simple Makefile for conviently testing, building and deploying experiment.
 #
-PROJECT = pdtk
+PROJECT = pttk
 
 VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 
@@ -45,7 +45,7 @@ CITATION.cff: .FORCE
 	@if [ -f $(CODEMETA2CFF) ]; then $(CODEMETA2CFF) codemeta.json CITATION.cff; fi
 
 about.md: codemeta.json $(PROGRAMS)
-	./bin/pdtk prep -i codemeta.json -- --template codemeta-md.tmpl >about.md
+	./bin/pttk prep -i codemeta.json -- --template codemeta-md.tmpl >about.md
 
 
 $(PROGRAMS): cmd/*/*.go $(PACKAGE)
@@ -61,13 +61,13 @@ install: build man .FORCE
 	@echo "Make sure $(PREFIX)/bin is in your PATH"
 	@echo ""
 	@if [ ! -d $(PREFIX)/man/man1 ]; then mkdir -p $(PREFIX)/man/man1; fi
-	@cp -v man/man1/pdtk.1 $(PREFIX)/man/man1/
-	@cp -v man/man1/pdtk-prep.1 $(PREFIX)/man/man1/
-	@cp -v man/man1/pdtk-blogit.1 $(PREFIX)/man/man1/
-	@cp -v man/man1/pdtk-rss.1 $(PREFIX)/man/man1/
-	@cp -v man/man1/pdtk-ws.1 $(PREFIX)/man/man1/
-	@cp -v man/man1/pdtk-gs.1 $(PREFIX)/man/man1/
-	@cp -v man/man1/pdtk-include.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk-prep.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk-blogit.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk-rss.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk-ws.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk-gs.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk-include.1 $(PREFIX)/man/man1/
 	@echo ""
 	@echo "Make sure $(PREFIX)/man is in your MANPATH"
 	@echo ""
@@ -75,43 +75,43 @@ install: build man .FORCE
 uninstall: .FORCE
 	@echo "Removing programs in $(PREFIX)/bin"
 	-for FNAME in $(PROGRAMS); do if [ -f $(PREFIX)/bin/$$FNAME ]; then rm -v $(PREFIX)/bin/$$FNAME; fi; done
-	-rm $(PREFIX)/man/man1/pdtk.1
-	-rm $(PREFIX)/man/man1/pdtk-prep.1
-	-rm $(PREFIX)/man/man1/pdtk-blogit.1
-	-rm $(PREFIX)/man/man1/pdtk-rss.1
-	-rm $(PREFIX)/man/man1/pdtk-ws.1
-	-rm $(PREFIX)/man/man1/pdtk-gs.1
-	-rm $(PREFIX)/man/man1/pdtk-include.1
+	-rm $(PREFIX)/man/man1/pttk.1
+	-rm $(PREFIX)/man/man1/pttk-prep.1
+	-rm $(PREFIX)/man/man1/pttk-blogit.1
+	-rm $(PREFIX)/man/man1/pttk-rss.1
+	-rm $(PREFIX)/man/man1/pttk-ws.1
+	-rm $(PREFIX)/man/man1/pttk-gs.1
+	-rm $(PREFIX)/man/man1/pttk-include.1
 
-man: man/man1/pdtk.1 man/man1/pdtk-prep.1 man/man1/pdtk-blogit.1 man/man1/pdtk-rss.1 man/man1/pdtk-ws.1 man/man1/pdtk-gs.1 man/man1/pdtk-include.1 .FORCE
+man: man/man1/pttk.1 man/man1/pttk-prep.1 man/man1/pttk-blogit.1 man/man1/pttk-rss.1 man/man1/pttk-ws.1 man/man1/pttk-gs.1 man/man1/pttk-include.1 .FORCE
 
-man/man1/pdtk.1: pdtk.1.md
+man/man1/pttk.1: pttk.1.md
 	mkdir -p man/man1
-	pandoc pdtk.1.md -s -t man -o man/man1/pdtk.1
+	pandoc pttk.1.md -s -t man -o man/man1/pttk.1
 
-man/man1/pdtk-prep.1: pdtk-prep.1.md
+man/man1/pttk-prep.1: pttk-prep.1.md
 	mkdir -p man/man1
-	pandoc pdtk-prep.1.md -s -t man -o man/man1/pdtk-prep.1
+	pandoc pttk-prep.1.md -s -t man -o man/man1/pttk-prep.1
 
-man/man1/pdtk-blogit.1: pdtk-blogit.1.md
+man/man1/pttk-blogit.1: pttk-blogit.1.md
 	mkdir -p man/man1
-	pandoc pdtk-blogit.1.md -s -t man -o man/man1/pdtk-blogit.1
+	pandoc pttk-blogit.1.md -s -t man -o man/man1/pttk-blogit.1
 
-man/man1/pdtk-rss.1: pdtk-rss.1.md
+man/man1/pttk-rss.1: pttk-rss.1.md
 	mkdir -p man/man1
-	pandoc pdtk-rss.1.md -s -t man -o man/man1/pdtk-rss.1
+	pandoc pttk-rss.1.md -s -t man -o man/man1/pttk-rss.1
 
-man/man1/pdtk-ws.1: pdtk-ws.1.md
+man/man1/pttk-ws.1: pttk-ws.1.md
 	mkdir -p man/man1
-	pandoc pdtk-ws.1.md -s -t man -o man/man1/pdtk-ws.1
+	pandoc pttk-ws.1.md -s -t man -o man/man1/pttk-ws.1
 
-man/man1/pdtk-gs.1: pdtk-gs.1.md
+man/man1/pttk-gs.1: pttk-gs.1.md
 	mkdir -p man/man1
-	pandoc pdtk-gs.1.md -s -t man -o man/man1/pdtk-gs.1
+	pandoc pttk-gs.1.md -s -t man -o man/man1/pttk-gs.1
 
-man/man1/pdtk-include.1: pdtk-include.1.md
+man/man1/pttk-include.1: pttk-include.1.md
 	mkdir -p man/man1
-	pandoc pdtk-include.1.md -s -t man -o man/man1/pdtk-include.1
+	pandoc pttk-include.1.md -s -t man -o man/man1/pttk-include.1
 
 
 #website: page.tmpl README.md nav.md INSTALL.md LICENSE css/site.css
@@ -130,7 +130,7 @@ clean:
 	@if [ -d bin ]; then rm -fR bin; fi
 	@if [ -d dist ]; then rm -fR dist; fi
 	@if [ -d testout ]; then rm -fR testout; fi
-	@if [ -f man/man1/pdtk.1 ]; then rm man/man1/pdtk.1; fi
+	@if [ -f man/man1/pttk.1 ]; then rm man/man1/pttk.1; fi
 
 dist/linux-amd64:
 	@mkdir -p dist/bin

@@ -15,7 +15,7 @@ import (
 	"time"
 
 	// My packages
-	"github.com/rsdoiel/pdtk/blogit"
+	"github.com/rsdoiel/pttk/blogit"
 
 	// 3rd Part support (e.g. YAML)
 	"gopkg.in/yaml.v3"
@@ -234,20 +234,18 @@ func fountainProcessor(input []byte) ([]byte, error) {
 	return src, nil
 }
 
-//
 // RelativeDocPath calculate the relative path from source to target based on
 // implied common base.
 //
 // Example:
 //
-//     docPath := "docs/chapter-01/lesson-02.html"
-//     cssPath := "css/site.css"
-//     fmt.Printf("<link href=%q>\n", MakeRelativePath(docPath, cssPath))
+//	docPath := "docs/chapter-01/lesson-02.html"
+//	cssPath := "css/site.css"
+//	fmt.Printf("<link href=%q>\n", MakeRelativePath(docPath, cssPath))
 //
 // Output:
 //
-//     <link href="../../css/site.css">
-//
+//	<link href="../../css/site.css">
 func RelativeDocPath(source, target string) string {
 	var result []string
 
@@ -697,9 +695,8 @@ func JSONGenerator(cmdExpr string, obj interface{}) error {
 //
 // Example:
 //
-//     src, _ := ioutil.ReadFile("post.md")
-//     opening := mkpage.OpenParagraphs(fmt.Sprintf("%s", src, "\n\n"), 2)
-//
+//	src, _ := ioutil.ReadFile("post.md")
+//	opening := mkpage.OpenParagraphs(fmt.Sprintf("%s", src, "\n\n"), 2)
 func OpeningParagraphs(src string, cnt int, para string) string {
 	blocks := strings.Split(strings.ReplaceAll(src, "\r", ""), para)
 	n := 0

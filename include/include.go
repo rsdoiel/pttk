@@ -1,7 +1,5 @@
-//
 // include.go - an simple file include preprocessor based example in
 // Software Tools in Pascal by Kernigan & Plauger
-//
 package include
 
 import (
@@ -30,11 +28,11 @@ const (
 
 For each line that starts with the include directive will cause
 the included file to be written to the output stream. If the
-included file itself has include directives those will be 
+included file itself has include directives those will be
 rendering int he output stream.
 
 The include directive starts with "#include(" and is closed
-with ");". Between the start and end of the directive the 
+with ");". Between the start and end of the directive the
 text is considered a filename. Any text in the line with the
 directive after ");" will not be included in the output stream.
 

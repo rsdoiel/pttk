@@ -1,4 +1,4 @@
-// blogit.go is a sub-package pdtk. A packages for managing static content
+// blogit.go is a sub-package pttk. A packages for managing static content
 // blogs and documentation via Pandoc.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>
@@ -110,15 +110,15 @@ use the following command.
 ~~~
 
 The *{app_name} {verb}* command will copy "my-vacation-day.md",
-creating any necessary file directories to 
-"Sites/me.example.org/2021/06/01".  It will also update article 
+creating any necessary file directories to
+"Sites/me.example.org/2021/06/01".  It will also update article
 lists (index.md) at the year level, month, and day level and month
 level of the directory tree and and generate/update a posts.json
 in the "Sites/my.example.org" that can be used in your home page
 template for listing recent posts.
 
 *{app_name} {verb}* includes an option to set the prefix path to
-the blog posting.  In this way you could have separate blogs 
+the blog posting.  In this way you could have separate blogs
 structures for things like podcasts or videocasts.
 
 ~~~shell
@@ -147,7 +147,7 @@ In this final example I am updating blog posts from a [simple timesheet notation
 prefix directory "blog" and using the author name, "Jane Doe".
 
 ~~~
-    pdtk blogit -prefix=blog -author 'Jane Doe' -stn project-log.txt
+    pttk blogit -prefix=blog -author 'Jane Doe' -stn project-log.txt
 ~~~
 
 This will create individual, time stamp titled posts for each of the simple timesheet notation entries found in "project-log.txt".
@@ -155,9 +155,9 @@ This will create individual, time stamp titled posts for each of the simple time
 
 # SEE ALSO
 
-- manual pages for [pdtk](pdtk.1.html), [pdtk-prep](pdtk-prep.1.html), [pdtk-rss](pdtk-rss.1.html)
-- pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
-- The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
+- manual pages for [pttk](pttk.1.html), [pttk-prep](pttk-prep.1.html), [pttk-rss](pttk-rss.1.html)
+- pttk website at [https://rsdoiel.github.io/pttk](https://rsdoiel.github.io/pttk)
+- The source code is available from [https://github.com/rsdoiel/pttk](https://github.com/rsdoiel/pttk)
 - Simple timesheet notation at [https://rsdoiel.github.io/stngo/docs/stn.html](https://rsdoiel.github.io/stngo/docs/stn.html)
 
 

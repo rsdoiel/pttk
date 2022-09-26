@@ -1,15 +1,15 @@
 ---
-title: pdtk user manual
+title: pttk user manual
 ---
 
 user manual
 ===========
 
-- [Overview](pdtk.1.html)
-- [JSON to Markdown](pdtk-prep.1.html)
-- [Including files](pdtk-include.1.html)
-- [Blogging](pdtk-blogit.1.html)
-- [RSS Feeds](pdtk-rss.1.html)
-- [Preview your website](pdtk-ws.1.html)
-- [Preview in Gopher](pdtk-gs.1.html)
+- [Overview](pttk.1.html)
+- [JSON to Markdown](pttk-prep.1.html)
+- [Including files](pttk-include.1.html)
+- [Blogging](pttk-blogit.1.html)
+- [RSS Feeds](pttk-rss.1.html)
+- [Preview your website](pttk-ws.1.html)
+- [Preview in Gopher](pttk-gs.1.html)
 

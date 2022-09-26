@@ -1,4 +1,4 @@
-// ws.go is a sub-package pdtk. A packages for managing static content
+// ws.go is a sub-package pttk. A packages for managing static content
 // blogs and documentation via Pandoc.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>

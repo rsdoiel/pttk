@@ -1,19 +1,19 @@
-1PDTK	/	localhost	7000
+1PTTK	/	localhost	7000
 
-Welcome to PDTK
+Welcome to Plain Text Tool Kit
 
-     PDTK is a deconstructed content management system for use
-     with rendering engines like Pandoc.
+     PTTK is a deconstructed content management system for
+	 working with plain text and using rendering engines
+	 like Pandoc.
 
-This map is provided to test the "gs" verb provided by pdtk cli.
+This map is provided to test the "gs" verb provided by pttk cli.
 
-hPandoc	GET /	pandoc.org	80
-
-hGitHub Repo	GET /rsdoiel/pdtk	github.com	80
+hGitHub Repo	GET /rsdoiel/pttk	github.com	80
 
 0README	/README.md	localhost	7000
 1pdtk commands	/pdtk-cmds.gophermap	localhost	7000
 0IDEAS	/IDEAS.md	localhost	7000
 0TODO	/TODO.md	localhost	7000
+0User manual	user-manual.md	localhost	7000
 0CITATION	/CITATION.cff	localhost	7000
 

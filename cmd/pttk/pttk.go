@@ -1,4 +1,4 @@
-// pdtk.go is a package (with sub-packages) for managing static content
+// pttk.go is a package (with sub-packages) for managing static content
 // blogs and documentation via Pandoc.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>
@@ -17,13 +17,13 @@ import (
 	"path"
 	"strings"
 
-	"github.com/rsdoiel/pdtk"
-	"github.com/rsdoiel/pdtk/blogit"
-	"github.com/rsdoiel/pdtk/gs"
-	"github.com/rsdoiel/pdtk/include"
-	"github.com/rsdoiel/pdtk/prep"
-	"github.com/rsdoiel/pdtk/rss"
-	"github.com/rsdoiel/pdtk/ws"
+	"github.com/rsdoiel/pttk"
+	"github.com/rsdoiel/pttk/blogit"
+	"github.com/rsdoiel/pttk/gs"
+	"github.com/rsdoiel/pttk/include"
+	"github.com/rsdoiel/pttk/prep"
+	"github.com/rsdoiel/pttk/rss"
+	"github.com/rsdoiel/pttk/ws"
 )
 
 const (
@@ -250,15 +250,15 @@ func fmtText(src string, appName string, version string) string {
 }
 
 func version(appName string) string {
-	return fmt.Sprintf("%s %s\n", path.Base(appName), pdtk.Version)
+	return fmt.Sprintf("%s %s\n", path.Base(appName), pttk.Version)
 }
 
 func license(appName string) string {
-	return fmtText(licenseText, appName, pdtk.Version)
+	return fmtText(licenseText, appName, pttk.Version)
 }
 
 func usage(appName string) string {
-	return fmtText(helpText, appName, pdtk.Version)
+	return fmtText(helpText, appName, pttk.Version)
 }
 
 func handleError(err error) {

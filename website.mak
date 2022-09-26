@@ -1,7 +1,7 @@
 #
 # Makefile for running pandoc on all Markdown docs ending in .md
 #
-PROJECT = pdtk
+PROJECT = pttk
 
 MD_PAGES = $(shell ls -1 *.md)
 

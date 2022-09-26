@@ -1,4 +1,4 @@
-// blogit.go is a sub-package pdtk. A packages for managing static content
+// blogit.go is a sub-package pttk. A packages for managing static content
 // blogs and documentation via Pandoc.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>
@@ -18,7 +18,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rsdoiel/pdtk/help"
+	"github.com/rsdoiel/pttk/help"
 )
 
 var (

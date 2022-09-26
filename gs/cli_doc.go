@@ -1,4 +1,4 @@
-// gs.go is a sub-package pdtk. This package for testing a static content
+// gs.go is a sub-package pttk. This package for testing a static content
 // Gopher site.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>

@@ -1,4 +1,4 @@
-// ws.go is a sub-package pdtk. A packages for managing static content
+// ws.go is a sub-package pttk. A packages for managing static content
 // blogs and documentation via Pandoc.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>
@@ -8,7 +8,6 @@
 //
 // License under the 3-Clause BSD License
 // See https://opensource.org/licenses/BSD-3-Clause
-//
 package ws
 
 import (
@@ -367,7 +366,7 @@ func (a *Access) RemoveAccess(username string) bool {
 // Login accepts username, password and ok boolean.
 // Returns true if they match auth's settings false otherwise.
 //
-// How to choosing an appropriate hash method see
+// # How to choosing an appropriate hash method see
 //
 // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
 //
@@ -619,7 +618,7 @@ func (fs SafeFileSystem) Open(p string) (http.File, error) {
 	return SafeFile{fp}, err
 }
 
-///
+// /
 // SafeFileSystem returns a new safe file system using
 // the *WebService.DocRoot as the directory source.
 //
@@ -628,12 +627,13 @@ func (fs SafeFileSystem) Open(p string) (http.File, error) {
 // // ... create a webserver instance called "service."
 // settings := service.LoadJSON("web-service.json")
 // fs, err := service.SafeFileSystem()
-// if err != nil {
-//     log.Fatalf("%s\n", err)
-// }
+//
+//	if err != nil {
+//	    log.Fatalf("%s\n", err)
+//	}
+//
 // http.Handle("/", http.FileServer(service.SafeFileSystem()))
 // log.Fatal(http.ListenAndService(service.Http.Hostname(), nil))
-//
 func (w *WebService) SafeFileSystem() (SafeFileSystem, error) {
 	if w.DocRoot == "" {
 		w.DocRoot = "."
@@ -646,19 +646,19 @@ func (w *WebService) SafeFileSystem() (SafeFileSystem, error) {
 	return SafeFileSystem{http.Dir(w.DocRoot)}, nil
 }
 
-//
 // MakeSafeFileSystem without a *WebService takes a doc root
 // and returns a SafeFileSystem struct.
 //
 // Example usage:
 //
 // fs, err := ws.MakeSafeFileSystem("/var/www/htdocs")
-// if err != nil {
-//     log.Fatalf("%s\n", err)
-// }
+//
+//	if err != nil {
+//	    log.Fatalf("%s\n", err)
+//	}
+//
 // http.Handle("/", http.FileServer(fs))
 // log.Fatal(http.ListenAndService(":8000", nil))
-//
 func MakeSafeFileSystem(docRoot string) (SafeFileSystem, error) {
 	if docRoot == "" {
 		return SafeFileSystem{}, fmt.Errorf("document root not set")

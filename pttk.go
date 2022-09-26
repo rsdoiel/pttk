@@ -1,4 +1,4 @@
-// pdtk.go is a package (with sub-packages) for managing static web content,
+// pttk.go is a package (with sub-packages) for managing static web content,
 // blogs and documentation via Pandoc.
 //
 // @Author R. S. Doiel, <rsdoiel@gmail.com>
@@ -8,17 +8,17 @@
 //
 // License under the 3-Clause BSD License
 // See https://opensource.org/licenses/BSD-3-Clause
-package pdtk
+package pttk
 
 import (
 	"io"
 
-	"github.com/rsdoiel/pdtk/prep"
+	"github.com/rsdoiel/pttk/prep"
 )
 
 //
 // NOTE: Below are a mapping of the prep preprocessor functions
-// to the pdtk package level.
+// to the pttk package level.
 //
 
 func SetVerbose(onoff bool) {

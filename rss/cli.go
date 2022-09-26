@@ -12,9 +12,9 @@ import (
 	"time"
 
 	// My packages
-	"github.com/rsdoiel/pdtk"
-	"github.com/rsdoiel/pdtk/blogit"
-	"github.com/rsdoiel/pdtk/help"
+	"github.com/rsdoiel/pttk"
+	"github.com/rsdoiel/pttk/blogit"
+	"github.com/rsdoiel/pttk/help"
 )
 
 var (
@@ -110,7 +110,7 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 		feed.Category = channelCategory
 	}
 	if len(channelGenerator) == 0 {
-		feed.Generator = fmt.Sprintf("%s %s %s", appName, verb, pdtk.Version)
+		feed.Generator = fmt.Sprintf("%s %s %s", appName, verb, pttk.Version)
 	} else {
 		feed.Generator = channelGenerator
 	}

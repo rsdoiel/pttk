@@ -66,6 +66,10 @@ documents or updating existing ones.
 It maintains a blog.json document collecting metadata and supporting RSS
 rendering.
 .TP
+\f[B]include\f[R]
+A preprocessor of doing recursive includes using an include directive
+like \f[V]#include(myfile.md);\f[R]
+.TP
 \f[B]prep\f[R]
 Preprocess JSON or YAML into YAML front matter and run through Pandoc
 .TP
@@ -78,6 +82,10 @@ Renders sitemap.xml files for a static website
 \f[B]ws\f[R]
 Runs a simple static web server for previewing content in your web
 browser
+.TP
+\f[B]gs\f[R]
+Run a simlpe static gopher server for previewing content in your gopher
+client
 .SH OPTIONS
 .TP
 -help
@@ -186,6 +194,9 @@ Running a static web server to view rendering site
     pdtk ws $HOME/Sites/myblog
 \f[R]
 .fi
+.SS gs
+.PP
+Running a static gopher server to view rendering site
 .SH SEE ALSO
 .IP \[bu] 2
 manual pages for pdtk-prep, pdtk-blogit, pdtk-rss, pdtk-ws
