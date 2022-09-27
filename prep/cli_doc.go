@@ -74,8 +74,8 @@ marked up to produce Markdown output).
 
 # SEE ALSO
 
-- pdtk website at https://rsdoiel.github.io/pdtk
-- source code is avialable from https://github.com/rsdoiel/pdtk
+- pttk website at https://rsdoiel.github.io/pttk
+- source code is avialable from https://github.com/rsdoiel/pttk
 
 `
 )

@@ -1,38 +1,30 @@
 
 [![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 
-pdtk
+pttk
 ====
 
-**pdtk** is a tool kit for writing. The main focus is on static site
-generation using Pandoc.  The metaphor behind the tool kit is a
-deconstructed content management system. It is easily scripted
-from your favorite POSIX shell or Makefile. It provides a number of
-functions including a Pandoc preprocessor called prep, a blogging
-tool called blogit as well as an RSS generator. In this way
-you should be able to have many of the website features you'd expect
-from a dynamic content management system like Wordpress without the
-need to run one. 
+**pttk** is a plain text tool kit for writing. The main focus is on static site generation using Pandoc.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a Pandoc preprocessor called prep, a blogging tool called blogit as well as an RSS generator. In this way you should be able to have many of the website features you'd expect from a dynamic content management system like Wordpress without the need to run one.
 
-**pdtk** is a proof-of-concept Go package which makes it easy to extend
+**pttk** is a proof-of-concept Go package which makes it easy to extend
 your Go application to incorporate Pandoc template processing or develop
-other content manage tools. 
+other content manage tools.
 
 
 A command line tool kit
 -----------------------
 
-**pdtk** is a program that works on the command line or shell.
-**pdtk** usage is structured around the idea "verbs" or actions.
+**pttk** is a program that works on the command line or shell.
+**pttk** usage is structured around the idea "verbs" or actions.
 Each "verb" can have it's own set of options and command syntax.
 
 The basic usage is as follows
 
 ```
-   pdtk VERB [OPTIONS]
+   pttk VERB [OPTIONS]
 ```
 
-Currently there are four verbs supported by **pdtk**.
+Currently there are four verbs supported by **pttk**.
 
 __blogit__
 : A tool for manage a blog directory structure and a
@@ -58,29 +50,29 @@ is usually in the form of `/YYYY/MM/DD/` where "YYYY" is a year, "MM" is
 a two digit month and "DD" is a two digit day representation. It also
 maintains a "blog.json" document that describes the metadata and layout for
 your blog. __blogit__ uses the front matter in your Markdown documents to
-know things like titles, post dates and authorship.  The two **pdtk**
+know things like titles, post dates and authorship.  The two **pttk**
 verbs "rss" and "sitemap" know how to interpret the blog.json to generate
 RSS and sitemap.xml respectively.
 
 The form of the __blogit__ command is
 
 ```shell
-    pdtk blogit PATH_TO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]
+    pttk blogit PATH_TO_DOCUMENT_TO_IMPORT [YYYY_MM_DD]
 ```
 
 In this example I have a Markdown document I want to use as a blog post
-in `$HOME/Documents/pdtk-tutorial.md`.  I'm generating my blog in a
+in `$HOME/Documents/pttk-tutorial.md`.  I'm generating my blog in a
 directory called `$HOME/Sites/my-website/blog`.  If I want to "blog" the
 document I first change to "my-website" directory and use __blogit__
 to update my blog.
 
 ```shell
    cd $HOME/Sites/my-website/blog
-   pdtk blogit $HOME/Documents/pdtk-tutorial.md
+   pttk blogit $HOME/Documents/pttk-tutorial.md
 ```
 
 The __blogit__ verb assumes you are in the current working directory
-where you have your blog. 
+where you have your blog.
 
 
 By default __blogit__ will use the current date in "YYYY-MM-DD" format
@@ -90,14 +82,14 @@ example of posting the tutorial on 2022-08-01 (August 8th, 2022).
 
 ```shell
    cd $HOME/Sites/my-website/blog
-   pdtk blogit $HOME/Documents/pdtk-tutorial.md 2022-08-08
+   pttk blogit $HOME/Documents/pttk-tutorial.md 2022-08-08
 ```
 
 __rss__ is the verb used to generate an RSS feed from a __blogit__
 blog.json file.  The format of the command is
 
 ```shell
-    pdtk rss PATH_TO_BLOG_JSON PATH_TO_RSS_FILE
+    pttk rss PATH_TO_BLOG_JSON PATH_TO_RSS_FILE
 ```
 
 If I want my blog feed to be `feeds/index.xml` in the Wordpress style
@@ -106,12 +98,12 @@ directory and then use the __rss__ as follows.
 
 ```shell
     cd $HOME/Sites/my-website
-    pdtk rss blog/blog.json feeds/index.xml
+    pttk rss blog/blog.json feeds/index.xml
 ```
 
 This will generate our `feeds/index.xml` document. If the feeds directory
 doesn't exist it'll get created. Updating the RSS picking up new post
-is just a matter of invoking `pdtk rss` the command again.
+is just a matter of invoking `pttk rss` the command again.
 
 __sitemap__ generates a "sitemap.xml" file that describes the site layout
 to searching crawlers.  The specification for sitemap.xml stipulates a
@@ -122,7 +114,7 @@ website directory and in any sub-directories of the website.  If Markdown
 documents are found then it'll use front matter for the matching HTML files
 and "blog.json" file for the blog content.
 
-The form for __sitemap__ is simple. 
+The form for __sitemap__ is simple.
 
 ```
    ptdk sitemap [ROOT_WEBSITE_DIRECTORY]
@@ -131,7 +123,7 @@ The form for __sitemap__ is simple.
 Here's an example for our "my-website" directory.
 
 ```
-    pdtk sitemap $HOME/Sites/my-website
+    pttk sitemap $HOME/Sites/my-website
 ```
 
 This wold generate a sitemap file of `$HOME/Sites/my-website/sitemap.xml`
@@ -145,7 +137,7 @@ template engine into documents such as web pages.
 __prep__'s syntax is elaborate. It's form is
 
 ```
-    pdtk prep [PREP_OPTIONS] -- [PANDOC_OPTIONS]
+    pttk prep [PREP_OPTIONS] -- [PANDOC_OPTIONS]
 ```
 
 NOTE: The "--" delimits __prep__'s own options from Pandoc's.
@@ -157,7 +149,7 @@ Here's an example of processing [example.json](example.json)
 JSON document using a Pandoc template called [example.tpml](example.tmpl).
 
 ```shell
-    pdtk prep -- --template example.tmpl < example.json > example.html
+    pttk prep -- --template example.tmpl < example.json > example.html
 ```
 
 A more practical example is transforming a [codemeta.json](codemeta.json)
@@ -165,16 +157,16 @@ file into an about page. Here's how I transform this project's codemeta.json
 file into a Markdown document using a Pandoc template.
 
 ```shell
-    pdtk prep -- --template codemeta-md.tmpl \
+    pttk prep -- --template codemeta-md.tmpl \
          < codemeta.json > about.md
 ```
 
 Another example would be to use __prep__ to process the "blog.json"
-file into a BibTeX citation list using a template called 
+file into a BibTeX citation list using a template called
 [blog-bib.tmpl](blog-bib.tmpl).
 
 ```shell
-    pdtk prep -- --template blog-bib.tmpl \
+    pttk prep -- --template blog-bib.tmpl \
         < blog/blog.json > blog/blog.bib
 ```
 
@@ -184,7 +176,7 @@ Go package
 ----------
 
 Here's some simple use examples of the three functions supplied
-in the pdtk package.
+in the pttk package.
 
 Given a JSON Object document  as a slice of bytes render formatted
 output based on the Pandoc template `example.tmpl`
@@ -196,7 +188,7 @@ output based on the Pandoc template `example.tmpl`
     }
     // options passed to Pandoc
     opt := []string{"--template", "example.tmpl"}
-    src, err = pdtk.Apply(src, opt)
+    src, err = pttk.Apply(src, opt)
     if err != nil {
         // ... handle error
     }
@@ -214,7 +206,7 @@ Using an `io.Reader` to retrieve the JSON content, process with the
     defer f.Close()
     // options passed to Pandoc
     opt := []string{"--template", "example.tmpl"}
-    src, err := pdtk.ReadAll(f, opt)
+    src, err := pttk.ReadAll(f, opt)
     if err != nil {
         // ... handle error
     }
@@ -227,7 +219,7 @@ input and write the processed Pandoc templated standard output.
 ```go
     // options passed to Pandoc
     opt := []string{"--template", "example.tmpl"}
-    err := pdtk.ApplyIO(os.Stdin, os.Stdout, opt)
+    err := pttk.ApplyIO(os.Stdin, os.Stdout, opt)
     if err != nil {
         // ... handle error
     }
@@ -244,17 +236,17 @@ Requirements
 Installation
 ------------
 
-1. Clone https://github.com/rsdoiel/pdtk to your local machine
-2. Change directory into the git repository (i.e. `pdtk`
+1. Clone https://github.com/rsdoiel/pttk to your local machine
+2. Change directory into the git repository (i.e. `pttk`
 3. Compile using `go build`
 4. Install using `go install`
 
 ```shell
-    git clone https://github.com/rsdoiel/pdtk
-    cd pdtk
+    git clone https://github.com/rsdoiel/pttk
+    cd pttk
     git fetch origin
     git pull origin main
-    go build -o bin/pdtk cmd/pdtk/pdtk.go
+    go build -o bin/pttk cmd/pttk/pttk.go
     go install
 ```
 
