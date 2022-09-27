@@ -17,9 +17,11 @@ indent_style = tab
 
 # Gophermap file should use tab
 [gophermap]
+end_of_line = crlf
 indent_style = tab
 
 [*.gophermap]
+end_of_line = crlf
 indent_style = tab
 
 # We don't want to apply our defaults to third-party code or minified bundles:
