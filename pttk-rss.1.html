@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="language" content="EN">
+  <title>R. S. Doiel, Software Engineer/Analyst - pttk-rss.1</title>
+
+  <link rel="stylesheet" type="text/css"  href="/printfonts/print.css" media="print" />
+  <link rel="stylesheet" type="text/css"  href="/webfonts/fonts.css" media="screen" />
+  <link rel="stylesheet" type="text/css"  href="/css/site.css" media="screen" />
+  <link title="RSS feed for rsdoiel's blog" rel="alternate" type="application/rss+xml" href="https://rsdoiel.github.io/rss.xml" />
+  <link title="markdown source for page" rel="alternative" type="application/markdown" href="pttk-rss.1.md">
+</head>
+<body>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="./">README</a></li>
+<li><a href="user-manual.html">User Manual</a></li>
+<li><a href="IDEAS.html">Ideas</a></li>
+<li><a href="TODO.html">Todo</a></li>
+<li><a href="license.html">LICENSE</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="https://github.com/rsdoiel/pdtk">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<!--  <h1>pttk-rss.1</h1> -->
+
+<h1 id="name">NAME</h1>
+<p>pdtk rss PATH_TO_SITE</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>pdtk rss <a href="#options">OPTIONS</a> PATH_TO_SITE</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>The rss renders an RSS file based on the content found in the
+directory tree provided. If it encounters a “blog.json” file then base
+of that tree it’ll use that file to generate feed content any sub
+directories found otherwise it’ll generate a feed based on Markdown
+front matter encountered in Markdown documents with corresponding html
+files.</p>
+<p>pdtk rss walks the file system to generate a RSS2 file. It assumes
+that the directory for htdocs is the base directory containing sub
+directories in the form of /YYYY/MM/DD/ARTICLE_HTML where YYYY/MM/DD
+(Year, Month, Day) corresponds to the publication date of
+ARTICLE_HTML.</p>
+<p>If our htdocs folder is our document root and out blog is
+htdocs/myblog.</p>
+<pre class="shell"><code>    pdtk rss \
+        -atom-link=&quot;http://blog.example.org/rss.xml&quot; \
+        -base-url=&quot;http://blog.example.org&quot; \
+        -channel-title=&quot;This Great Beyond&quot; \
+        -channel-description=&quot;Blog to save the world&quot; \
+        -channel-link=&quot;http://blog.example.org&quot; \
+        htdocs &gt;htdocs/rss.xml</code></pre>
+<p>This would build an RSS 2 file in htdocs/rss.xml from the articles in
+htdocs/myblog/YYYY/MM/DD.</p>
+<h1 id="options">OPTIONS</h1>
+<p>What follows is are the options supported by the rss verb.</p>
+<dl>
+<dt>-atom-link string</dt>
+<dd>
+set atom:link href
+</dd>
+<dt>-base-url string</dt>
+<dd>
+set site base url for links
+</dd>
+<dt>-byline string</dt>
+<dd>
+set byline regexp (default
+“<code>^[B|b]y\\s+(\\w|\\s|.)+[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$</code>”)
+</dd>
+<dt>-channel-builddate string</dt>
+<dd>
+Build Date for channel (e.g. <code>2006-01-02 15:04:05 -0700</code>)
+</dd>
+<dt>-channel-category string</dt>
+<dd>
+category for channel
+</dd>
+<dt>-channel-copyright string</dt>
+<dd>
+Copyright for channel
+</dd>
+<dt>-channel-description string</dt>
+<dd>
+Description of channel
+</dd>
+<dt>-channel-generator string</dt>
+<dd>
+Name of RSS generator
+</dd>
+<dt>-channel-language string</dt>
+<dd>
+Language, e.g. en-ca
+</dd>
+<dt>-channel-link string</dt>
+<dd>
+link to channel
+</dd>
+<dt>-channel-pubdate string</dt>
+<dd>
+Pub Date for channel (e.g. <code>2006-01-02 15:04:05 -0700</code>)
+</dd>
+<dt>-channel-title string</dt>
+<dd>
+Title of channel
+</dd>
+<dt>-date-format string</dt>
+<dd>
+set date regexp (default
+“<code>[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]</code>”)
+</dd>
+<dt>-e string</dt>
+<dd>
+A colon delimited list of path exclusions
+</dd>
+<dt>-help</dt>
+<dd>
+display rss help
+</dd>
+<dt>-title string</dt>
+<dd>
+set title regexp (default “<code>^#\\s+(\\w|\\s|.)+$</code>”)
+</dd>
+</dl>
+<h1 id="example">EXAMPLE</h1>
+<p>Here’s an example for generating an RSS feed for a blog managed with
+“blogit” in a directory called blog.</p>
+<pre class="shell"><code>    pdtk rss -channel-title=&quot;My Blog&quot; \
+        -atom-link=&quot;https://blog.example.org/rss.xml&quot; \
+        -base-url=&quot;https://blog.example.org&quot; \
+        -channel-description=&quot;My blog, lots-O-rott&quot; \
+        -channel-link=&quot;https://blog.example.org/blog&quot; \
+        blog &gt;rss.xml</code></pre>
+<h1 id="see-also">SEE ALSO</h1>
+<ul>
+<li>manual pages for <a href="pdtk.1.html">pdtk</a>, <a
+href="pdtk-prep.1.html">pdtk-prep</a>, <a
+href="pdtk-blogit.1.html">pdtk-blogit</a></li>
+<li>pdtk website at <a
+href="https://rsdoiel.github.io/pdtk">https://rsdoiel.github.io/pdtk</a></li>
+<li>The source code is available from <a
+href="https://github.com/rsdoiel/pdtk">https://github.com/rsdoiel/pdtk</a></li>
+</ul>
+</section>
+
+<footer>
+</footer>
+
+</body>
+</html>
