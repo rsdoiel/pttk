@@ -17,10 +17,12 @@ indent_style = tab
 
 # Gophermap file should use tab
 [gophermap]
+end_of_line = crlf
 indent_style = tab
 end_of_line = crlf
 
 [*.gophermap]
+end_of_line = crlf
 indent_style = tab
 end_of_line = crlf
 
