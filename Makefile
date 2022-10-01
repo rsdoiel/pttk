@@ -64,6 +64,7 @@ install: build man .FORCE
 	@cp -v man/man1/pttk.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pttk-prep.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pttk-blogit.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk-phlogit.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pttk-rss.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pttk-ws.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pttk-gs.1 $(PREFIX)/man/man1/
@@ -78,12 +79,13 @@ uninstall: .FORCE
 	-rm $(PREFIX)/man/man1/pttk.1
 	-rm $(PREFIX)/man/man1/pttk-prep.1
 	-rm $(PREFIX)/man/man1/pttk-blogit.1
+	-rm $(PREFIX)/man/man1/pttk-phlogit.1
 	-rm $(PREFIX)/man/man1/pttk-rss.1
 	-rm $(PREFIX)/man/man1/pttk-ws.1
 	-rm $(PREFIX)/man/man1/pttk-gs.1
 	-rm $(PREFIX)/man/man1/pttk-include.1
 
-man: man/man1/pttk.1 man/man1/pttk-prep.1 man/man1/pttk-blogit.1 man/man1/pttk-rss.1 man/man1/pttk-ws.1 man/man1/pttk-gs.1 man/man1/pttk-include.1 .FORCE
+man: man/man1/pttk.1 man/man1/pttk-prep.1 man/man1/pttk-blogit.1 man/man1/pttk-phlogit.1 man/man1/pttk-rss.1 man/man1/pttk-ws.1 man/man1/pttk-gs.1 man/man1/pttk-include.1 .FORCE
 
 man/man1/pttk.1: pttk.1.md
 	mkdir -p man/man1
@@ -96,6 +98,10 @@ man/man1/pttk-prep.1: pttk-prep.1.md
 man/man1/pttk-blogit.1: pttk-blogit.1.md
 	mkdir -p man/man1
 	pandoc pttk-blogit.1.md -s -t man -o man/man1/pttk-blogit.1
+
+man/man1/pttk-phlogit.1: pttk-phlogit.1.md
+	mkdir -p man/man1
+	pandoc pttk-phlogit.1.md -s -t man -o man/man1/pttk-phlogit.1
 
 man/man1/pttk-rss.1: pttk-rss.1.md
 	mkdir -p man/man1
@@ -121,7 +127,15 @@ check: .FORCE
 	go vet *.go
 
 test: clean build
-	go test
+	cd blogit && go test
+	cd phlogit && go test
+	cd rss && go test
+	cd ws && go test
+#	cd gs && go test
+#	go test
+#	cd help && go test
+#	cd include && go test
+#	cd prep && go test
 
 cleanweb:
 	@if [ -f index.html ]; then rm *.html; fi

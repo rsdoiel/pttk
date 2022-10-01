@@ -21,6 +21,7 @@ import (
 	"github.com/rsdoiel/pttk/blogit"
 	"github.com/rsdoiel/pttk/gs"
 	"github.com/rsdoiel/pttk/include"
+	"github.com/rsdoiel/pttk/phlogit"
 	"github.com/rsdoiel/pttk/prep"
 	"github.com/rsdoiel/pttk/rss"
 	"github.com/rsdoiel/pttk/ws"
@@ -116,6 +117,11 @@ with the form ` + "`" + `{app_name} VERB -h` + "`" + `
 or updating existing ones. It maintains a blog.json document collecting
 metadata and supportting RSS rendering.
 
+**phlogit**
+: Renders a Phlog directory structure by "importing" text files
+or updating existing ones. It maintains a phlog.json document collecting
+metadata and supporting RSS rendering.
+
 **include**
 : Include any files indicated by an include directive (e.g. "#include(toc.md);"). Include operates recursively so included files can also include other files.
 
@@ -184,6 +190,35 @@ Refreshing the blogs's blog.json file.
 
 ~~~shell
   {app_name} blogit myblog
+~~~
+
+## phlogit verb
+
+Using {app_name} to manage phlog content with the "phlogit"
+verb.
+
+Adding a blog "first-post.md" to "myphlog".
+
+~~~shell
+  {app_name} phlogit myphlog $HOME/Documents/first-post.md
+~~~
+
+Adding/Updating the "first-post.md" on "2022-07-22"
+
+~~~shell
+  {app_name} phlogit myblog $HOME/Documents/first-post.md "2022-07-22"
+~~~
+
+Added additional material for posts on "2022-07-22"
+
+~~~shell
+  {app_name} phlogit myblog $HOME/Documents/charts/my-graph.svg "2022-07-22"
+~~~
+
+Refreshing the phlogs's phlog.json file.
+
+~~~shell
+  {app_name} phlogit myblog
 ~~~
 
 ## rss verb
@@ -323,6 +358,10 @@ func main() {
 		}
 	case "blogit":
 		if err := blogit.RunBlogIt(appName, verb, args); err != nil {
+			handleError(err)
+		}
+	case "phlogit":
+		if err := phlogit.RunPhlogIt(appName, verb, args); err != nil {
 			handleError(err)
 		}
 	case "rss":
