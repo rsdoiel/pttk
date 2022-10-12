@@ -125,8 +125,8 @@ man/man1/pttk-include.1: pttk-include.1.md
 
 gophersite: gophersite.zip
 
-gophersite.zip: gophermap *.gophermap *.md
-	zip gophersite.zip gophermap *.gophermap *.md CITATION.cff
+gophersite.zip: gophermap *.md
+	zip gophersite.zip gophermap README.md ptty*.md CITATION.cff fix-perms.bash
 
 
 check: .FORCE
