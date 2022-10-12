@@ -1,25 +1,25 @@
-% pdtk-phlogit(1) pdtk-phlogit user manual
+% pttk-phlogit(1) pttk-phlogit user manual
 % R. S. Doiel
 % August 14, 2022
 
 # NAME
 
-pdtk
+pttk
 
 # SYNOPSIS
 
-pdtk phlogit [OPTIONS]
+pttk phlogit [OPTIONS]
 
-pdtk phlogit [OPTIONS] -stn STN_FILENAME
+pttk phlogit [OPTIONS] -stn STN_FILENAME
 
 # DESCRIPTION
 
-pdtk phlogit provides a quick tool to add or replace phlog content
+pttk phlogit provides a quick tool to add or replace phlog content
 organized around a date oriented file path. In addition to
 placing documents it also will generate simple markdown documents
 for inclusion in navigation.
 
-__pdtk phlogit__ also includes an option to extract short (one paragraph) phlog posts froom [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file.
+__pttk phlogit__ also includes an option to extract short (one paragraph) phlog posts froom [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file.
 
 # OPTIONS
 
@@ -93,10 +93,10 @@ use the following command.
 
 ~~~shell
    cd Sites/me.example.org
-   pdtk phlogit my-vacation-day.md 2021-07-01
+   pttk phlogit my-vacation-day.md 2021-07-01
 ~~~
 
-The *pdtk phlogit* command will copy "my-vacation-day.md",
+The *pttk phlogit* command will copy "my-vacation-day.md",
 creating any necessary file directories to
 "Sites/me.example.org/2021/06/01".  It will also update article
 lists (index.md) at the year level, month, and day level and month
@@ -104,15 +104,15 @@ level of the directory tree and and generate/update a posts.json
 in the "Sites/my.example.org" that can be used in your home page
 template for listing recent posts.
 
-*pdtk phlogit* includes an option to set the prefix path to
+*pttk phlogit* includes an option to set the prefix path to
 the phlog posting.  In this way you could have separate phlogs
 structures for things like podcasts or videocasts.
 
 ~~~shell
     # Add a landing page for the podcast
-    pdtk phlogit -prefix=podcast my-vacation.md 2021-07-01
+    pttk phlogit -prefix=podcast my-vacation.md 2021-07-01
     # Add an audio file containing the podcast
-    pdtk phlogit -prefix=podcast my-vacation.wav 2021-07-01
+    pttk phlogit -prefix=podcast my-vacation.wav 2021-07-01
 ~~~
 
 Where "-prefix" sets the prefix path before the YYYY/MM/DD path.
@@ -123,7 +123,7 @@ PREFIX/YYYY/MM/DD you can use phlogit to create/update/recreate
 the phlog.json file.
 
 ~~~shell
-    pdtk phlogit -prefix=phlog -refresh=2021
+    pttk phlogit -prefix=phlog -refresh=2021
 ~~~
 
 The option "-refresh" is what indicates you want to crawl
@@ -134,7 +134,7 @@ In this final example I am updating phlog posts from a [simple timesheet notatio
 prefix directory "phlog" and using the author name, "Jane Doe".
 
 ~~~
-    pdtk phlogit -prefix=phlog -author 'Jane Doe' -stn project-log.txt
+    pttk phlogit -prefix=phlog -author 'Jane Doe' -stn project-log.txt
 ~~~
 
 This will create individual, time stamp titled posts for each of the simple timesheet notation entries found in "project-log.txt".
@@ -142,9 +142,9 @@ This will create individual, time stamp titled posts for each of the simple time
 
 # SEE ALSO
 
-- manual pages for [pdtk](pdtk.1.html), [pdtk-prep](pdtk-prep.1.html), [pdtk-rss](pdtk-rss.1.html)
-- pdtk website at [https://rsdoiel.github.io/pdtk](https://rsdoiel.github.io/pdtk)
-- The source code is available from [https://github.com/rsdoiel/pdtk](https://github.com/rsdoiel/pdtk)
+- manual pages for [pttk](pttk.1.html), [pttk-prep](pttk-prep.1.html), [pttk-rss](pttk-rss.1.html)
+- pttk website at [https://rsdoiel.github.io/pttk](https://rsdoiel.github.io/pttk)
+- The source code is available from [https://github.com/rsdoiel/pttk](https://github.com/rsdoiel/pttk)
 - Simple timesheet notation at [https://rsdoiel.github.io/stngo/docs/stn.html](https://rsdoiel.github.io/stngo/docs/stn.html)
 
 

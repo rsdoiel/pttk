@@ -1,18 +1,18 @@
-% pdtk-gs(1) pdtk-gs user manual
+% pttk-gs(1) pttk-gs user manual
 % R. S. Doiel
 % September 23, 2022
 
 # NAME
 
-pdtk gs
+pttk gs
 
 # SYNOPSIS
 
-pdtk gs [HTDOC_PATH] [OPTIONS]
+pttk gs [HTDOC_PATH] [OPTIONS]
 
 # DESCRIPTION
 
-pdtk gs provides a simple static gopher server for
+pttk gs provides a simple static gopher server for
 testing the content you're Gopher content.
 
 # EXAMPLE
@@ -20,6 +20,6 @@ testing the content you're Gopher content.
 In the example the htdoc directory is called "myblog"
 and you can view the result at gopher://localhost:7000.
 
-  pdtk gs $HOME/Sites/myblog
+  pttk gs $HOME/Sites/myblog
 
 

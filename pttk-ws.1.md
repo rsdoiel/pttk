@@ -1,18 +1,18 @@
-% pdtk-ws(1) pdtk-ws user manual
+% pttk-ws(1) pttk-ws user manual
 % R. S. Doiel
 % September 23, 2022
 
 # NAME
 
-pdtk ws
+pttk ws
 
 # USAGE
 
-pdtk ws [HTDOC_PATH] [URL_TO_LISTEN_FOR] [OPTIONS]
+pttk ws [HTDOC_PATH] [URL_TO_LISTEN_FOR] [OPTIONS]
 
 # SYNOPSIS
 
-pdtk ws provides a simple static web server for
+pttk ws provides a simple static web server for
 testing the content you're rendering with Pandoc (or
 other static site generator).
 
@@ -21,6 +21,6 @@ other static site generator).
 In the example the htdoc directory is called "myblog"
 and you can view the result at http://localhost:8000.
 
-  pdtk ws $HOME/Sites/myblog
+  pttk ws $HOME/Sites/myblog
 
 

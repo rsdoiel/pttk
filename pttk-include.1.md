@@ -1,28 +1,28 @@
-% pdtk-include(1) pdtk-include user manual
+% pttk-include(1) pttk-include user manual
 % R. S. Doiel
 % August 26, 2022
 
 # NAME
 
-pdtk include
+pttk include
 
 # SYNOPSIS
 
-pdtk include [INPUT FILENAME] [OUTPUT_FILENAME]
+pttk include [INPUT FILENAME] [OUTPUT_FILENAME]
 
 # DESCRIPTION
 
 For each line that starts with the include directive will cause
 the included file to be written to the output stream. If the
-included file itself has include directives those will be 
+included file itself has include directives those will be
 rendering int he output stream.
 
 The include directive starts with "#include(" and is closed
-with ");". Between the start and end of the directive the 
+with ");". Between the start and end of the directive the
 text is considered a filename. Any text in the line with the
 directive after ");" will not be included in the output stream.
 
-pdtk normally reads from standard input and writes to
+pttk normally reads from standard input and writes to
 standard output but may read from an optional input file name
 and write to an optional output filename. The input filename is
 presumed to come before the output filename.
@@ -47,20 +47,20 @@ In this example we run an "include" operation on the file
 will be processed recursively.
 
 ~~~shell
-    pdtk include myfile.txt
+    pttk include myfile.txt
 ~~~
 
 Read "myfile.txt" and write to "yourfile.txt"
 
 ~~~shell
-    pdtk include myfile.txt yourfile.txt
+    pttk include myfile.txt yourfile.txt
 ~~~
 
 To piece together a Markdown file from parts named in "book.txt"
 which include the following Markdown documents.
 
 ~~~shell
-    pdtk include book.txt book.md
+    pttk include book.txt book.md
 ~~~
 
 ## exampel of directives

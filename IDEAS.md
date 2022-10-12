@@ -2,7 +2,7 @@
 Ideas/Musings
 =============
 
-This is a document is an exploration of what pdtk could be. 
+This is a document is an exploration of what pttk could be.
 
 A Question and Possibilities
 ----------------------------
@@ -17,9 +17,9 @@ A Question and Possibilities
     - A nice to have would be a way to generate breadcrumb navigation for both blogs and website
         - Maybe this is driven by the top level index page's front matter? Or an index.yaml file?
     - A nice to have would be a LunrJS compatible index generator for integrate search
-- Part of writing is reading, how can pdtk help with that?
+- Part of writing is reading, how can pttk help with that?
     - A feed READ might be nice
-- Part of writing includes citing things and looking things up, how can pdtk help with that?
+- Part of writing includes citing things and looking things up, how can pttk help with that?
     - A personal search would be nice
     - A way to read/reference freeds like Dave Wiener's feed mailbox with a link to cite it my blog or read it in Pocket
     - A way to display OPML of interesting sites
