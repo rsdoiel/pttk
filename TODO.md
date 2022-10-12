@@ -5,6 +5,8 @@ TODO
 Bugs
 ----
 
+- [ ] Sitemap should include sub-sitemaps.xml when needed
+- [ ] A gophermap generated to work in `pttk gs` doesn't work like the Gopherserver on SDF, they need to match so gophermaps are portable.
 - [X] RSS Feed isn't passing validation,
     - [X] Dates must comply with http://www.faqs.org/rfcs/rfc822.html
         - NOTE: For Go time.Time what passes validators is RFC1123Z formatted dates.
@@ -18,6 +20,11 @@ Bugs
 Next
 ----
 
+- [ ] Review git.mills.io/prologic/go-gopher and understand what was implemented
+    - [ ] Evaluate using as is and what I would need need to write to replace gophermap handling with how it works on sdf.org's Gopher deployment
+    - [ ] Evaluate writing my own gopher server for previewing content easily is it turns out I need to fork go-gopher to get the behavior I want
+    - [ ] Look at serving table content out of SQLite3 database files
+    - [ ] Look at integrations with dataset
 - [ ] Review Gopher and see about adding Gopher support
     - [ ] Look at gophermap and see how it may tranlsate to/from RSS
     - [ ] Look at autogenerating gophermap from blog.json

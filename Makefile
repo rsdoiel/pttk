@@ -123,6 +123,12 @@ man/man1/pttk-include.1: pttk-include.1.md
 #website: page.tmpl README.md nav.md INSTALL.md LICENSE css/site.css
 #	bash mk-website.bash
 
+gophersite: gophersite.zip
+
+gophersite.zip: gophermap *.gophermap *.md
+	zip gophersite.zip gophermap *.gophermap *.md CITATION.cff
+
+
 check: .FORCE
 	go vet *.go
 
