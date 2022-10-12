@@ -12,8 +12,8 @@ hGitHub Repo	GET /rsdoiel/pttk	github.com	80
 0README	README.md
 0CITATION	CITATION.cff
 
-user manual for plain text toolkit
-==================================
+User manual for Plain Text Tool Kit
+===================================
 
 0Overview - Plain Text Took kit	pttk.1.md
 0JSON to Markdown front matter	pttk-prep.1.md
