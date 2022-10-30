@@ -101,9 +101,16 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 
 	blogMetadataName := path.Join(prefixPath, "blog.json")
 
-	// See if we have data to read in.
+	// See if we have metadata to read in.
 	if _, err := os.Stat(blogMetadataName); os.IsNotExist(err) {
-	} else {
+		blogMetadataName = path.Join(prefixPath, "blog.yaml")
+		if _, err := os.Stat(blogMetadataName); err != nil {
+			blogMetadataName = ""
+		}
+
+	}
+
+	if blogMetadataName != "" {
 		if err := LoadBlogMeta(blogMetadataName, meta); err != nil {
 			return fmt.Errorf("Error reading %q, %s\n", blogMetadataName, err)
 		}

@@ -29,10 +29,10 @@ const (
 
 {app_name} {verb} provides a quick tool to add or replace phlog content
 organized around a date oriented file path. In addition to
-placing documents it also will generate simple markdown documents
+placing documents it also will simple gophermap documents
 for inclusion in navigation.
 
-__{app_name} {verb}__ also includes an option to extract short (one paragraph) phlog posts froom [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file.
+__{app_name} {verb}__ also includes an option to extract short (one paragraph) phlog posts from [simple timesheet notation](https://rsdoiel.github.io/stngo/docs/stn.html) file.
 
 # OPTIONS
 

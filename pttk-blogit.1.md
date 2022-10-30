@@ -56,7 +56,7 @@ What follows are the options supported by the blogit verb.
 : Set index blog template
 
 -prefix string
-: Set the prefix path before YYYY/MM/DD.
+: Set the prefix path before YYYY/MM/DD directory structure.
 
 -quip string
 : Set the blog quip.

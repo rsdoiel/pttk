@@ -8,7 +8,7 @@ pttk - a writers tool kit for static site generation using Pandoc
 
 # SYNOPSIS
 
-pttk [OPTIONS] verb [VERB_OPTIONS] [-- [PANDOC_OPTIONS] ... ]
+pttk [OPTIONS] verb [VERB_OPTIONS] [\-\- [PANDOC_OPTIONS] ... ]
 
 # DESCRIPTION
 

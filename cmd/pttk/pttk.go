@@ -70,7 +70,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] verb [VERB_OPTIONS] [-- [PANDOC_OPTIONS] ... ]
+{app_name} [OPTIONS] verb [VERB_OPTIONS] [\-\- [PANDOC_OPTIONS] ... ]
 
 # DESCRIPTION
 
@@ -78,7 +78,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 or YAML from standard input and passes that via an internal
 pipe to Pandoc as YAML front matter. Pandoc can then process it
 accordingly Pandoc options. Pandoc options are those options
-coming after a "--" marker. Options before "--" are for
+coming after a `+"`"+`--`+"`"+` marker. Options before `+"`"+`--`+"`"+` are for
 the {app_name} preprossor.
 
 {app_name} has grown to include features provide through simple
@@ -120,7 +120,7 @@ metadata and supportting RSS rendering.
 **phlogit**
 : Renders a Phlog directory structure by "importing" text files
 or updating existing ones. It maintains a phlog.json document collecting
-metadata and supporting RSS rendering.
+metadata and supporting RSS rendering as well as generating gophermap files.
 
 **include**
 : Include any files indicated by an include directive (e.g. "#include(toc.md);"). Include operates recursively so included files can also include other files.
