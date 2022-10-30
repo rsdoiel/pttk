@@ -16,7 +16,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -99,7 +98,7 @@ func RunWS(appName string, verb string, vargs []string) error {
 	// Setup redirects defined the redirects CSV
 	var rService *RedirectService
 	if redirectsCSV != "" {
-		src, err := ioutil.ReadFile(redirectsCSV)
+		src, err := os.ReadFile(redirectsCSV)
 		exitOnError(eout, fmt.Errorf("Can't read %s, %s", redirectsCSV, err), 1)
 		r := csv.NewReader(bytes.NewReader(src))
 		// Allow support for comment rows

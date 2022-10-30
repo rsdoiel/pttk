@@ -100,14 +100,13 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 	meta := new(PhlogMeta)
 
 	phlogMetadataName := path.Join(prefixPath, "phlog.json")
-if _, err := os.Stat(phlogMetadataName); err != nil {
-	if _, err := os.Stat(phlogMetadataName); err == nil {
-		phlogMetadataName = path.Join(prefixPath, "phlog.yaml")
-	} else {
-	phlogMetadataName = ""
-
+	if _, err := os.Stat(phlogMetadataName); err != nil {
+		if _, err := os.Stat(phlogMetadataName); err == nil {
+			phlogMetadataName = path.Join(prefixPath, "phlog.yaml")
+		} else {
+			phlogMetadataName = ""
+		}
 	}
-}
 	if phlogMetadataName != "" {
 		if err := LoadPhlogMeta(phlogMetadataName, meta); err != nil {
 			return fmt.Errorf("Error reading %q, %s\n", phlogMetadataName, err)

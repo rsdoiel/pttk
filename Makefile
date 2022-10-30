@@ -137,6 +137,7 @@ test: clean build
 	cd phlogit && go test
 	cd rss && go test
 	cd ws && go test
+	cd frontmatter && go test
 #	cd gs && go test
 #	go test
 #	cd help && go test

@@ -19,7 +19,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -280,7 +279,7 @@ func LoadAccess(fName string) (*Access, error) {
 // and returns an Access struct and error.
 func loadAccessJSON(accessJSON string) (*Access, error) {
 	auth := new(Access)
-	src, err := ioutil.ReadFile(accessJSON)
+	src, err := os.ReadFile(accessJSON)
 	if err != nil {
 		return nil, err
 	}
@@ -306,7 +305,7 @@ func (a *Access) dumpAccessJSON(accessJSON string) error {
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(accessJSON, src, 0600)
+	return os.WriteFile(accessJSON, src, 0600)
 }
 
 // UpdateAccess uses an *Access and username, password
@@ -773,7 +772,7 @@ func LoadWebService(setup string) (*WebService, error) {
 
 // loadWebServiceJSON loads a *WebService from a JSON file.
 func loadWebServiceJSON(setup string) (*WebService, error) {
-	src, err := ioutil.ReadFile(setup)
+	src, err := os.ReadFile(setup)
 	if err != nil {
 		return nil, err
 	}
@@ -821,7 +820,7 @@ func (ws *WebService) dumpWebServiceJSON(fName string) error {
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(fName, src, 0600)
+	return os.WriteFile(fName, src, 0600)
 }
 
 // Run() starts a web service(s) described in the *WebService struct.

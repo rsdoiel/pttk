@@ -19,6 +19,7 @@ import (
 
 	"github.com/rsdoiel/pttk"
 	"github.com/rsdoiel/pttk/blogit"
+	"github.com/rsdoiel/pttk/frontmatter"
 	"github.com/rsdoiel/pttk/gs"
 	"github.com/rsdoiel/pttk/include"
 	"github.com/rsdoiel/pttk/phlogit"
@@ -76,9 +77,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 {app_name} started as a Pandoc preprocessor. It can read JSON
 or YAML from standard input and passes that via an internal
-pipe to Pandoc as YAML front matter. Pandoc can then process it
+pipe to Pandoc as YAML frontmatter. Pandoc can then process it
 accordingly Pandoc options. Pandoc options are those options
-coming after a `+"`"+`--`+"`"+` marker. Options before `+"`"+`--`+"`"+` are for
+coming after a ` + "`" + `--` + "`" + ` marker. Options before ` + "`" + `--` + "`" + ` are for
 the {app_name} preprossor.
 
 {app_name} has grown to include features provide through simple
@@ -346,6 +347,10 @@ func main() {
 		os.Exit(0)
 	case "prep":
 		if err := prep.RunPrep(appName, verb, args); err != nil {
+			handleError(err)
+		}
+	case "frontmatter":
+		if err := frontmatter.RunFrontmatter(appName, verb, args); err != nil {
 			handleError(err)
 		}
 	case "ws":

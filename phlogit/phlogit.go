@@ -16,7 +16,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -362,7 +361,7 @@ func (meta PhlogMeta) yearIndex(year string) int {
 func (dy *DayObj) updatePosts(ymd []string, targetName string) error {
 
 	// Read in front matter from targetName
-	src, err := ioutil.ReadFile(targetName)
+	src, err := os.ReadFile(targetName)
 	if err != nil {
 		return fmt.Errorf("Failed to read post %q, %s", targetName, err)
 	}
@@ -827,7 +826,7 @@ func (meta *PhlogMeta) Save(fName string) error {
 	default:
 		return fmt.Errorf("%q is an unsupported output format", ext)
 	}
-	err = ioutil.WriteFile(fName, src, 0666)
+	err = os.WriteFile(fName, src, 0666)
 	if err != nil {
 		return fmt.Errorf("Writing %q, %s", fName, err)
 	}
@@ -836,7 +835,7 @@ func (meta *PhlogMeta) Save(fName string) error {
 
 // Reads a JSON phlog meta document and popualtes a phlog meta structure
 func LoadPhlogMeta(fName string, meta *PhlogMeta) error {
-	src, err := ioutil.ReadFile(fName)
+	src, err := os.ReadFile(fName)
 	if err != nil {
 		return fmt.Errorf("Reading %q, %s", fName, err)
 	}
@@ -872,6 +871,37 @@ func hasExt(ext string, targetExts []string) bool {
 	return false
 }
 
+// monthName
+func monthName(month string) string {
+	switch month {
+	case "01":
+		return "January"
+	case "02":
+		return "February"
+	case "03":
+		return "March"
+	case "04":
+		return "April"
+	case "05":
+		return "May"
+	case "06":
+		return "June"
+	case "07":
+		return "July"
+	case "08":
+		return "August"
+	case "09":
+		return "September"
+	case "10":
+		return "October"
+	case "11":
+		return "November"
+	case "12":
+		return "December"
+	}
+	return month
+}
+
 // RefreshFromPath crawls the dircetory tree and rebuilds
 // the `phlog.json` file based on what is found. It takes a
 // File extension to target (e.g. .md for Markdown) and
@@ -893,21 +923,36 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 		"05": 31, "06": 30, "07": 31, "08": 31,
 		"09": 30, "10": 31, "11": 30, "12": 31,
 	}
+	gophermapName := path.Join(prefix, year, "gophermap")
+	gophermap := []string{fmt.Sprintf(`
+
+Pages for %s
+==============
+
+`, year),
+	}
 	ymd = append(ymd, year, "", "")
 	for month, cnt := range months {
+		gophermap = append(gophermap, fmt.Sprintf(`
+%s
+------------
+
+`, monthName(month)))
 		ymd[1] = month
 		for day := 1; day <= cnt; day++ {
 			ymd[2] = fmt.Sprintf("%02d", day)
 			// CalcPath and find files.
 			folder := path.Join(prefix, ymd[0], ymd[1], ymd[2])
 			// Scan the fold for files ending in ext,
-			files, err := ioutil.ReadDir(folder)
+			files, err := os.ReadDir(folder)
 			if err == nil {
 				// for each file with matching extension run updateYear(ymd, targetName)
 				for _, file := range files {
 					targetName := path.Join(prefix, ymd[0], ymd[1], ymd[2], file.Name())
 					ext := filepath.Ext(targetName)
 					if hasExt(ext, targetExts) {
+						entry := fmt.Sprintf("1%s %s-%s-%d\t%s\n", file.Name(), year, month, day, file.Name())
+						gophermap = append(gophermap, entry)
 						if err := meta.updateYears(ymd, targetName); err != nil {
 							return err
 						}
@@ -916,5 +961,6 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 			}
 		}
 	}
-	return nil
+	src := []byte(strings.Join(gophermap, "\n"))
+	return os.WriteFile(gophermapName, src, 0664)
 }

@@ -13,7 +13,6 @@ package gs
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -103,7 +102,7 @@ func LoadGopherService(setup string) (*GopherService, error) {
 
 // loadGopherServiceJSON loads a *GopherService from a JSON file.
 func loadGopherServiceJSON(setup string) (*GopherService, error) {
-	src, err := ioutil.ReadFile(setup)
+	src, err := os.ReadFile(setup)
 	if err != nil {
 		return nil, err
 	}

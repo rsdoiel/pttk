@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/url"
 	"os"
 	"os/exec"
@@ -378,7 +377,7 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *RSS2) error {
 					item.PubDate = pubDate.Format(time.RFC1123Z)
 					if len(post.Description) == 0 && len(post.Document) > 0 {
 						// Read the article, extract a description
-						buf, err := ioutil.ReadFile(post.Document)
+						buf, err := os.ReadFile(post.Document)
 						if err != nil {
 							return err
 						}
@@ -432,7 +431,7 @@ func WalkRSS(feed *RSS2, htdocs string, baseURL string, excludeList string, titl
 		return false
 	}, func(p string, info os.FileInfo) error {
 		// Read the article
-		buf, err := ioutil.ReadFile(p)
+		buf, err := os.ReadFile(p)
 		if err != nil {
 			return err
 		}
@@ -695,7 +694,7 @@ func JSONGenerator(cmdExpr string, obj interface{}) error {
 //
 // Example:
 //
-//	src, _ := ioutil.ReadFile("post.md")
+//	src, _ := os.ReadFile("post.md")
 //	opening := mkpage.OpenParagraphs(fmt.Sprintf("%s", src, "\n\n"), 2)
 func OpeningParagraphs(src string, cnt int, para string) string {
 	blocks := strings.Split(strings.ReplaceAll(src, "\r", ""), para)

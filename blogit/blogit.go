@@ -16,7 +16,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -362,7 +361,7 @@ func (meta BlogMeta) yearIndex(year string) int {
 func (dy *DayObj) updatePosts(ymd []string, targetName string) error {
 
 	// Read in front matter from targetName
-	src, err := ioutil.ReadFile(targetName)
+	src, err := os.ReadFile(targetName)
 	if err != nil {
 		return fmt.Errorf("Failed to read post %q, %s", targetName, err)
 	}
@@ -827,7 +826,7 @@ func (meta *BlogMeta) Save(fName string) error {
 	default:
 		return fmt.Errorf("%q is an unsupported output format", ext)
 	}
-	err = ioutil.WriteFile(fName, src, 0666)
+	err = os.WriteFile(fName, src, 0666)
 	if err != nil {
 		return fmt.Errorf("Writing %q, %s", fName, err)
 	}
@@ -836,7 +835,7 @@ func (meta *BlogMeta) Save(fName string) error {
 
 // Reads a JSON blog meta document and popualtes a blog meta structure
 func LoadBlogMeta(fName string, meta *BlogMeta) error {
-	src, err := ioutil.ReadFile(fName)
+	src, err := os.ReadFile(fName)
 	if err != nil {
 		return fmt.Errorf("Reading %q, %s", fName, err)
 	}
@@ -901,7 +900,7 @@ func (meta *BlogMeta) RefreshFromPath(prefix string, year string) error {
 			// CalcPath and find files.
 			folder := path.Join(prefix, ymd[0], ymd[1], ymd[2])
 			// Scan the fold for files ending in ext,
-			files, err := ioutil.ReadDir(folder)
+			files, err := os.ReadDir(folder)
 			if err == nil {
 				// for each file with matching extension run updateYear(ymd, targetName)
 				for _, file := range files {

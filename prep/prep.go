@@ -15,7 +15,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"strings"
@@ -50,7 +49,7 @@ func SetVerbose(onoff bool) {
 // ```
 func ReadAll(r io.Reader, options []string) ([]byte, error) {
 	// Read the JSON input
-	src, err := ioutil.ReadAll(r)
+	src, err := io.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +60,7 @@ func ReadAll(r io.Reader, options []string) ([]byte, error) {
 // and options returning a slice of bytes and error value.
 func ReadFile(name string, options []string) ([]byte, error) {
 	// Read the JSON or YAML file
-	src, err := ioutil.ReadFile(name)
+	src, err := os.ReadFile(name)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +81,7 @@ func ReadFile(name string, options []string) ([]byte, error) {
 //
 // ```
 func ApplyIO(r io.Reader, w io.Writer, options []string) error {
-	buf, err := ioutil.ReadAll(r)
+	buf, err := io.ReadAll(r)
 	src, err := Apply(buf, options)
 	if err != nil {
 		return err
@@ -99,7 +98,7 @@ func ApplyIO(r io.Reader, w io.Writer, options []string) error {
 //
 // ```
 //
-//	src, err := ioutil.ReadFile("example.json")
+//	src, err := os.ReadFile("example.json")
 //	if err != nil {
 //	   // ... handle error
 //	}
@@ -164,8 +163,8 @@ func Apply(src []byte, options []string) ([]byte, error) {
 	if err := cmd.Start(); err != nil {
 		return nil, err
 	}
-	errMsg, _ := ioutil.ReadAll(stderr)
-	src, _ = ioutil.ReadAll(stdout)
+	errMsg, _ := io.ReadAll(stderr)
+	src, _ = io.ReadAll(stdout)
 	if err := cmd.Wait(); err != nil {
 		if len(errMsg) > 0 {
 			return nil, fmt.Errorf("%s, %s\n", errMsg, err)

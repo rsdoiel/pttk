@@ -12,7 +12,6 @@ package phlogit
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"strings"
@@ -95,7 +94,7 @@ func TestExportedFuncs(t *testing.T) {
 Test Phlog post.
 `, i, i, i))
 		pName = path.Join(prefix, fmt.Sprintf("hello_%d.md", i))
-		if err := ioutil.WriteFile(pName, src, 0666); err != nil {
+		if err := os.WriteFile(pName, src, 0666); err != nil {
 			t.Errorf("Can't created %q, %s", pName, err)
 			t.FailNow()
 		}

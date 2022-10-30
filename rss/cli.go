@@ -5,7 +5,6 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"strings"
@@ -157,7 +156,7 @@ func RunRSS(appName string, verb string, options []string) ([]byte, error) {
 		err = WalkRSS(feed, htdocs, baseURL, excludeList, titleExp, bylineExp, dateExp)
 	} else {
 		blog := new(blogit.BlogMeta)
-		src, err := ioutil.ReadFile(blogJSON)
+		src, err := os.ReadFile(blogJSON)
 		if err != nil {
 			return nil, fmt.Errorf("Reading %q, %s\n", blogJSON, err)
 		}
