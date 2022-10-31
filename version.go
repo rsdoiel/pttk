@@ -2,7 +2,7 @@ package pttk
 
 // Version of package
 const (
-    Version = `0.0.6`
+    Version = `0.0.7`
 
     LicenseText = `
 BSD 3-Clause License

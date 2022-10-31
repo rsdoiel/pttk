@@ -75,6 +75,7 @@ install: build man .FORCE
 	@cp -v man/man1/pttk-ws.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pttk-gs.1 $(PREFIX)/man/man1/
 	@cp -v man/man1/pttk-include.1 $(PREFIX)/man/man1/
+	@cp -v man/man1/pttk-frontmatter.1 $(PREFIX)/man/man1/
 	@echo ""
 	@echo "Make sure $(PREFIX)/man is in your MANPATH"
 	@echo ""
@@ -90,8 +91,9 @@ uninstall: .FORCE
 	-rm $(PREFIX)/man/man1/pttk-ws.1
 	-rm $(PREFIX)/man/man1/pttk-gs.1
 	-rm $(PREFIX)/man/man1/pttk-include.1
+	-rm $(PREFIX)/man/man1/pttk-frontmatter.1
 
-man: man/man1/pttk.1 man/man1/pttk-prep.1 man/man1/pttk-blogit.1 man/man1/pttk-phlogit.1 man/man1/pttk-rss.1 man/man1/pttk-ws.1 man/man1/pttk-gs.1 man/man1/pttk-include.1 .FORCE
+man: man/man1/pttk.1 man/man1/pttk-prep.1 man/man1/pttk-blogit.1 man/man1/pttk-phlogit.1 man/man1/pttk-rss.1 man/man1/pttk-ws.1 man/man1/pttk-gs.1 man/man1/pttk-include.1 man/man1/pttk-frontmatter.1 .FORCE
 
 man/man1/pttk.1: pttk.1.md
 	mkdir -p man/man1
@@ -124,6 +126,10 @@ man/man1/pttk-gs.1: pttk-gs.1.md
 man/man1/pttk-include.1: pttk-include.1.md
 	mkdir -p man/man1
 	pandoc pttk-include.1.md -s -t man -o man/man1/pttk-include.1
+
+man/man1/pttk-frontmatter.1: pttk-frontmatter.1.md
+	mkdir -p man/man1
+	pandoc pttk-frontmatter.1.md -s -t man -o man/man1/pttk-frontmatter.1
 
 
 #website: page.tmpl README.md nav.md INSTALL.md LICENSE css/site.css
