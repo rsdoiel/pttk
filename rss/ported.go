@@ -68,7 +68,7 @@ func ProcessorConfig(fmSrc []byte) (map[string]interface{}, error) {
 		return nil, err
 	}
 	// JSON Front Matter
-	if err := json.Unmarshal(frontMatterSrc, &m); err != nil {
+	if err := json.Unmarshal(src, &m); err != nil {
 		return nil, err
 	}
 	return m, nil
@@ -113,7 +113,7 @@ func fountainProcessor(input []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	config, err := ProcessorConfig(fmtSrc)
+	config, err := ProcessorConfig(fmSrc)
 	if err != nil {
 		return nil, err
 	}
@@ -280,9 +280,16 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *RSS2) error {
 							return err
 						}
 						fMatter := map[string]interface{}{}
-						fType, fSrc, tSrc := SplitFrontMatter(buf)
+						fSrc, err := frontmatter.ReadAll(bytes.NewBuffer(buf))
+						if err != nil {
+							return err
+						}
+						tSrc, err := frontmatter.TrimFrontmatter(bytes.NewBuffer(buf))
+						if err != nil {
+							return err
+						}
 						if len(fSrc) > 0 {
-							if err := UnmarshalFrontMatter(fType, fSrc, &fMatter); err != nil {
+							if err := json.Unmarshal(fSrc, &fMatter); err != nil {
 								fMatter = map[string]interface{}{}
 							}
 						}
@@ -334,9 +341,16 @@ func WalkRSS(feed *RSS2, htdocs string, baseURL string, excludeList string, titl
 			return err
 		}
 		fMatter := map[string]interface{}{}
-		fType, fSrc, tSrc := SplitFrontMatter(buf)
+		fSrc, err := frontmatter.ReadAll(bytes.NewBuffer(buf))
+		if err != nil {
+			return err
+		}
+		tSrc, err := frontmatter.TrimFrontmatter(bytes.NewBuffer(buf))
+		if err != nil {
+			return err
+		}
 		if len(fSrc) > 0 {
-			if err := UnmarshalFrontMatter(fType, fSrc, &fMatter); err != nil {
+			if err := json.Unmarshal(fSrc, &fMatter); err != nil {
 				fMatter = map[string]interface{}{}
 			}
 		}
