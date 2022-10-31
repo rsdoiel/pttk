@@ -23,34 +23,12 @@ import (
 	"time"
 
 	// My packages
+	"github.com/rsdoiel/pttk/frontmatter"
 	stn "github.com/rsdoiel/stngo"
 	"github.com/rsdoiel/stngo/report"
 
 	// 3rd Party Packages
 	"gopkg.in/yaml.v3"
-)
-
-const (
-
-	//
-	// Supported types for Front Matter
-	//
-
-	// FrontMatterIsUnknown means front matter and we can't parse it
-	FrontMatterIsUnknown = iota
-	// FrontMatterIsJSON means we have detected JSON front matter
-	FrontMatterIsJSON
-	// FrontMatterIsPandocMetadata means we have detected a Pandoc
-	// style metadata block, e.g. opening lines start with
-	// '%' attribute name followed by value(s)
-	// E.g.
-	//      % title
-	//      % author(s)
-	//      % date
-	FrontMatterIsPandocMetadata
-	// FrontMatterIsYAML means we have detected a Pandoc YAML
-	// front matter block.
-	FrontMatterIsYAML
 )
 
 // by start '%' at the being of the line in the start of a text file.
@@ -117,84 +95,6 @@ func (block *MetadataBlock) Unmarshal(src []byte) error {
 	}
 	if fieldCnt != 3 {
 		return fmt.Errorf("Missing or ill formed metablock, expecting title, author(s), date")
-	}
-	return nil
-}
-
-// SplitFrontMatter takes a []byte input splits it into front matter type,
-// front matter source and Markdown source. If either is missing an
-// empty []byte is returned for the missing element.
-func SplitFrontMatter(input []byte) (int, []byte, []byte) {
-	// JSON front matter, most Markdown processors.
-	if bytes.HasPrefix(input, []byte("{\n")) {
-		parts := bytes.SplitN(bytes.TrimPrefix(input, []byte("{\n")), []byte("\n}\n"), 2)
-		src := []byte(fmt.Sprintf("{\n%s\n}\n", parts[0]))
-		if len(parts) > 1 {
-			return FrontMatterIsJSON, src, parts[1]
-		}
-		return FrontMatterIsJSON, src, []byte("")
-	}
-	if bytes.HasPrefix(input, []byte("---\n")) {
-		parts := bytes.SplitN(bytes.TrimPrefix(input, []byte("---\n")), []byte("\n---\n"), 2)
-		src := []byte(fmt.Sprintf("---\n%s\n---\n", parts[0]))
-		if len(parts) > 1 {
-			return FrontMatterIsYAML, src, parts[1]
-		}
-		return FrontMatterIsYAML, src, []byte("")
-	}
-	if bytes.HasPrefix(input, []byte("% ")) {
-		lines := bytes.Split(input, []byte("\n"))
-		i := 0
-		fieldCnt := 0
-		src := []byte{}
-		for ; (i < len(lines)) && (fieldCnt < 3); i++ {
-			if bytes.HasPrefix(lines[i], []byte("% ")) {
-				fieldCnt += 1
-				src = append(append(src, lines[i]...), []byte("\n")...)
-			} else if fieldCnt < 3 {
-				//NOTE: Dates can only one line, so we stop extra
-				// line consumption with authors.
-				src = append(append(src, lines[i]...), []byte("\n")...)
-			}
-		}
-		if fieldCnt == 3 {
-			return FrontMatterIsPandocMetadata, src, input[len(src):]
-		}
-	}
-	// Handle case of no front matter
-	return FrontMatterIsUnknown, []byte(""), input
-}
-
-// UnmarshalFrontMatter takes a []byte of front matter source
-// and unmarshalls using only JSON frontmatter
-func UnmarshalFrontMatter(configType int, src []byte, obj *map[string]interface{}) error {
-	var (
-		txt []byte
-		err error
-	)
-	switch configType {
-	case FrontMatterIsPandocMetadata:
-		block := MetadataBlock{}
-		if err = block.Unmarshal(txt); err != nil {
-			return err
-		}
-		if txt, err = block.Marshal(); err != nil {
-			return nil
-		}
-		if err = json.Unmarshal(txt, &obj); err != nil {
-			return err
-		}
-	case FrontMatterIsJSON:
-		// Make sure we have valid JSON
-		if err = json.Unmarshal(src, &obj); err != nil {
-			return err
-		}
-	case FrontMatterIsYAML:
-		if err = yaml.Unmarshal(src, &obj); err != nil {
-			return err
-		}
-	default:
-		return fmt.Errorf("Unsupported Front matter format")
 	}
 	return nil
 }
@@ -366,10 +266,10 @@ func (dy *DayObj) updatePosts(ymd []string, targetName string) error {
 		return fmt.Errorf("Failed to read post %q, %s", targetName, err)
 	}
 	obj := map[string]interface{}{}
-	fmType, src, _ := SplitFrontMatter(src)
+	src, _ = frontmatter.ReadAll(bytes.NewBuffer(src))
 	if len(src) > 0 {
-		if err := UnmarshalFrontMatter(fmType, src, &obj); err != nil {
-			return fmt.Errorf("Failed to unmarshal front matter %q, %s", targetName, err)
+		if err := json.Unmarshal(src, &obj); err != nil {
+			return fmt.Errorf("Failed to unmarshal frontmatter %q, %s", targetName, err)
 		}
 	}
 	// Create a new PostObj
@@ -911,6 +811,10 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 	var (
 		ymd []string
 	)
+	absPrefix, err := filepath.Abs(prefix)
+	if err != nil {
+		absPrefix = "./" + prefix
+	}
 	targetExts := []string{
 		".md",
 		".rst",
@@ -925,34 +829,29 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 	}
 	gophermapName := path.Join(prefix, year, "gophermap")
 	gophermap := []string{fmt.Sprintf(`
-
-Pages for %s
-==============
-
+ Pages for %s
+ ==============
 `, year),
 	}
 	ymd = append(ymd, year, "", "")
 	for month, cnt := range months {
-		gophermap = append(gophermap, fmt.Sprintf(`
-%s
-------------
-
-`, monthName(month)))
 		ymd[1] = month
+		entries := []string{}
 		for day := 1; day <= cnt; day++ {
 			ymd[2] = fmt.Sprintf("%02d", day)
 			// CalcPath and find files.
-			folder := path.Join(prefix, ymd[0], ymd[1], ymd[2])
+			folder := path.Join(absPrefix, ymd[0], ymd[1], ymd[2])
 			// Scan the fold for files ending in ext,
 			files, err := os.ReadDir(folder)
 			if err == nil {
 				// for each file with matching extension run updateYear(ymd, targetName)
 				for _, file := range files {
-					targetName := path.Join(prefix, ymd[0], ymd[1], ymd[2], file.Name())
+					targetName := path.Join(absPrefix, ymd[0], ymd[1], ymd[2], file.Name())
 					ext := filepath.Ext(targetName)
 					if hasExt(ext, targetExts) {
-						entry := fmt.Sprintf("1%s %s-%s-%d\t%s\n", file.Name(), year, month, day, file.Name())
-						gophermap = append(gophermap, entry)
+						// FIXME: Should pull the title from the file.
+						fName := path.Base(targetName)
+						entries = append(entries, fmt.Sprintf("0%s\t%s/%s/%s\n", fName, ymd[1], ymd[2], fName))
 						if err := meta.updateYears(ymd, targetName); err != nil {
 							return err
 						}
@@ -960,7 +859,27 @@ Pages for %s
 				}
 			}
 		}
+		if len(entries) > 0 {
+			monthEntry := fmt.Sprintf("1%s\t%s\n", monthName(month), month)
+			gophermap = append(gophermap, monthEntry)
+			monthMapName := path.Join(prefix, year, month, "gophermap")
+			monthMap := bytes.NewBuffer([]byte{})
+			monthMap.Write([]byte(fmt.Sprintf("%s\r\n", monthName(month))))
+			for _, entry := range entries {
+				parts := strings.Split(entry, "\t")
+				if len(parts) == 2 {
+					monthEntry := fmt.Sprintf("%s\t%s\r\n", parts[0], strings.TrimPrefix(parts[1], month+"/"))
+					monthMap.Write([]byte(monthEntry))
+					gophermap = append(gophermap, entry)
+				}
+			}
+			err := os.WriteFile(monthMapName, monthMap.Bytes(), 0664)
+			if err != nil {
+				return err
+			}
+
+		}
 	}
-	src := []byte(strings.Join(gophermap, "\n"))
+	src := []byte(strings.ReplaceAll(strings.Join(gophermap, "\n"), "\n", "\r\n"))
 	return os.WriteFile(gophermapName, src, 0664)
 }
