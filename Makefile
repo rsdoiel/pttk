@@ -37,7 +37,13 @@ version.go: .FORCE
 	@echo "package $(PROJECT)" >version.go
 	@echo '' >>version.go
 	@echo '// Version of package' >>version.go
-	@echo 'const Version = "$(VERSION)"' >>version.go
+	@echo 'const (' >>version.go
+	@echo '    Version = `$(VERSION)`' >>version.go
+	@echo '' >>version.go
+	@echo '    LicenseText = `' >>version.go
+	@cat LICENSE >>version.go
+	@echo '`' >>version.go
+	@echo ')' >>version.go
 	@echo '' >>version.go
 	@git add version.go
 
