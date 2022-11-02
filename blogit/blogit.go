@@ -891,7 +891,9 @@ func (meta *BlogMeta) RefreshFromPath(prefix string, year string) error {
 		"09": 30, "10": 31, "11": 30, "12": 31,
 	}
 	ymd = append(ymd, year, "", "")
-	for month, cnt := range months {
+	for i := 1; i <= 12; i++ {
+		month := fmt.Sprintf("%02d", i)
+		cnt, _ := months[month]
 		ymd[1] = month
 		for day := 1; day <= cnt; day++ {
 			ymd[2] = fmt.Sprintf("%02d", day)

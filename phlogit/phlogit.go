@@ -820,7 +820,7 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 		".jira",
 		".txt",
 	}
-	months := map[string]int{
+	months_days := map[string]int{
 		"01": 31, "02": 29, "03": 31, "04": 30,
 		"05": 31, "06": 30, "07": 31, "08": 31,
 		"09": 30, "10": 31, "11": 30, "12": 31,
@@ -832,7 +832,9 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 `, year),
 	}
 	ymd = append(ymd, year, "", "")
-	for month, cnt := range months {
+	for i := 1; i <= 12; i++ {
+		month := fmt.Sprintf("%02d", i)
+		cnt, _ := months_days[month]
 		ymd[1] = month
 		entries := []string{}
 		for day := 1; day <= cnt; day++ {
