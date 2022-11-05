@@ -11,17 +11,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_10",
-                                    "document": "test/phlog/2021/05/10/hello_10.md",
-                                    "title": "Hello No. 10",
-                                    "subtitle": "This is the 10(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/10/hello_10.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -30,17 +22,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_9",
-                                    "document": "test/phlog/2021/05/09/hello_9.md",
-                                    "title": "Hello No. 9",
-                                    "subtitle": "This is the 9(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/09/hello_9.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -49,17 +33,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_8",
-                                    "document": "test/phlog/2021/05/08/hello_8.md",
-                                    "title": "Hello No. 8",
-                                    "subtitle": "This is the 8(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/08/hello_8.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -68,17 +44,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_7",
-                                    "document": "test/phlog/2021/05/07/hello_7.md",
-                                    "title": "Hello No. 7",
-                                    "subtitle": "This is the 7(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/07/hello_7.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -87,17 +55,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_6",
-                                    "document": "test/phlog/2021/05/06/hello_6.md",
-                                    "title": "Hello No. 6",
-                                    "subtitle": "This is the 6(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/06/hello_6.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -106,17 +66,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_5",
-                                    "document": "test/phlog/2021/05/05/hello_5.md",
-                                    "title": "Hello No. 5",
-                                    "subtitle": "This is the 5(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/05/hello_5.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -125,17 +77,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_4",
-                                    "document": "test/phlog/2021/05/04/hello_4.md",
-                                    "title": "Hello No. 4",
-                                    "subtitle": "This is the 4(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/04/hello_4.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -144,17 +88,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_3",
-                                    "document": "test/phlog/2021/05/03/hello_3.md",
-                                    "title": "Hello No. 3",
-                                    "subtitle": "This is the 3(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/03/hello_3.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -163,17 +99,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_2",
-                                    "document": "test/phlog/2021/05/02/hello_2.md",
-                                    "title": "Hello No. 2",
-                                    "subtitle": "This is the 2(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/02/hello_2.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         },
@@ -182,17 +110,9 @@
                             "posts": [
                                 {
                                     "slug": "hello_1",
-                                    "document": "test/phlog/2021/05/01/hello_1.md",
-                                    "title": "Hello No. 1",
-                                    "subtitle": "This is the 1(th) test phlog post",
-                                    "byline": "By R. S. Doiel",
-                                    "creators": [
-                                        {
-                                            "name": "R. S. Doiel"
-                                        }
-                                    ],
-                                    "date": "2022-10-30",
-                                    "updated": "2022-10-30"
+                                    "document": "/Users/rsdoiel/src/github.com/rsdoiel/pttk/phlogit/test/phlog/2021/05/01/hello_1.md",
+                                    "date": "2022-10-31",
+                                    "updated": "2022-10-31"
                                 }
                             ]
                         }

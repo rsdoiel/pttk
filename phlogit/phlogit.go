@@ -1,13 +1,11 @@
-// phlogit.go is a sub-package pttk. A packages for managing static content
-// phlogs and documentation via Pandoc.
+// pttk is software for working with plain text content.
+// Copyright (C) 2022 R. S. Doiel
 //
-// @Author R. S. Doiel, <rsdoiel@gmail.com>
+// This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 //
-// copyright 2022 R. S. Doiel
-// All rights reserved.
+// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 //
-// License under the 3-Clause BSD License
-// See https://opensource.org/licenses/BSD-3-Clause
+// You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 package phlogit
 
 import (
@@ -822,7 +820,7 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 		".jira",
 		".txt",
 	}
-	months := map[string]int{
+	months_days := map[string]int{
 		"01": 31, "02": 29, "03": 31, "04": 30,
 		"05": 31, "06": 30, "07": 31, "08": 31,
 		"09": 30, "10": 31, "11": 30, "12": 31,
@@ -834,7 +832,9 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 `, year),
 	}
 	ymd = append(ymd, year, "", "")
-	for month, cnt := range months {
+	for i := 1; i <= 12; i++ {
+		month := fmt.Sprintf("%02d", i)
+		cnt, _ := months_days[month]
 		ymd[1] = month
 		entries := []string{}
 		for day := 1; day <= cnt; day++ {

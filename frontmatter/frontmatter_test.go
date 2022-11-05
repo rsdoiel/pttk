@@ -1,3 +1,11 @@
+// pttk is software for working with plain text content.
+// Copyright (C) 2022 R. S. Doiel
+//
+// This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 package frontmatter
 
 import (
@@ -31,6 +39,7 @@ This is a blog post body.
 Bye.
 `)
 
+	// Check if ReadAll(buf) works
 	buf := bytes.NewBuffer(txt)
 	src, err := ReadAll(buf)
 	if err != nil {
@@ -51,5 +60,26 @@ Bye.
 			t.Errorf("expected: %s got: %s", expected, got)
 			t.FailNow()
 		}
+	}
+	// Now see if TrimFrontmatter works.
+	expected_doc := []byte(`
+A title of a post
+=================
+
+By R. S. Doiel, 2022-10-30
+
+This is a blog post body.
+
+Bye.
+`)
+	buf = bytes.NewBuffer(txt)
+	src, err = TrimFrontmatter(buf)
+	if err != nil {
+		t.Errorf("TrimFrontmatter(buf) error %s", err)
+		t.FailNow()
+	}
+	if bytes.Compare(expected_doc, src) != 0 {
+		t.Errorf("expected doc:\n%s\nGot doc:\n%s\n", expected_doc, src)
+		t.FailNow()
 	}
 }
