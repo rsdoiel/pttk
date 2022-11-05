@@ -145,6 +145,7 @@ check: .FORCE
 	go vet *.go
 
 test: clean build
+	cd pandoc && go test
 	cd blogit && go test
 	cd phlogit && go test
 	cd rss && go test

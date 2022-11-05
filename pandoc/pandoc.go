@@ -11,11 +11,13 @@ package pandoc
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"io/fs"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path"
 	"path/filepath"
@@ -23,11 +25,8 @@ import (
 )
 
 type API struct {
-	// Hostname is the host to contact, normally this is localhost unless
-	// the Pandoc service is being proxied
-	Hostname string `json:"hostname,omitempty"`
-	// Port defaults to 3030, it is the port number that pandoc-server listens on
-	Port string `json:"port,omitempty"`
+	// URL holds the URL to the pandoc server, it normally would be "http://localhost:3030" unless proxied
+	URL string `json:"url,omitempty"`
 	// Verbose, if true log success as well as errors
 	Verbose bool
 	// Settings holds the settings to use to submit to Pandoc Server's root end point
@@ -118,6 +117,21 @@ func inStringList(val string, list []string) bool {
 	return false
 }
 
+// getText takes a text string and first checks if it is a path,
+// if it is a path then it returns the file, othersize it returns the original text
+func getText(s string) string {
+	// See if we have file path, if so read in the template
+	if !strings.Contains(s, "\n") {
+		if err, _ := os.Stat(s); err == nil {
+			src, err := os.ReadFile(s)
+			if err == nil {
+				return fmt.Sprintf("%s", src)
+			}
+		}
+	}
+	return s
+}
+
 // Load will read a JSON file containing configuration
 // and return an API struct and error. The API structure
 // is used to interact with a running Pandoc Server.
@@ -152,54 +166,92 @@ func Load(fName string) (*API, error) {
 	if err := json.Unmarshal(src, api); err != nil {
 		return nil, err
 	}
-	if api.Port == "" {
-		api.Port = ":3030"
-	} else if !strings.HasPrefix(api.Port, ":") {
-		api.Port = fmt.Sprintf(":%s", api.Port)
+	if api.URL == "" {
+		api.URL = "http://localhost:3030"
 	}
 	if api.Settings == nil {
-		api.Settings = Settings{}
+		api.Settings = new(Settings)
 	}
 	if api.Settings.Template != "" {
 		// See if we have file path, if so read in the template
-		if !strings.Contains(api.Settings.Template, "\n") {
-			if err, _ := os.Stat(api.Settings.Template); err == nil {
-				src, err := os.ReadFile(api.Settings.Template)
-				if err == nil {
-					api.Settings.Template = fmt.Sprint("%s", src)
-				}
-			}
-		}
+		api.Settings.Template = getText(api.Settings.Template)
 	}
-
-	if !inStringList(api.Settings.TrackChanges, []string{"accept", "reject", "all", ""}) {
-		return api, fmt.Errorf("tract-changes: %q is not supported", api.TrackChanges)
-	}
-	if !inStringList(api.Settings.Wrap, []string{"auto", "preserve", "none", ""}) {
-		return api, fmt.Errorf("wrap: %q is not supported", api.Wrap)
-	}
-	if !inStringList(api.Settings.HighlightStyle, []string{"pygments", "kate", "monochrome", "breezeDark", "espresso", "zenburn", "haddock", "tango", ""}) {
-		return api, fmt.Errorf("highlight-style: %q is not supported", api.HighlightStyle)
-	}
-	if !inStringList(api.Settings.ReferenceLocation, []string{"document", "section", "block", ""}) {
-		return api, fmt.Errorf("wrap: %q is not supported", api.ReferenceLocation)
-	}
-	if !inStringList(api.Settings.TopLevelDivision, []string{"default", "part", "chapter", "section", ""}) {
-		return api, fmt.Errorf("top-level-division: %q is not supported", api.TopLevelDivision)
-	}
-	if !inStringList(api.Settings.HTMLMathMethod, []string{"plain", "webtex", "gladtex", "mathml", "mathjax", "katex", ""}) {
-		return api, fmt.Errorf("html-math-method: %q is not supported", api.HTMLMathMethod)
-	}
-	if !inStringList(api.Settings.EmailObfuscation, []string{"none", "references", "javascript", ""}) {
-		return api, fmt.Errorf("email-obfuscation: %q is not supported", api.EmailObfuscation)
-	}
-	if !inStringList(api.Settings.IpynbOutput, []string{"best", "all", "none", ""}) {
-		return api, fmt.Errorf("ipynb-output: %q is not supported", api.IpynbOutput)
-	}
-	if !inStringList(api.Settings.CiteMethod, []string{"citeproc", "natbib", "biblatex", ""}) {
-		return api, fmt.Errorf("cite-method: %q is not supported", api.CiteMethod)
+	if err := api.vetSettings(); err != nil {
+		return api, err
 	}
 	return api, nil
+}
+
+// vetSettings looks at the Settings structure and returns an error if one is found.
+func (api *API) vetSettings() error {
+	if !inStringList(api.Settings.TrackChanges, []string{"accept", "reject", "all", ""}) {
+		return fmt.Errorf("tract-changes: %q is not supported", api.Settings.TrackChanges)
+	}
+	if !inStringList(api.Settings.Wrap, []string{"auto", "preserve", "none", ""}) {
+		return fmt.Errorf("wrap: %q is not supported", api.Settings.Wrap)
+	}
+	if !inStringList(api.Settings.HighlightStyle, []string{"pygments", "kate", "monochrome", "breezeDark", "espresso", "zenburn", "haddock", "tango", ""}) {
+		return fmt.Errorf("highlight-style: %q is not supported", api.Settings.HighlightStyle)
+	}
+	if !inStringList(api.Settings.ReferenceLocation, []string{"document", "section", "block", ""}) {
+		return fmt.Errorf("wrap: %q is not supported", api.Settings.ReferenceLocation)
+	}
+	if !inStringList(api.Settings.TopLevelDivision, []string{"default", "part", "chapter", "section", ""}) {
+		return fmt.Errorf("top-level-division: %q is not supported", api.Settings.TopLevelDivision)
+	}
+	if !inStringList(api.Settings.HTMLMathMethod, []string{"plain", "webtex", "gladtex", "mathml", "mathjax", "katex", ""}) {
+		return fmt.Errorf("html-math-method: %q is not supported", api.Settings.HTMLMathMethod)
+	}
+	if !inStringList(api.Settings.EmailObfuscation, []string{"none", "references", "javascript", ""}) {
+		return fmt.Errorf("email-obfuscation: %q is not supported", api.Settings.EmailObfuscation)
+	}
+	if !inStringList(api.Settings.IpynbOutput, []string{"best", "all", "none", ""}) {
+		return fmt.Errorf("ipynb-output: %q is not supported", api.Settings.IpynbOutput)
+	}
+	if !inStringList(api.Settings.CiteMethod, []string{"citeproc", "natbib", "biblatex", ""}) {
+		return fmt.Errorf("cite-method: %q is not supported", api.Settings.CiteMethod)
+	}
+	return nil
+}
+
+// PandocOptions takes a subset Pandoc's command line options and tries to
+// map them to the server API.
+func (api *API) PandocOptions(options []string) error {
+	cmd := append([]string{"pandoc"}, options...)
+	flagSet := flag.NewFlagSet("pandoc", flag.ContinueOnError)
+	flagSet.StringVar(&api.Settings.Template, "template", api.Settings.Template, "use template")
+	flagSet.StringVar(&api.Settings.From, "from", api.Settings.From, "from type")
+	flagSet.StringVar(&api.Settings.To, "from", api.Settings.To, "to type")
+	flagSet.StringVar(&api.Settings.Metadata, "metadata-file", api.Settings.Metadata, "use metadata file")
+	//FIXME: Need to map the other options that are supported in common
+	flagSet.Parse(cmd)
+	if api.Settings.Template != "" {
+		api.Settings.Template = getText(api.Settings.Template)
+	}
+	if api.Settings.Metadata != "" {
+		api.Settings.Metadata = getText(api.Settings.Metadata)
+	}
+	return api.vetSettings()
+}
+
+// Version returns the version of the Pandoc Server runing
+func (api *API) Version() (string, error) {
+	u, err := url.Parse(api.URL)
+	if err != nil {
+		return "", err
+	}
+	u.Path = "/version"
+	fmt.Printf("DEBUG u -> %q\n", u.String())
+	resp, err := http.Get(u.String())
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%s", body), nil
 }
 
 // sendToRootEndpoint takes content type and sends the request to the Pandoc Server
@@ -221,9 +273,17 @@ func (api *API) sendToRootEndpoint() ([]byte, error) {
 		return nil, fmt.Errorf("nothing to convert")
 	}
 	// Setup out our JSON post request.
-	u := fmt.Sprintf("http://localhost%s/", api.Port)
+	if api.URL == "" {
+		api.URL = "http://localhost:3030"
+	}
+	u, err := url.Parse(api.URL)
+	if err != nil {
+		log.Printf("Invalid URL for Pandoc Server %q, %s", u.String(), err)
+		return nil, fmt.Errorf("Invalid URL for Pandoc Server %q, %s", u.String(), err)
+	}
+	u.Path = "/"
 	body := bytes.NewReader(src)
-	req, err := http.NewRequest("POST", u, body)
+	req, err := http.NewRequest("POST", u.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -262,7 +322,7 @@ func (api *API) sendToRootEndpoint() ([]byte, error) {
 // // Setup our client configuration
 // api := pandoc.API{}
 // api.Port = ":3030"
-// api.Hostname = "localhost"
+// api.Host = "localhost"
 //
 //	api.Settings = Settings{
 //	               Standalone: true,
@@ -287,9 +347,9 @@ func (api *API) Convert(input io.Reader) ([]byte, error) {
 		return nil, err
 	}
 	// NOTE: The source needs to already be converted to bytes, if necessary base64 encoded.
-	api.Text = fmt.Sprintf("%s", src)
+	api.Settings.Text = fmt.Sprintf("%s", src)
 	defer func() {
-		api.Text = ""
+		api.Settings.Text = ""
 	}()
 	src, err = api.sendToRootEndpoint()
 	if err != nil {

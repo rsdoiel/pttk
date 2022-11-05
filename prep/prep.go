@@ -14,8 +14,9 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
-	"strings"
+
+	// Project packages
+	"github.com/rsdoiel/pttk/pandoc"
 
 	// 3rd Party Packages
 	"gopkg.in/yaml.v3"
@@ -38,7 +39,7 @@ func SetVerbose(onoff bool) {
 //
 //	// Options passed to Pandoc
 //	opt := []string{}
-//	out, err := pdtmpl.ReadAll(os.Stdin, "page.tmpl", opt)
+//	out, err := prep.ReadAll(os.Stdin, "page.tmpl", opt)
 //	if err != nil {
 //	   // ... handle error
 //	}
@@ -110,10 +111,20 @@ func ApplyIO(r io.Reader, w io.Writer, options []string) error {
 //
 // ```
 func Apply(src []byte, options []string) ([]byte, error) {
-	pandoc, err := exec.LookPath("pandoc")
-	if err != nil {
-		return nil, err
+	// FIXME: Make sure we can connect to the pandoc server
+	api := new(pandoc.API)
+	if api.Settings == nil {
+		api.Settings = new(pandoc.Settings)
 	}
+	if verbose {
+		api.Verbose = true
+	}
+	version, err := api.Version()
+	if err != nil {
+		return nil, fmt.Errorf("pandoc-server unreachable")
+	}
+	// NOTE: I need to convert the pandoc command line paremeters into a Pandoc Server all format
+	api.PandocOptions(options)
 
 	// NOTE: if we convert the JSON to YAML then I can generator
 	// YAML front matter and turn that into a Markdown source doc.
@@ -124,50 +135,31 @@ func Apply(src []byte, options []string) ([]byte, error) {
 	// or I could just rely on the options passed to Pandoc to find it.
 
 	// Is `src` JSON or YAML, sniff for "{" prefix.
+	m := map[string]interface{}{}
 	if bytes.HasPrefix(bytes.TrimSpace(src), []byte(`{`)) {
 		// Convert JSON to YAML
-		m := map[string]interface{}{}
 		if err := json.Unmarshal(src, &m); err != nil {
 			return nil, fmt.Errorf("failed to covert JSON to YAML, %s", err)
 		}
+	} else {
 		src, err = yaml.Marshal(&m)
 		if err != nil {
 			return nil, fmt.Errorf("failed to generate YAML for front matter, %s", err)
 		}
 	}
-
-	if verbose {
-		fmt.Fprintf(os.Stderr, "%s %s\n", pandoc, strings.Join(options, " "))
+	if len(m) > 0 {
+		api.Settings.Metadata = fmt.Sprintf("%s", src)
 	}
-	cmd := exec.Command(pandoc, options...)
-	if len(bytes.TrimSpace(src)) > 0 {
-		stdin, err := cmd.StdinPipe()
-		if err != nil {
-			return nil, fmt.Errorf("could not setup pipe for standard input, %s", err)
-		}
-		go func() {
-			defer stdin.Close()
-			fmt.Fprintf(stdin, "---\n%s\n---\n\n", src)
-		}()
-	}
-	stderr, err := cmd.StderrPipe()
+	src, err = json.Marshal(api.Settings)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to marshall settings, %s", err)
 	}
-	stdout, err := cmd.StdoutPipe()
+	if api.Verbose {
+		fmt.Fprintf(os.Stderr, "Contacting pandoc server %s\n", version)
+	}
+	src, err = api.Convert(bytes.NewReader(src))
 	if err != nil {
-		return nil, err
-	}
-	if err := cmd.Start(); err != nil {
-		return nil, err
-	}
-	errMsg, _ := io.ReadAll(stderr)
-	src, _ = io.ReadAll(stdout)
-	if err := cmd.Wait(); err != nil {
-		if len(errMsg) > 0 {
-			return nil, fmt.Errorf("%s, %s\n", errMsg, err)
-		}
-		return nil, err
+		return nil, fmt.Errorf("pandoc conversion failed, %s", err)
 	}
 	return src, nil
 }

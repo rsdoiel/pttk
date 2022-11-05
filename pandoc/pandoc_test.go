@@ -10,12 +10,14 @@ package pandoc
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"testing"
 )
 
 func TestPandoc(t *testing.T) {
-	mdText = `---
+
+	mdText := []byte(`---
 title: "Hello World!"
 author: "jane.doe@example.org (Jane Doe)"
 byline: "Jane Doe"
@@ -29,7 +31,7 @@ By Jane Doe, 2022-11-05
 
 I exist in the virtual space and with that I say "Hello World!".
 
-`
+`)
 
 	// FIXME: make sure we have pandoc-server running
 
@@ -54,6 +56,13 @@ I exist in the virtual space and with that I say "Hello World!".
 		t.Error(err)
 		t.FailNow()
 	}
+	// First make sure the server is available.
+	version, err := api.Version()
+	if err != nil {
+		t.Errorf("failed to retrieve pandoc version, %s", err)
+		t.FailNow()
+	}
+	fmt.Printf("DEBUG version %s\n", version)
 	// Use verbose logging for tests.
 	api.Verbose = true
 	src, err := api.Convert(bytes.NewReader(mdText))
