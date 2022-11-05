@@ -19,6 +19,8 @@ accordingly Pandoc options. Pandoc options are those options
 coming after a "--" (double dash) marker. Options before "--"
 are for the pttk preprossor.
 
+NOTE: prep requires the "pandoc-server" to be running.
+
 # OPTIONS
 
 -help

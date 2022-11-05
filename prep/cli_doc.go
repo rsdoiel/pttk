@@ -30,6 +30,8 @@ accordingly Pandoc options. Pandoc options are those options
 coming after a "--" (double dash) marker. Options before "--"
 are for the {app_name} preprossor.
 
+NOTE: prep requires that "pandoc-server" be running in order to work.
+
 # OPTIONS
 
 -help

@@ -8,6 +8,6 @@ authors:
 abstract: pttk is a plain text tool kit for writing. The main focus is on static site generation using Pandoc and Gopher.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a Pandoc preprocessor called prep, a blogging tool called blogit, an RSS generator called rss and localhost static content webserver called ws. In this way you should be able to have many of the website features you'd expect from a dynamic content management system like Wordpress without the need to run one.
 repository-code: "git+https://github.com/rsdoiel/pttk"
 type: software
-version: 0.0.8
+version: 0.0.9
 license-url: "https://spdx.org/licenses/BSD-3-Clause"
 date-released: 2022-11-05
