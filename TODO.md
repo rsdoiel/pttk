@@ -1,7 +1,6 @@
 TODO
 ====
 
-
 Bugs
 ----
 
@@ -20,6 +19,9 @@ Bugs
 Next
 ----
 
+- [ ] Remove direct pandoc exec calls in favor of Pandoc Server
+    - [ ] Add "pandoc" action for processing with pandoc server
+    - [ ] Add documentation about how to run pandoc server
 - [ ] Review git.mills.io/prologic/go-gopher and understand what was implemented
     - [ ] Evaluate using as is and what I would need need to write to replace gophermap handling with how it works on sdf.org's Gopher deployment
     - [ ] Evaluate writing my own gopher server for previewing content easily is it turns out I need to fork go-gopher to get the behavior I want
