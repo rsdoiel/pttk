@@ -2,7 +2,7 @@ package pttk
 
 // Version of package
 const (
-    Version = `0.0.9`
+    Version = `0.0.10`
 
     LicenseText = `
                     GNU AFFERO GENERAL PUBLIC LICENSE

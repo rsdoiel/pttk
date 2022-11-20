@@ -9,6 +9,7 @@
 package phlogit
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -38,7 +39,7 @@ var (
 	setName        string
 	setStarted     string
 	setEnded       string
-	setQuip        string
+	setQuote       string
 	setDescription string
 	setBaseURL     string
 	setIndexTmpl   string
@@ -57,7 +58,38 @@ func usage(appName string, verb string, exitCode int) {
 	os.Exit(exitCode)
 }
 
+type PhlogitConfig struct {
+	Author        string `json:"author,omitempty"`
+	SaveAsYaml    bool   `json:"save_as_yaml,omitempty"`
+	Name          string `json:"name,omitempty"`
+	Quote         string `json:"quote,omitempty"`
+	PrefixPath    string `json:"prefix_path,omitempty"`
+	Copyright     string `json:"copyright,omitempty"`
+	Language      string `json:"language,omitempty"`
+	License       string `json:"license,omitempty"`
+	Started       string `json:"started,omitempty"`
+	Ended         string `json:"ended,omitempty"`
+	Description   string `json:"description,omitempty"`
+	URL           string `json:"url,omitempty"`
+	IndexTemplate string `json:"index_template,omitempty"`
+	PostTemplate  string `json:"post_template,omitempty"`
+}
+
 func RunPhlogIt(appName string, verb string, vargs []string) error {
+	cfg := new(PhlogitConfig)
+	// read in .pttk configuration files if they exist, the setup defaults
+	if _, err := os.Stat(".phlogit"); err == nil {
+		src, err := os.ReadFile(".phlogit")
+		if err != nil {
+			return fmt.Errorf("%s", err)
+		}
+		if err := json.Unmarshal(src, &cfg); err != nil {
+			return err
+		}
+	}
+	if cfg.Language == "" {
+		cfg.Language = "en-US"
+	}
 	flagSet := flag.NewFlagSet(appName+":"+verb, flag.ExitOnError)
 
 	// Standard Options
@@ -65,22 +97,22 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 	flagSet.BoolVar(&showVerbose, "verbose", false, "verbose output")
 
 	// Application specific options
-	flagSet.StringVar(&author, "author", "", `Set the author name for use with "Simple Timesheet Notation" file for phlog posts`)
+	flagSet.StringVar(&author, "author", cfg.Author, `Set the author name for use with "Simple Timesheet Notation" file for phlog posts`)
 	flagSet.StringVar(&stnImport, "stn", "", `Use a "Simple Timesheet Notation" file for phlog posts`)
-	flagSet.BoolVar(&saveAsYAML, "save-as-yaml", false, "save as YAML file instead of phlog.yaml file")
-	flagSet.StringVar(&prefixPath, "prefix", "", "Set the prefix path before YYYY/MM/DD.")
+	flagSet.BoolVar(&saveAsYAML, "save-as-yaml", cfg.SaveAsYaml, "save as YAML file instead of phlog.yaml file")
+	flagSet.StringVar(&prefixPath, "prefix", cfg.PrefixPath, "Set the prefix path before YYYY/MM/DD.")
 	flagSet.StringVar(&refreshPhlog, "refresh", "", "Refresh phlog.json for a given year")
-	flagSet.StringVar(&setName, "name", "", "Set the phlog name.")
-	flagSet.StringVar(&setQuip, "quip", "", "Set the phlog quip.")
-	flagSet.StringVar(&setCopyright, "copyright", "", "Set the phlog copyright notice.")
-	flagSet.StringVar(&setLanguage, "language", "en-US", "Set the phlog language.")
-	flagSet.StringVar(&setLicense, "license", "", "Set the phlog language license.")
-	flagSet.StringVar(&setStarted, "started", "", "Set the phlog started date.")
-	flagSet.StringVar(&setStarted, "ended", "", "Set the phlog ended date.")
-	flagSet.StringVar(&setDescription, "description", "", "Set the phlog description")
-	flagSet.StringVar(&setBaseURL, "url", "", "Set phlog's URL")
-	flagSet.StringVar(&setIndexTmpl, "index-tmpl", "", "Set index phlog template")
-	flagSet.StringVar(&setPostTmpl, "post-tmpl", "", "Set index phlog template")
+	flagSet.StringVar(&setName, "name", cfg.Name, "Set the phlog name.")
+	flagSet.StringVar(&setQuote, "quote", cfg.Quote, "Set the phlog quote.")
+	flagSet.StringVar(&setCopyright, "copyright", cfg.Copyright, "Set the phlog copyright notice.")
+	flagSet.StringVar(&setLanguage, "language", cfg.Language, "Set the phlog language.")
+	flagSet.StringVar(&setLicense, "license", cfg.License, "Set the phlog language license.")
+	flagSet.StringVar(&setStarted, "started", cfg.Started, "Set the phlog started date.")
+	flagSet.StringVar(&setStarted, "ended", cfg.Ended, "Set the phlog ended date.")
+	flagSet.StringVar(&setDescription, "description", cfg.Description, "Set the phlog description")
+	flagSet.StringVar(&setBaseURL, "url", cfg.URL, "Set phlog's URL")
+	flagSet.StringVar(&setIndexTmpl, "index-tmpl", cfg.IndexTemplate, "Set index phlog template")
+	flagSet.StringVar(&setPostTmpl, "post-tmpl", cfg.PostTemplate, "Set index phlog template")
 	flagSet.BoolVar(&phlogAsset, "asset", false, "Copy asset file to the phlog path for provided date (YYYY-MM-DD)")
 
 	flagSet.Parse(vargs)
@@ -118,8 +150,8 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 	if setName != "" {
 		meta.Name = setName
 	}
-	if setQuip != "" {
-		meta.Quip = setQuip
+	if setQuote != "" {
+		meta.Quip = setQuote
 	}
 	if setDescription != "" {
 		meta.Description = setDescription
@@ -189,7 +221,7 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 			return fmt.Errorf("Date error %q, %s", dateString, err)
 		}
 	default:
-		if setName != "" || setQuip != "" || setDescription != "" ||
+		if setName != "" || setQuote != "" || setDescription != "" ||
 			setBaseURL != "" || setIndexTmpl != "" || setPostTmpl != "" {
 			if err := meta.Save(phlogMetadataName); err != nil {
 				return fmt.Errorf("%s\n", err)
