@@ -19,16 +19,14 @@ Bugs
 Next
 ----
 
-- [ ] Depreciate prep, not sure it is needed and it creates a dependency on Pandoc itself, same effect is easy enough by other means
+- [x] Remove prep/pandoc as it is not needed, recent versions of Pandoc include `--metadata-file` to ingest JSON as metadata
 - [ ] I need a way I can read gophermaps, twtxt, JSONfeed, RSS/Atom feeds in a single reader, preferrably a console app, it should be driven from an OPML file or simple text file like newsboat (wish newsboat supported subscriptions to gophermaps, twtxt then I could just translate JSONfeed to twtxt...)
-- [ ] Remove direct pandoc exec calls in favor of Pandoc Server
-    - [ ] Add "pandoc" action for processing with pandoc server
-    - [ ] Add documentation about how to run pandoc server
 - [ ] Review git.mills.io/prologic/go-gopher and understand what was implemented
     - [ ] Evaluate using as is and what I would need need to write to replace gophermap handling with how it works on sdf.org's Gopher deployment
     - [ ] Evaluate writing my own gopher server for previewing content easily is it turns out I need to fork go-gopher to get the behavior I want
     - [ ] Look at serving table content out of SQLite3 database files
     - [ ] Look at integrations with dataset
+    - [ ] Gopher service needs to minic Gophernicus in how it handles Gophermaps and menus
 - [ ] Review Gopher and see about adding Gopher support
     - [ ] Look at gophermap and see how it may tranlsate to/from RSS
     - [ ] Look at autogenerating gophermap from blog.json
