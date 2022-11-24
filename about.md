@@ -5,7 +5,7 @@ title: pttk
 About this software
 ===================
 
-pttk 0.0.5
+pttk 0.0.11
 ----------------
 
 ### Authors
@@ -19,7 +19,7 @@ from your favorite POSIX shell or Makefile. It provides a number of
 functions including a Pandoc preprocessor called prep, a blogging tool
 called blogit, an RSS generator called rss and localhost static content
 webserver called ws. In this way you should be able to have many of the
-website features you’d expect from a dynamic content management system
+website features you'd expect from a dynamic content management system
 like Wordpress without the need to run one.
 
 
@@ -42,4 +42,3 @@ like Wordpress without the need to run one.
 
 - Pandoc 2.19 or better
 - GNU Make (recommended)
-

@@ -51,7 +51,7 @@ CITATION.cff: .FORCE
 	@if [ -f $(CODEMETA2CFF) ]; then $(CODEMETA2CFF) codemeta.json CITATION.cff; fi
 
 about.md: codemeta.json $(PROGRAMS)
-	./bin/pttk prep -i codemeta.json -- --template codemeta-md.tmpl >about.md
+	echo "" | pandoc --from=markdown --to=markdown --metadata title="About $(PROJECT)" --metadata-file=codemeta.json --template codemeta-md.tmpl >about.md
 
 
 $(PROGRAMS): cmd/*/*.go $(PACKAGE)
