@@ -19,6 +19,7 @@ Bugs
 Next
 ----
 
+- [ ] Depreciate prep, not sure it is needed and it creates a dependency on Pandoc itself, same effect is easy enough by other means
 - [ ] I need a way I can read gophermaps, twtxt, JSONfeed, RSS/Atom feeds in a single reader, preferrably a console app, it should be driven from an OPML file or simple text file like newsboat (wish newsboat supported subscriptions to gophermaps, twtxt then I could just translate JSONfeed to twtxt...)
 - [ ] Remove direct pandoc exec calls in favor of Pandoc Server
     - [ ] Add "pandoc" action for processing with pandoc server

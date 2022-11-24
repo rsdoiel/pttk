@@ -4,12 +4,7 @@
 pttk
 ====
 
-**pttk** is a plain text tool kit for writing. The main focus is on static site generation using Pandoc.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a Pandoc preprocessor called prep, a blogging tool called blogit as well as an RSS generator. In this way you should be able to have many of the website features you'd expect from a dynamic content management system like Wordpress without the need to run one.
-
-**pttk** is a proof-of-concept Go package which makes it easy to extend
-your Go application to incorporate Pandoc template processing or develop
-other content manage tools.
-
+**pttk** is a plain text tool kit for writing. The main focus is on static site generation supplimenting tools like Pandoc.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a blogging tool called blogit, phlogit, JSONfeed, RSS generations and rudementry support for sitemap.xml. Combines with Pandoc and Pagefind you can easily build rich websites and blogs.
 
 A command line tool kit
 -----------------------
@@ -36,12 +31,8 @@ __rss__
 __sitemap__
 : A tool for generating a sitemap.xml file.
 
-__prep__
-: a Pandoc preprocess that accepts JSON and pipes it into
-Pandoc for processing
-
 __include__
-: A "include" preprocessor including files with via an "#include();" directive.
+: A "include" text preprocessor including files with via an "#include();" directive.
 
 __blogit__ is a tool to make it easy to separate website generation
 from where you might want to write your blog posts. It will generate
@@ -128,48 +119,6 @@ Here's an example for our "my-website" directory.
 
 This wold generate a sitemap file of `$HOME/Sites/my-website/sitemap.xml`
 and if necessary ones in the sub directories like `blog`.
-
-The __prep__ "verb" is the most elaborate. It accepts JSON, transforms
-it into YAML front matter and pipes it into Pandoc for further processing.
-That make it easy to transform the data structures using Pandoc as data
-template engine into documents such as web pages.
-
-__prep__'s syntax is elaborate. It's form is
-
-```
-    pttk prep [PREP_OPTIONS] -- [PANDOC_OPTIONS]
-```
-
-NOTE: The "--" delimits __prep__'s own options from Pandoc's.
-Options on the left side of the "--" are processed by __prep__ and
-the options listed to the right of "--" are passed on unchanged to
-Pandoc after preprocessing is completed.
-
-Here's an example of processing [example.json](example.json)
-JSON document using a Pandoc template called [example.tpml](example.tmpl).
-
-```shell
-    pttk prep -- --template example.tmpl < example.json > example.html
-```
-
-A more practical example is transforming a [codemeta.json](codemeta.json)
-file into an about page. Here's how I transform this project's codemeta.json
-file into a Markdown document using a Pandoc template.
-
-```shell
-    pttk prep -- --template codemeta-md.tmpl \
-         < codemeta.json > about.md
-```
-
-Another example would be to use __prep__ to process the "blog.json"
-file into a BibTeX citation list using a template called
-[blog-bib.tmpl](blog-bib.tmpl).
-
-```shell
-    pttk prep -- --template blog-bib.tmpl \
-        < blog/blog.json > blog/blog.bib
-```
-
 
 
 Go package

@@ -6,7 +6,6 @@ user manual
 ===========
 
 - [Overview](pttk.1.html)
-- [JSON to Markdown](pttk-prep.1.html)
 - [Including files](pttk-include.1.html)
 - [Blogging](pttk-blogit.1.html)
 - [RSS Feeds](pttk-rss.1.html)
