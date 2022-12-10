@@ -295,6 +295,8 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *RSS2) error {
 						}
 						if val, ok := fMatter["description"]; ok {
 							post.Description = val.(string)
+						} else if val, ok := fMatter["abstract"]; ok {
+							post.Description = val.(string)
 						} else if includeDescription {
 							post.Description = OpeningParagraphs(fmt.Sprintf("%s", tSrc), 5, "\n\n")
 							if len(post.Description) < len(tSrc) {
@@ -395,6 +397,8 @@ func WalkRSS(feed *RSS2, htdocs string, baseURL string, excludeList string, titl
 			pubDate = Grep(dateExp, byline)
 		}
 		if val, ok := fMatter["description"]; ok {
+			description = val.(string)
+		} else if val, ok := fMatter["abstract"]; ok {
 			description = val.(string)
 		} else {
 			description = OpeningParagraphs(fmt.Sprintf("%s", tSrc), 5, "\n\n")
@@ -633,9 +637,9 @@ func OpeningParagraphs(src string, cnt int, para string) string {
 		if !skipBlock {
 			n += 1
 			txt = append(txt, block)
-		}
-		if n >= cnt {
-			break
+			if n >= cnt {
+				break
+			}
 		}
 	}
 	return strings.Join(txt, para)

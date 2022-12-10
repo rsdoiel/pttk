@@ -822,7 +822,7 @@ func (meta *BlogMeta) Save(fName string) error {
 			return fmt.Errorf("Marshaling %q, %s", fName, err)
 		}
 	default:
-		return fmt.Errorf("%q is an unsupported output format", ext)
+		return fmt.Errorf("%q unsupported output format, ext %q", fName, ext)
 	}
 	err = os.WriteFile(fName, src, 0666)
 	if err != nil {

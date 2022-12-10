@@ -149,6 +149,8 @@ func RunBlogIt(appName string, verb string, vargs []string) error {
 	// handle option cases
 	if saveAsYAML {
 		blogMetadataName = path.Join(prefixPath, "blog.yaml")
+	} else {
+		blogMetadataName = path.Join(prefixPath, "blog.json")
 	}
 	if setName != "" {
 		meta.Name = setName
