@@ -5,7 +5,7 @@ title: pttk
 About this software
 ===================
 
-pttk 0.0.11
+pttk 0.0.12
 ----------------
 
 ### Authors

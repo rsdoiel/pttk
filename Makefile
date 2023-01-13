@@ -7,8 +7,6 @@ VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-CODEMETA2CFF = $(shell which codemeta2cff)
-
 PROGRAMS = $(shell ls -1 cmd)
 
 PACKAGE = $(shell ls -1 *.go | grep -v 'version.go')
@@ -47,8 +45,8 @@ version.go: .FORCE
 	@echo '' >>version.go
 	@git add version.go
 
-CITATION.cff: .FORCE
-	@if [ -f $(CODEMETA2CFF) ]; then $(CODEMETA2CFF) codemeta.json CITATION.cff; fi
+CITATION.cff: codemeta.json
+	echo "" | pandoc --metadata title="CITATION.cff" --metadata-file=codemeta.json --from=markdown --template=codemeta-cff.tmpl >CITATION.cff
 
 about.md: codemeta.json $(PROGRAMS)
 	echo "" | pandoc --from=markdown --to=markdown --metadata title="About $(PROJECT)" --metadata-file=codemeta.json --template codemeta-md.tmpl >about.md
