@@ -218,7 +218,7 @@ save:
 website: about.md
 	make -f website.mak
 
-publish: build website
+publish: build website save
 	bash publish.bash
 
 .FORCE:
