@@ -29,7 +29,7 @@ endif
 
 DIST_FOLDERS = bin/*
 
-build: version.go $(PROGRAMS) CITATION.cff
+build: version.go $(PROGRAMS) CITATION.cff about.md installer.sh
 
 version.go: .FORCE
 	@echo "package $(PROJECT)" >version.go
@@ -51,6 +51,10 @@ CITATION.cff: codemeta.json
 about.md: codemeta.json $(PROGRAMS)
 	echo "" | pandoc --from=markdown --to=markdown --metadata title="About $(PROJECT)" --metadata-file=codemeta.json --template codemeta-md.tmpl >about.md
 
+installer.sh: .FORCE
+	echo '' | pandoc --metadata title='Installer' --metadata-file codemeta.json --template codemeta-installer.tmpl >installer.sh
+	chmod 775 installer.sh
+	git add -f installer.sh
 
 $(PROGRAMS): cmd/*/*.go $(PACKAGE)
 	@mkdir -p bin
@@ -193,6 +197,8 @@ distribute_docs:
 	cp -v CITATION.cff dist/
 	cp -v README.md dist/
 	cp -v LICENSE dist/
+	cp -v INSTALL.md dist/
+	cp -v installer.sh dist/
 	cp -vR man dist/
 	#cp -v INSTALL.md dist/
 
