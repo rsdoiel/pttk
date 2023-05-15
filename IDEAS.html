@@ -20,6 +20,7 @@
 <li><a href="IDEAS.html">Ideas</a></li>
 <li><a href="TODO.html">Todo</a></li>
 <li><a href="license.html">LICENSE</a></li>
+<li><a href="INSTALL.html">INSTALL</a></li>
 <li><a href="about.html">About</a></li>
 <li><a href="https://github.com/rsdoiel/pttk">GitHub</a></li>
 </ul>
@@ -53,23 +54,46 @@ an index.yaml file?</li>
 <li>A nice to have would be a LunrJS compatible index generator for
 integrate search</li>
 </ul></li>
+<li>What would be the minimum additional tools besides GNU Make and
+Pandoc needed to make it easy to maintain my Gopher site?</li>
+<li>What would be the minimum additional tools besides GNU Make and
+Pandoc needed to make it easy to maintain my Gemini site?</li>
 <li>Part of writing is reading, how can pttk help with that?
 <ul>
-<li>A feed READ might be nice</li>
+<li>A feed reader might be nice (e.g. similar to yarnc or twet output or
+something more rich like newsboat)</li>
+<li>Need to read from RSS, twtxt.txt, stno</li>
+<li>Render feed list as OPML to share on feedland</li>
+<li>Need to support reading Gophermap as feed source (so I can skim
+phlogs too)</li>
+<li>Need to support Gemini Atom feeds as feed source (so I can skim
+Gemlogs too)</li>
+<li>Integrate following feeds from feedland</li>
 </ul></li>
 <li>Part of writing includes citing things and looking things up, how
 can pttk help with that?
 <ul>
-<li>A personal search would be nice</li>
+<li>A personal search engine would be nice, Pagefind shows a very good
+approach but doesn’t search from the command line</li>
 <li>A way to read/reference freeds like Dave Wiener’s feed mailbox with
-a link to cite it my blog or read it in Pocket</li>
+a link to cite it in my blog or read it in Pocket</li>
 <li>A way to display OPML of interesting sites</li>
 </ul></li>
 <li>Should your site search be simple (site only) or a “personal search
 engine”?
 <ul>
-<li>A “personal search engine” would take a set of OPML files, RSS feeds
-index their content for easy retrieval</li>
+<li>Pagefind implements a very good website static site</li>
+<li>Pagefind doesn’t support remote resources inless a pagefind bunldle
+can be referenced</li>
+<li>Pagefind doesn’t work on Gopher and Gemini sites</li>
+<li>Pagefind search UI is GUI browser based, doesn’t work in lynx or as
+a cli</li>
+</ul></li>
+<li>A Personal search engine
+<ul>
+<li>A “personal search engine” would take a set of OPML files,
+JSONfeeds, twtxt.txt and RSS feeds index their content for easy
+retrieval</li>
 <li>A “personal search engine” would return links to the object,
 citation and link to “read in pocket”</li>
 <li>A “personal search engine” would also index documentation sites so
@@ -82,22 +106,24 @@ Bing, DuckDuckGo)</li>
 <ul>
 <li>A set of verbs to processing more complex actions
 <ul>
-<li>“prep” should expose the simple pre-processor implemented in pdtmpl
-experiment, this could be used to do things like generate an “about.md”
-page directly from codemeta.json of a project.</li>
 <li>“blogit” should be a fresh implementation of the blogit CLI from
 mkpage</li>
+<li>“phlogit” should be manage and organizing a Gopher phlog</li>
+<li>“series” would manage both a curated feed and series table of
+content based on Markdown frontmatter in files</li>
 <li>“rss” should generate appropriate, modern RSS 2.0 for
+syndication</li>
+<li>“jsonfeed” should generate appropriate JSON feeds for
 syndication</li>
 <li>“sitemap” should generate a sitemap for a website and support
 sub-sitemaps were appropraite</li>
-<li>“search” would let you search your site’s content perhaps using
-LunrJS indexes
+<li>“search” would let you search your site’s content, if possible via
+something similar to pagefind
 <ul>
 <li>“search” also might function as a personal search engine</li>
 </ul></li>
-<li>“index” would generate a search index like LunrJS indexes used by
-the “search” verb
+<li>“index” would generate a search index like LunrJS or pagefind
+indexes used by the “search” verb
 <ul>
 <li>should be able to index all Markdown content and front matter</li>
 <li>should be able to index content provided via an OPML file</li>
