@@ -4,8 +4,9 @@
 # Set the package name and version to install
 #
 PACKAGE="$name$"
-VERSION="$version$"
-RELEASE="https://github.com/caltechlibrary/$$PACKAGE/releases/tag/v$$VERSION"
+VERSION="v$version$"
+GIT_USER_OR_GROUP="rsdoiel"
+RELEASE="https://github.com/$$GIT_USER_OR_GROUP/$$PACKAGE/releases/tag/$$VERSION"
 
 #
 # Get the name of this script.
@@ -27,7 +28,7 @@ ZIPFILE="$$PACKAGE-$$VERSION-$$OS_NAME-$$MACHINE.zip"
 #
 # Check to see if this zip file has been downloaded.
 #
-DOWNLOAD_URL="https://github.com/caltechlibrary/$$PACKAGE/releases/download/v$$VERSION/$$ZIPFILE"
+DOWNLOAD_URL="https://github.com/$$GIT_USER_OR_GROUP/$$PACKAGE/releases/download/$$VERSION/$$ZIPFILE"
 if ! curl -L -o "$$HOME/Downloads/$$ZIPFILE" "$$DOWNLOAD_URL"; then
 	echo "Curl failed to get $$DOWNLOAD_URL"
 fi
