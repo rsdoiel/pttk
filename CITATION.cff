@@ -14,8 +14,7 @@ management system like Wordpress without the need to run one."
 authors:
   - family-names: Doiel
     given-names: R. S.
-    orcid: ""
-
+    orcid: "https://orcid.org/0000-0003-0900-6903"
 
 
 repository-code: "git+https://github.com/rsdoiel/pttk"

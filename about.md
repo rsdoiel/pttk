@@ -1,16 +1,39 @@
 ---
-title: pttk
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "pttk"
+abstract: "pttk is a plain text tool kit for writing. The main focus is
+on static site generation using Pandoc and Gopher. The metaphor behind
+the tool kit is a deconstructed content management system. It is easily
+scripted from your favorite POSIX shell or Makefile. It provides a
+number of functions including a Pandoc preprocessor called prep, a
+blogging tool called blogit, an RSS generator called rss and localhost
+static content webserver called ws. In this way you should be able to
+have many of the website features you’d expect from a dynamic content
+management system like Wordpress without the need to run one."
+authors:
+  - family-names: Doiel
+    given-names: R. S.
+    orcid: "https://orcid.org/0000-0003-0900-6903"
+
+repository-code: "git+https://github.com/rsdoiel/pttk"
+version: 0.0.12
+license-url: "https://spdx.org/licenses/BSD-3-Clause"
+
+
 ---
 
 About this software
 ===================
 
-pttk 0.0.12
-----------------
+## pttk 0.0.12
 
 ### Authors
 
 - R. S. Doiel
+
+
 
 pttk is a plain text tool kit for writing. The main focus is on static
 site generation using Pandoc and Gopher. The metaphor behind the tool
@@ -19,13 +42,12 @@ from your favorite POSIX shell or Makefile. It provides a number of
 functions including a Pandoc preprocessor called prep, a blogging tool
 called blogit, an RSS generator called rss and localhost static content
 webserver called ws. In this way you should be able to have many of the
-website features you'd expect from a dynamic content management system
+website features you’d expect from a dynamic content management system
 like Wordpress without the need to run one.
 
-
-- License: https://spdx.org/licenses/BSD-3-Clause
-- GitHub: git+https://github.com/rsdoiel/pttk
-- Issues: https://github.com/rsdoiel/pttk/issues
+- License: <https://spdx.org/licenses/BSD-3-Clause>
+- GitHub: <git+https://github.com/rsdoiel/pttk>
+- Issues: <https://github.com/rsdoiel/pttk/issues>
 
 
 ### Programming languages
