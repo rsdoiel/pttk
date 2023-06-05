@@ -30,52 +30,73 @@
 <!--  <h1>pttk.1</h1> -->
 
 <h1 id="name">NAME</h1>
-<p>pttk - a writers tool kit for static site generation using Pandoc</p>
+<p>pttk</p>
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>pttk <a href="#options">OPTIONS</a> verb [VERB_OPTIONS] [--
 [PANDOC_OPTIONS] … ]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>pttk is a toolkit for writing. The main focus is on static site
-generation with Pandoc. The tool kit provides those missing elements
-from a deconstructed content management system that Pandoc does not
-(possibly should not) provide. Using pttk with Pandoc should provide the
-core features expected in producing a website or blog in the early 21st
-century. These include preprocessor called “prep” which lets you take a
-JSON file and transform it into Markdown front matter that is directly
-passed to Pandoc for processing. You might want to do this for things
-like generating a CITATION.cff or an about page from a codemeta.json.
-You might want to generate BibTeX from your Markdown pages front matter
-you collected. pttk includes a tool called “blogit” that manages taking
-a Markdown source document and placing it in a blog directory structure
-while maintaining a blogs metadata in a “blog.json” file. It includes a
-tool, “rss”, that generates RSS files for a website or blog. There is
-even a localhost web server for previewing content called “ws”. All
-these tools are easily scripted via a Makefile or your favorite
-programming language (e.g. Python, Lua, Oberon-07, Go).</p>
-<p>“Verbs” are the way you select the tool you want to work with in the
-tool kit, e.g. “prep”, “blogit”, “rss” or “ws”.</p>
-<h2 id="meet-the-verbs">Meet the VERBS</h2>
-<p>pttk tools are accessed through “verbs”. These “verbs” currently
-include the following.</p>
+<p>pttk implements a deconstructed content management system suitable
+for working with plain text. It intended as a compliment to Pandoc
+focusing on collections of documents and structed text. Currently pttk
+provides tools to layout blog directories, generate Gophermap files for
+Gopher distribution. The ideas is to provide the tooling that will allow
+publication and distribution both on the world wide web as well as the
+“small internet”.</p>
+<p>pttk has grown to include features provide through simple “verbs”.
+The verbs include the following.</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-help</dt>
+<dd>
+Display help
+</dd>
+<dt>-license</dt>
+<dd>
+Display license
+</dd>
+<dt>-version</dt>
+<dd>
+Display version
+</dd>
+</dl>
+<h1 id="verbs">VERBS</h1>
+<p>Verbs have their one options. You can see a list of them with the
+form <code>pttk VERB -h</code></p>
 <dl>
 <dt><strong>help</strong></dt>
 <dd>
 Display this help page.
 </dd>
+<dt><strong>ws</strong></dt>
+<dd>
+Runs a simple static web server for checking static site development
+</dd>
+<dt><strong>gs</strong></dt>
+<dd>
+Runs a simple Gopher service for static site development
+</dd>
+<dt><strong>frontmatter</strong></dt>
+<dd>
+Reads a Pandoc markdown file with frontmatter and write out JSON
+</dd>
 <dt><strong>blogit</strong></dt>
 <dd>
 Renders a blog directory structure by “importing” Markdown documents or
 updating existing ones. It maintains a blog.json document collecting
-metadata and supporting RSS rendering.
+metadata and supportting RSS rendering.
+</dd>
+<dt><strong>phlogit</strong></dt>
+<dd>
+Renders a Phlog directory structure by “importing” text files or
+updating existing ones. It maintains a phlog.json document collecting
+metadata and supporting RSS rendering as well as generating gophermap
+files.
 </dd>
 <dt><strong>include</strong></dt>
 <dd>
-A preprocessor of doing recursive includes using an include directive
-like <code>#include(myfile.md);</code>
-</dd>
-<dt><strong>prep</strong></dt>
-<dd>
-Preprocess JSON or YAML into YAML front matter and run through Pandoc
+Include any files indicated by an include directive
+(e.g. “#include(toc.md);”). Include operates recursively so included
+files can also include other files.
 </dd>
 <dt><strong>rss</strong></dt>
 <dd>
@@ -85,81 +106,55 @@ Renders RSS feeds from the contents of a blog.json document
 <dd>
 Renders sitemap.xml files for a static website
 </dd>
-<dt><strong>ws</strong></dt>
-<dd>
-Runs a simple static web server for previewing content in your web
-browser
-</dd>
-<dt><strong>gs</strong></dt>
-<dd>
-Run a simlpe static gopher server for previewing content in your gopher
-client
-</dd>
-</dl>
-<h1 id="options">OPTIONS</h1>
-<dl>
-<dt>-help</dt>
-<dd>
-display usage
-</dd>
-<dt>-license</dt>
-<dd>
-display license
-</dd>
-<dt>-version</dt>
-<dd>
-display version
-</dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<h2 id="blogit">blogit</h2>
-<p>Adding a blog “first-post.md” to “myblog”.</p>
-<pre class="shell"><code>    pttk blogit myblog $HOME/Documents/first-post.md</code></pre>
-<p>Adding/Updating the “first-post.md” on “2022-07-22”</p>
-<pre class="shell"><code>    pttk blogit myblog $HOME/Documents/first-post.md &quot;2022-07-22&quot;</code></pre>
-<p>Added additional material for posts on “2022-07-22”</p>
-<pre class="shell"><code>    pttk blogit myblog $HOME/Documents/charts/my-graph.svg &quot;2022-07-22&quot;</code></pre>
-<p>Refreshing the blog’s blog.json file.</p>
-<pre class="shell"><code>    pttk blogit myblog</code></pre>
-<h2 id="prep">prep</h2>
-<p>In this example we have a JSON object document called “example.json”
-and a Pandoc template called “example.tmpl”. A redirect
-“<code>&lt;</code>” is used to pipe the content of “example.json” into
-the command line tool pttk.</p>
-<pre class="shell"><code>    pttk prep -- --template example.tmpl &lt; example.json</code></pre>
-<p>Render example.json as Markdown document. We need to use Pandoc’s own
-options of “-s” (stand alone) and “-t” (to tell Pandoc the output
-format)</p>
-<pre class="shell"><code>    pttk prep -- -s -t markdown &lt; example.json</code></pre>
-<p>Process a “codemeta.json” file with “codemeta-md.tmpl” to produce an
-about page in Markdown via Pandoc’s template processing (the
-“codemeta-md.tmpl” is a Pandoc template marked up to produce Markdown
-output).</p>
-<pre class="shell"><code>    pttk prep -i codemeta.json -o about.md \
-        -- --template codemeta-md.tmpl</code></pre>
+<h2 id="blogit-verb">blogit verb</h2>
 <p>Using pttk to manage blog content with the “blogit” verb.</p>
-<h2 id="rss">rss</h2>
+<p>Adding a blog “first-post.md” to “myblog”.</p>
+<pre class="shell"><code>  pttk blogit myblog $HOME/Documents/first-post.md</code></pre>
+<p>Adding/Updating the “first-post.md” on “2022-07-22”</p>
+<pre class="shell"><code>  pttk blogit myblog $HOME/Documents/first-post.md &quot;2022-07-22&quot;</code></pre>
+<p>Added additional material for posts on “2022-07-22”</p>
+<pre class="shell"><code>  pttk blogit myblog $HOME/Documents/charts/my-graph.svg &quot;2022-07-22&quot;</code></pre>
+<p>Refreshing the blogs’s blog.json file.</p>
+<pre class="shell"><code>  pttk blogit myblog</code></pre>
+<h2 id="phlogit-verb">phlogit verb</h2>
+<p>Using pttk to manage phlog content with the “phlogit” verb.</p>
+<p>Adding a blog “first-post.md” to “myphlog”.</p>
+<pre class="shell"><code>  pttk phlogit myphlog $HOME/Documents/first-post.md</code></pre>
+<p>Adding/Updating the “first-post.md” on “2022-07-22”</p>
+<pre class="shell"><code>  pttk phlogit myblog $HOME/Documents/first-post.md &quot;2022-07-22&quot;</code></pre>
+<p>Added additional material for posts on “2022-07-22”</p>
+<pre class="shell"><code>  pttk phlogit myblog $HOME/Documents/charts/my-graph.svg &quot;2022-07-22&quot;</code></pre>
+<p>Refreshing the phlogs’s phlog.json file.</p>
+<pre class="shell"><code>  pttk phlogit myblog</code></pre>
+<h2 id="rss-verb">rss verb</h2>
 <p>Using pttk to generate RSS for “myblog”</p>
-<pre class="shell"><code>    pttk rss myblog</code></pre>
-<h2 id="sitemap">sitemap</h2>
-<p>Generating a sitemap in a current directory</p>
-<pre class="shell"><code>    pttk sitemap .</code></pre>
-<h2 id="ws">ws</h2>
+<pre class="shell"><code>  pttk rss myblog</code></pre>
+<h2 id="sitemap-verb">sitemap verb</h2>
+<p>Generating a sitemap in a current directory (i.e. the “.”
+directory)</p>
+<pre class="shell"><code>  pttk sitemap .</code></pre>
+<h2 id="ws-verb">ws verb</h2>
 <p>Running a static web server to view rendering site</p>
-<pre class="shell"><code>    pttk ws $HOME/Sites/myblog</code></pre>
-<h2 id="gs">gs</h2>
+<pre class="shell"><code>  pttk ws $HOME/Sites/myblog</code></pre>
+<h2 id="gs-verb">gs verb</h2>
 <p>Running a static gopher server to view rendering site</p>
-<h1 id="see-also">SEE ALSO</h1>
-<ul>
-<li>manual pages for <a href="pttk-prep.1.html">pttk-prep</a>, <a
-href="pttk-blogit.1.html">pttk-blogit</a>, <a
-href="pttk-rss.1.html">pttk-rss</a>, <a
-href="pttk-ws.1.html">pttk-ws</a></li>
-<li>pttk website at <a
-href="https://rsdoiel.github.io/pttk">https://rsdoiel.github.io/pttk</a></li>
-<li>The source code is available from <a
-href="https://github.com/rsdoiel/pttk">https://github.com/rsdoiel/pttk</a></li>
-</ul>
+<pre><code>  pttk gs $HOME/Sites/myblog</code></pre>
+<h2 id="include-verb">include verb</h2>
+<p>Including a table of contents “toc.md”, and “chapters1.md” and
+“chapters2.md” in a file called “book.txt” and writing the result to
+“book.md”.</p>
+<p>The “book.txt” file would look like</p>
+<pre><code>   # My Book
+
+   #include(toc.md);
+
+   #include(chapter1.md);
+
+   #include(chapter2.md);</code></pre>
+<p>Putting the “book” together as on file.</p>
+<pre class="shell"><code>    pttk {verb} book.txt book.md</code></pre>
 </section>
 
 <footer>
