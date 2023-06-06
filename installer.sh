@@ -22,19 +22,8 @@ case "$OS_NAME" in
    Darwin)
    OS_NAME="macOS"
    ;;
-   "GNU/Linux")
-   OS_NAME="Linux"
-   ;;
    GNU/Linux)
-   OS_NAME="linux"
-   ;;
-   Windows)
-   OS_NAME="windows"
-   ;;
-esac
-case "${MACHINE}" in
-   x86_64)
-   MACHINE="amd64"
+   OS_NAME="Linux"
    ;;
 esac
 
