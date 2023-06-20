@@ -32,30 +32,19 @@
 <h1 id="name">NAME</h1>
 <p>pttk frontmatter</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>pttk frontmatter <a href="#options">OPTIONS</a> [INPUT_FILENAME]
-[OUTPUT_FILENAME]</p>
+<p>pttk frontmatter <a href="#options">OPTIONS</a> [INPUT_FILENAME] [OUTPUT_FILENAME]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>The frontmatter action allows you to extract metadata from a text
-document that uses the Markdown style frontmatter. By default it will
-return the documents frontmatter as a JSON structure. If you include a
-root level attribute name then you can extract the value as a unquoted
-string. By default frontmatter can read from standard input but if you
-provide a filename it’ll ready from the file instead. Likewise it writes
-to standard out but if an output filename is provided it write to that
-file instead.</p>
+<p>The frontmatter action allows you to extract metadata from a text document that uses the Markdown style frontmatter. By default it will return the documents frontmatter as a JSON structure. If you include a root level attribute name then you can extract the value as a unquoted string. By default frontmatter can read from standard input but if you provide a filename it’ll ready from the file instead. Likewise it writes to standard out but if an output filename is provided it write to that file instead.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>
-display this help page
+<dd>display this help page
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>Here is an example of extracting a frontmatter from “mypost.md”
-markdown file.</p>
+<p>Here is an example of extracting a frontmatter from “mypost.md” markdown file.</p>
 <pre><code>pttk frontmatter mypost.md</code></pre>
-<p>Here is an example of extracting a “title” from the frontmatter when
-combined with Stephen Dolan’s jq.</p>
+<p>Here is an example of extracting a “title” from the frontmatter when combined with Stephen Dolan’s jq.</p>
 <pre><code>pttk frontmatter mypost.md | jq .title</code></pre>
 </section>
 
