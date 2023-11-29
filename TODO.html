@@ -32,107 +32,144 @@
 <h1 id="todo">TODO</h1>
 <h2 id="bugs">Bugs</h2>
 <ul class="task-list">
-<li><input type="checkbox" disabled="" />
-Sitemap should include sub-sitemaps.xml when needed</li>
-<li><input type="checkbox" disabled="" />
-A gophermap generated to work in <code>pttk gs</code> doesn’t work like the Gopherserver on SDF, they need to match so gophermaps are portable.</li>
-<li><input type="checkbox" disabled="" checked="" />
-RSS Feed isn’t passing validation,<ul>
-<li><input type="checkbox" disabled="" checked="" />
-Dates must comply with http://www.faqs.org/rfcs/rfc822.html<ul>
-<li>NOTE: For Go time.Time what passes validators is RFC1123Z formatted dates.</li>
+<li><label><input type="checkbox" />Sitemap should include
+sub-sitemaps.xml when needed</label></li>
+<li><label><input type="checkbox" />A gophermap generated to work in
+<code>pttk gs</code> doesn’t work like the Gopherserver on SDF, they
+need to match so gophermaps are portable.</label></li>
+<li><label><input type="checkbox" checked="" />RSS Feed isn’t passing
+validation,</label>
+<ul>
+<li><label><input type="checkbox" checked="" />Dates must comply with
+http://www.faqs.org/rfcs/rfc822.html</label>
+<ul>
+<li>NOTE: For Go time.Time what passes validators is RFC1123Z formatted
+dates.</li>
 </ul></li>
-<li><input type="checkbox" disabled="" checked="" />
-Missing Atom relationship element</li>
-<li><input type="checkbox" disabled="" checked="" />
-Links need to point at .html files not .md files</li>
+<li><label><input type="checkbox" checked="" />Missing Atom relationship
+element</label></li>
+<li><label><input type="checkbox" checked="" />Links need to point at
+.html files not .md files</label></li>
 <li>Make sure it passes with at least two validators
 <ul class="task-list">
-<li><input type="checkbox" disabled="" checked="" />
-W3C validator: https://validator.w3.org/feed/</li>
-<li><input type="checkbox" disabled="" checked="" />
-RSS Board: https://www.rssboard.org/rss-validator/</li>
+<li><label><input type="checkbox" checked="" />W3C validator:
+https://validator.w3.org/feed/</label></li>
+<li><label><input type="checkbox" checked="" />RSS Board:
+https://www.rssboard.org/rss-validator/</label></li>
 </ul></li>
 </ul></li>
 </ul>
 <h2 id="next">Next</h2>
 <ul class="task-list">
-<li><input type="checkbox" disabled="" checked="" />
-Remove prep/pandoc as it is not needed, recent versions of Pandoc include <code>--metadata-file</code> to ingest JSON as metadata</li>
-<li><input type="checkbox" disabled="" />
-I need a way I can read gophermaps, twtxt, JSONfeed, RSS/Atom feeds in a single reader, preferrably a console app, it should be driven from an OPML file or simple text file like newsboat (wish newsboat supported subscriptions to gophermaps, twtxt then I could just translate JSONfeed to twtxt…)</li>
-<li><input type="checkbox" disabled="" />
-Review git.mills.io/prologic/go-gopher and understand what was implemented<ul class="task-list">
-<li><input type="checkbox" disabled="" />
-Evaluate using as is and what I would need need to write to replace gophermap handling with how it works on sdf.org’s Gopher deployment</li>
-<li><input type="checkbox" disabled="" />
-Evaluate writing my own gopher server for previewing content easily is it turns out I need to fork go-gopher to get the behavior I want</li>
-<li><input type="checkbox" disabled="" />
-Look at serving table content out of SQLite3 database files</li>
-<li><input type="checkbox" disabled="" />
-Look at integrations with dataset</li>
-<li><input type="checkbox" disabled="" />
-Gopher service needs to minic Gophernicus in how it handles Gophermaps and menus</li>
+<li><label><input type="checkbox" />Think about leverage skimmer’s
+database of harvested feed items and how that might integrate into
+blogging (e.g. quoting articles)</label></li>
+<li><label><input type="checkbox" checked="" />Remove prep/pandoc as it
+is not needed, recent versions of Pandoc include
+<code>--metadata-file</code> to ingest JSON as metadata</label></li>
+<li><label><input type="checkbox" />I need a way I can read gophermaps,
+twtxt, JSONfeed, RSS/Atom feeds in a single reader, preferrably a
+console app, it should be driven from an OPML file or simple text file
+like newsboat (wish newsboat supported subscriptions to gophermaps,
+twtxt then I could just translate JSONfeed to twtxt…)</label></li>
+<li><label><input type="checkbox" />Review
+git.mills.io/prologic/go-gopher and understand what was
+implemented</label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Evaluate using as is and what I
+would need need to write to replace gophermap handling with how it works
+on sdf.org’s Gopher deployment</label></li>
+<li><label><input type="checkbox" />Evaluate writing my own gopher
+server for previewing content easily is it turns out I need to fork
+go-gopher to get the behavior I want</label></li>
+<li><label><input type="checkbox" />Look at serving table content out of
+SQLite3 database files</label></li>
+<li><label><input type="checkbox" />Look at integrations with
+dataset</label></li>
+<li><label><input type="checkbox" />Gopher service needs to minic
+Gophernicus in how it handles Gophermaps and menus</label></li>
 </ul></li>
-<li><input type="checkbox" disabled="" />
-Review Gopher and see about adding Gopher support<ul class="task-list">
-<li><input type="checkbox" disabled="" />
-Look at gophermap and see how it may tranlsate to/from RSS</li>
-<li><input type="checkbox" disabled="" />
-Look at autogenerating gophermap from blog.json</li>
-<li><input type="checkbox" disabled="" />
-Update .editorconfig to fixed issues about converting tabs in gophermap</li>
-<li><input type="checkbox" disabled="" />
-Look at modifying go-gopher to support “+” operator in the selector for hostname and port, or just auto create them in not supplied.<ul>
+<li><label><input type="checkbox" />Review Gopher and see about adding
+Gopher support</label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Look at gophermap and see how it may
+tranlsate to/from RSS</label></li>
+<li><label><input type="checkbox" />Look at autogenerating gophermap
+from blog.json</label></li>
+<li><label><input type="checkbox" />Update .editorconfig to fixed issues
+about converting tabs in gophermap</label></li>
+<li><label><input type="checkbox" />Look at modifying go-gopher to
+support “+” operator in the selector for hostname and port, or just auto
+create them in not supplied.</label>
+<ul>
 <li>gopher.Dir() is probably what I need to look at to modify.</li>
-<li>See http://gopherinfo.somnolescent.net/servers/customizing-menus/ for description of server side processing of gophermap</li>
+<li>See http://gopherinfo.somnolescent.net/servers/customizing-menus/
+for description of server side processing of gophermap</li>
 </ul></li>
 </ul></li>
-<li><input type="checkbox" disabled="" />
-Review yarn.social and see if it make sense to support in toolkit</li>
-<li><input type="checkbox" disabled="" />
-Review <a href="https://micropub.spec.indieweb.org/">Micropubs spec</a></li>
-<li><input type="checkbox" disabled="" />
-Review <a href="https://www.jsonfeed.org/">JSONFeed spec</a></li>
-<li><input type="checkbox" disabled="" />
-Review Micro.blog’s <a href="https://book.micro.blog/blog-archive-format/">Archive Format</a><ul class="task-list">
-<li><input type="checkbox" disabled="" />
-Review implementation used by <a href="https://daringfireball.net/feeds/json">Daring Fireball</a></li>
+<li><label><input type="checkbox" />Review yarn.social and see if it
+make sense to support in toolkit</label></li>
+<li><label><input type="checkbox" />Review <a
+href="https://micropub.spec.indieweb.org/">Micropubs
+spec</a></label></li>
+<li><label><input type="checkbox" />Review <a
+href="https://www.jsonfeed.org/">JSONFeed spec</a></label></li>
+<li><label><input type="checkbox" />Review Micro.blog’s <a
+href="https://book.micro.blog/blog-archive-format/">Archive
+Format</a></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Review implementation used by <a
+href="https://daringfireball.net/feeds/json">Daring
+Fireball</a></label></li>
 </ul></li>
-<li><input type="checkbox" disabled="" />
-Add support for <a href="https://www.jsonfeed.org/">JSONFeed</a> 1.1<ul class="task-list">
-<li><input type="checkbox" disabled="" />
-Evaluate if that could be the cannonical feed used to render RSS 2.0 XML and Atom XML</li>
-<li><input type="checkbox" disabled="" />
-Figure out how JSONFeed plays with what Dave Winer is doing</li>
+<li><label><input type="checkbox" />Add support for <a
+href="https://www.jsonfeed.org/">JSONFeed</a> 1.1</label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Evaluate if that could be the
+cannonical feed used to render RSS 2.0 XML and Atom XML</label></li>
+<li><label><input type="checkbox" />Figure out how JSONFeed plays with
+what Dave Winer is doing</label></li>
 </ul></li>
-<li><input type="checkbox" disabled="" />
-Make sure my feeds look good in Dave Winer’s reallysimple readers<ul>
-<li><input type="checkbox" disabled="" />
-Add support for source namespace so I can do source:markdown element per Dave Winer’s reallysimple feeds<ul class="task-list">
-<li><input type="checkbox" disabled="" />
-rss should be able to understandard a markdown/html file relationship and transform it into RSS 2 with Markdown source elements where appropriate</li>
+<li><label><input type="checkbox" />Make sure my feeds look good in Dave
+Winer’s reallysimple readers</label>
+<ul>
+<li><label><input type="checkbox" />Add support for source namespace so
+I can do source:markdown element per Dave Winer’s reallysimple
+feeds</label>
+<ul class="task-list">
+<li><label><input type="checkbox" />rss should be able to understandard
+a markdown/html file relationship and transform it into RSS 2 with
+Markdown source elements where appropriate</label></li>
 </ul></li>
 <li>See http://source.scripting.com/#1653758422000</li>
-<li>Example, see http://feeder.scripting.com/?template=mailbox&amp;feedurl=http://scripting.com/rss.xml</li>
-<li>Example, see http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/index.xml</li>
-<li>Example, see http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/rss.xml</li>
+<li>Example, see
+http://feeder.scripting.com/?template=mailbox&amp;feedurl=http://scripting.com/rss.xml</li>
+<li>Example, see
+http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/index.xml</li>
+<li>Example, see
+http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/rss.xml</li>
 </ul></li>
-<li><input type="checkbox" disabled="" checked="" />
-blog.json needs to contain enough metadata to easily render the RSS feeed. The addtional data could be set via blogit options</li>
-<li><input type="checkbox" disabled="" checked="" />
-I need to support generating multiple feeds for a website, e.g. site, blog, article series<ul class="task-list">
-<li><input type="checkbox" disabled="" checked="" />
-rss should be able to produce a “feed” for all pages in a website using Markdown document’s front matter where there is a matching html document</li>
-<li><input type="checkbox" disabled="" checked="" />
-rss should be able to produce a “feed” for a selected set of pages driven from YAML front matter elements like “series” name</li>
+<li><label><input type="checkbox" checked="" />blog.json needs to
+contain enough metadata to easily render the RSS feeed. The addtional
+data could be set via blogit options</label></li>
+<li><label><input type="checkbox" checked="" />I need to support
+generating multiple feeds for a website, e.g. site, blog, article
+series</label>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />rss should be able to
+produce a “feed” for all pages in a website using Markdown document’s
+front matter where there is a matching html document</label></li>
+<li><label><input type="checkbox" checked="" />rss should be able to
+produce a “feed” for a selected set of pages driven from YAML front
+matter elements like “series” name</label></li>
 </ul></li>
-<li><input type="checkbox" disabled="" />
-sitemap needs to be implemented and support links to sub-site maps</li>
-<li><input type="checkbox" disabled="" />
-I need to render an index listing pages from Front Matter of content pages<ul class="task-list">
-<li><input type="checkbox" disabled="" />
-Review how Rmarkdown/RStudio handle inclusion by front matter switches</li>
+<li><label><input type="checkbox" />sitemap needs to be implemented and
+support links to sub-site maps</label></li>
+<li><label><input type="checkbox" />I need to render an index listing
+pages from Front Matter of content pages</label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Review how Rmarkdown/RStudio handle
+inclusion by front matter switches</label></li>
 </ul></li>
 </ul>
 </section>
