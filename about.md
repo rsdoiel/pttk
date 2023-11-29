@@ -20,7 +20,7 @@ authors:
 repository-code: "git+https://github.com/rsdoiel/pttk"
 version: 0.0.14
 license-url: "https://spdx.org/licenses/AGPL-3.0-or-later"
-
+keywords: [ "text-processing" ]
 date-released: 2022-07-22
 ---
 

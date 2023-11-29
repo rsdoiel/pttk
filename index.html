@@ -34,13 +34,13 @@ src="https://www.repostatus.org/badges/latest/concept.svg"
 alt="Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept." /></a></p>
 <h1 id="pttk">pttk</h1>
 <p><strong>pttk</strong> is a plain text tool kit for writing. The main
-focus is on static site generation supplimenting tools like Pandoc. The
+focus is on static site generation supplementing tools like Pandoc. The
 metaphor behind the tool kit is a deconstructed content management
 system. It is easily scripted from your favorite POSIX shell or
 Makefile. It provides a number of functions including a blogging tool
-called blogit, phlogit, JSONfeed, RSS generations and rudementry support
-for sitemap.xml. Combines with Pandoc and Pagefind you can easily build
-rich websites and blogs.</p>
+called blogit, phlogit, JSONfeed, RSS generations and rudimentary
+support for sitemap.xml. Combined with Pandoc and Pagefind you can
+easily build rich websites and blogs.</p>
 <h2 id="a-command-line-tool-kit">A command line tool kit</h2>
 <p><strong>pttk</strong> is a program that works on the command line or
 shell. <strong>pttk</strong> usage is structured around the idea “verbs”
@@ -103,7 +103,7 @@ format. Here’s an example of posting the tutorial on 2022-08-01 (August
 <strong>blogit</strong> blog.json file. The format of the command is</p>
 <pre class="shell"><code>    pttk rss PATH_TO_BLOG_JSON PATH_TO_RSS_FILE</code></pre>
 <p>If I want my blog feed to be <code>feeds/index.xml</code> in the
-Wordpress style for my blog in the <code>blog</code> directory I would
+WordPress style for my blog in the <code>blog</code> directory I would
 change to <code>my-website</code> directory and then use the
 <strong>rss</strong> as follows.</p>
 <pre class="shell"><code>    cd $HOME/Sites/my-website
