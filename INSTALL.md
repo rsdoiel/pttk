@@ -16,8 +16,8 @@ curl https://rsdoiel.github.io/pttk/installer.sh | sh
 
 ### Requirements
 
-- Golang >= 1.20
-- Pandoc >= 3
+- Golang >= 1.21.4
+- Pandoc >= 3.1
 - GNU Make
 - Git
 
