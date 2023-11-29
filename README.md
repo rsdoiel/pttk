@@ -4,7 +4,7 @@
 pttk
 ====
 
-**pttk** is a plain text tool kit for writing. The main focus is on static site generation supplimenting tools like Pandoc.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a blogging tool called blogit, phlogit, JSONfeed, RSS generations and rudementry support for sitemap.xml. Combines with Pandoc and Pagefind you can easily build rich websites and blogs.
+**pttk** is a plain text tool kit for writing. The main focus is on static site generation supplementing tools like Pandoc.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a blogging tool called blogit, phlogit, JSONfeed, RSS generations and rudimentary support for sitemap.xml. Combined with Pandoc and Pagefind you can easily build rich websites and blogs.
 
 A command line tool kit
 -----------------------
@@ -83,7 +83,7 @@ blog.json file.  The format of the command is
     pttk rss PATH_TO_BLOG_JSON PATH_TO_RSS_FILE
 ```
 
-If I want my blog feed to be `feeds/index.xml` in the Wordpress style
+If I want my blog feed to be `feeds/index.xml` in the WordPress style
 for my blog in the `blog` directory I would change to `my-website`
 directory and then use the __rss__ as follows.
 
