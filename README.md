@@ -177,8 +177,8 @@ input and write the processed Pandoc templated standard output.
 Requirements
 ------------
 
-- [Pandoc](https://pandoc.org) 2.18 or better
-- [Go](https://golang.org) 1.18.4 or better to compile from source
+- [Pandoc](https://pandoc.org) 3.1 or better
+- [Go](https://golang.org) 1.21.4 or better to compile from source
 - [GNU Make](https://www.gnu.org/software/make/) (optional) to automated compilation
 - [Git](https://git-scm.com/) or other Git client to retrieve this repository
 
