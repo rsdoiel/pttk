@@ -4,7 +4,7 @@
 # Set the package name and version to install
 #
 PACKAGE="pttk"
-VERSION="0.0.13"
+VERSION="0.0.14"
 GIT_GROUP="rsdoiel"
 RELEASE="https://github.com/$GIT_GROUP/$PACKAGE/releases/tag/v$VERSION"
 

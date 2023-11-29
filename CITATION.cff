@@ -18,6 +18,7 @@ authors:
 
 
 repository-code: "git+https://github.com/rsdoiel/pttk"
-version: 0.0.13
-license-url: "https://spdx.org/licenses/BSD-3-Clause"
+version: 0.0.14
+license-url: "https://spdx.org/licenses/AGPL-3.0-or-later"
 
+date-released: 2022-07-22

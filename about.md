@@ -18,16 +18,16 @@ authors:
     orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "git+https://github.com/rsdoiel/pttk"
-version: 0.0.13
-license-url: "https://spdx.org/licenses/BSD-3-Clause"
+version: 0.0.14
+license-url: "https://spdx.org/licenses/AGPL-3.0-or-later"
 
-
+date-released: 2022-07-22
 ---
 
 About this software
 ===================
 
-## pttk 0.0.13
+## pttk 0.0.14
 
 ### Authors
 
@@ -45,7 +45,7 @@ webserver called ws. In this way you should be able to have many of the
 website features you’d expect from a dynamic content management system
 like Wordpress without the need to run one.
 
-- License: <https://spdx.org/licenses/BSD-3-Clause>
+- License: <https://spdx.org/licenses/AGPL-3.0-or-later>
 - GitHub: <git+https://github.com/rsdoiel/pttk>
 - Issues: <https://github.com/rsdoiel/pttk/issues>
 
@@ -65,4 +65,4 @@ like Wordpress without the need to run one.
 - GNU Make &gt;= 3.8
 - Pandoc &gt;= 3.1
 - SQLite3 &gt;= 3.43
-- Go &gt;= 1.21.1
+- Go &gt;= 1.21.4
