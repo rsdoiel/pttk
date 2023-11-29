@@ -19,6 +19,7 @@ Bugs
 Next
 ----
 
+- [ ] Think about leverage skimmer's database of harvested feed items and how that might integrate into blogging (e.g. quoting articles)
 - [x] Remove prep/pandoc as it is not needed, recent versions of Pandoc include `--metadata-file` to ingest JSON as metadata
 - [ ] I need a way I can read gophermaps, twtxt, JSONfeed, RSS/Atom feeds in a single reader, preferrably a console app, it should be driven from an OPML file or simple text file like newsboat (wish newsboat supported subscriptions to gophermaps, twtxt then I could just translate JSONfeed to twtxt...)
 - [ ] Review git.mills.io/prologic/go-gopher and understand what was implemented

@@ -18,7 +18,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "git+https://github.com/rsdoiel/pttk"
-version: 0.0.12
+version: 0.0.13
 license-url: "https://spdx.org/licenses/BSD-3-Clause"
 
 
@@ -27,7 +27,7 @@ license-url: "https://spdx.org/licenses/BSD-3-Clause"
 About this software
 ===================
 
-## pttk 0.0.12
+## pttk 0.0.13
 
 ### Authors
 
@@ -62,5 +62,7 @@ like Wordpress without the need to run one.
 
 ### Software Requiremets
 
-- Pandoc 2.19 or better
-- GNU Make (recommended)
+- GNU Make &gt;= 3.8
+- Pandoc &gt;= 3.1
+- SQLite3 &gt;= 3.43
+- Go &gt;= 1.21.1

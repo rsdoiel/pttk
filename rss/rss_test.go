@@ -9,6 +9,8 @@
 package rss
 
 import (
+	"bytes"
+	"encoding/xml"
 	"net/url"
 	"strings"
 	"testing"
@@ -149,5 +151,21 @@ func TestRSS2(t *testing.T) {
 		if err != nil {
 			t.Errorf("expected to parse link %q into url, %s", link, err)
 		}
+	}
+}
+
+func TestNoTitleFeedItem(t *testing.T) {
+	feed := new(RSS2)
+	feed.Title = `Test titless items`
+	item := new(Item)
+	item.Description = "There is no title"
+	feed.ItemList = append(feed.ItemList, *item)
+	src, err := xml.Marshal(feed)
+	if err != nil {
+		t.Error(err)
+		t.FailNow()
+	}
+	if bytes.Contains(src, []byte(`<title></title>`)) {
+		t.Errorf("expected not title element, got\n%s\n", src)
 	}
 }

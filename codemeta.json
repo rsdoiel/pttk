@@ -4,9 +4,10 @@
     "license": "https://spdx.org/licenses/BSD-3-Clause",
     "codeRepository": "git+https://github.com/rsdoiel/pttk",
     "dateCreated": "2022-07-22",
+    "dateReleased": "2023-11-29",
     "issueTracker": "https://github.com/rsdoiel/pttk/issues",
     "name": "pttk",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "description": "pttk is a plain text tool kit for writing. The main focus is on static site generation using Pandoc and Gopher.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a Pandoc preprocessor called prep, a blogging tool called blogit, an RSS generator called rss and localhost static content webserver called ws. In this way you should be able to have many of the website features you'd expect from a dynamic content management system like Wordpress without the need to run one.",
     "releaseNotes": "This is an experiment",
     "developmentStatus": "concept",
@@ -19,8 +20,10 @@
         "macOS"
     ],
     "softwareRequirements": [
-        "Pandoc 2.19 or better",
-        "GNU Make (recommended)"
+        "GNU Make >= 3.8",
+        "Pandoc >= 3.1",
+        "SQLite3 >= 3.43",
+        "Go >= 1.21.1"
     ],
     "relatedLink": [
         "https://github.com/rsdoiel/pdtmpl",

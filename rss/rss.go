@@ -62,7 +62,7 @@ type RSS2 struct {
 type Item struct {
 	XMLName xml.Name `xml:"item,omitempty" json:"-"`
 	// Optional according to Dave Winer
-	Title string `xml:"title" json:"title,omitempty"`
+	Title string `xml:"title,omitempty" json:"title,omitempty"`
 
 	// Required
 	Link string `xml:"link" json:"link"`

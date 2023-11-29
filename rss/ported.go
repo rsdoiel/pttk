@@ -261,7 +261,9 @@ func BlogMetaToRSS(blog *blogit.BlogMeta, feed *RSS2) error {
 						}
 					}
 					item := new(Item)
-					item.Title = post.Title
+					if len(strings.TrimSpace(post.Title)) > 0 {
+						item.Title = strings.TrimSpace(post.Title)
+					}
 					if strings.Contains(blog.BaseURL, "://") {
 						item.Link = strings.Join([]string{blog.BaseURL, linkPath}, "/")
 					} else {
@@ -376,9 +378,9 @@ func WalkRSS(feed *RSS2, htdocs string, baseURL string, excludeList string, titl
 		)
 		src := fmt.Sprintf("%s", buf)
 		if val, ok := fMatter["title"]; ok {
-			title = val.(string)
+			title = strings.TrimSpace(val.(string))
 		} else {
-			title = strings.TrimPrefix(Grep(titleExp, src), "# ")
+			title = strings.TrimSpace(strings.TrimPrefix(Grep(titleExp, src), "# "))
 		}
 		if val, ok := fMatter["byline"]; ok {
 			byline = val.(string)
@@ -435,7 +437,9 @@ func WalkRSS(feed *RSS2, htdocs string, baseURL string, excludeList string, titl
 		} else {
 			item.GUID = strings.TrimSuffix(feed.Link, "/") + "/" + strings.TrimPrefix(articleURL, "/")
 		}
-		item.Title = title
+		if len(title) > 0 {
+			item.Title = title
+		}
 		item.Author = author
 		item.PubDate = pubDate
 		item.Link = u.String()
