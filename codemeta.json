@@ -26,6 +26,9 @@
         "SQLite3 >= 3.43",
         "Go >= 1.21.4"
     ],
+	"keywords": [
+        "text-processing"
+    ],
     "relatedLink": [
         "https://github.com/rsdoiel/pdtmpl",
         "https://github.com/caltechlibrary/mkpage"
