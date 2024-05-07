@@ -26,6 +26,12 @@ const (
 {app_name} {verb} provides support for generating Gophermaps, the "index" page
 for directories in your Gopher Hole.
 
+If OGPHERMAP_NAME is "-" then content will be written to standard output.
+
+If FILES_TO_LIST is not provided then the working directory or location of
+the GOPHERMAP_NAME will be used. The list of links will be files or directires
+with no extensions and files with the extensions of ".txt" and ".md".
+
 # OPTIONS
 
 What follows are the options supported by the phlogit verb.

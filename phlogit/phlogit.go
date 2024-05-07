@@ -739,12 +739,18 @@ func (meta *PhlogMeta) Save(fName string) error {
 //
 // @returns an error type
 func (meta *PhlogMeta) Gophermap(fName string, fNames []string) error {
-	dirName := path.Dir(fName)
-	fp, err := os.Create(fName)
-	if err != nil {
-		return err
+	var (
+	)
+	fp := os.Stdout
+	dirName, err := os.Getwd()
+	if fName != "-" {
+		dirName = path.Dir(fName)
+		fp, err = os.Create(fName)
+		if err != nil {
+			return err
+		}
+		defer fp.Close()
 	}
-	defer fp.Close()
 	if meta.Masthead != "" {
 		fmt.Fprintf(fp, "%s\n", meta.Masthead)	
 	}
@@ -760,8 +766,7 @@ func (meta *PhlogMeta) Gophermap(fName string, fNames []string) error {
     		name := path.Base(entry.Name())
     		ext := path.Ext(name)
     		// Only list the .txt or .md (Markdown) files
-    		if ext == ".txt" || ext == ".md" || strings.ToLower(name) == "readme" ||
-    			strings.ToLower(name) == "copying" || strings.ToLower(name) == "license" {
+    		if ext == ".txt" || ext == ".md" || ext == "" {
     			fNames = append(fNames, entry.Name())
     		}
 		}

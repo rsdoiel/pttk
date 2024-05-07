@@ -100,14 +100,6 @@ func RunGophermap(appName string, verb string, vargs []string) error {
 	flagSet.BoolVar(&showVerbose, "verbose", false, "verbose output")
 
 	// Application specific options
-	flagSet.BoolVar(&saveAsYAML, "save-as-yaml", cfg.SaveAsYaml, "save as YAML file instead of gopher.yaml file")
-	flagSet.StringVar(&setName, "name", cfg.Name, "Set the Gopher Hole name.")
-	flagSet.StringVar(&setQuote, "quote", cfg.Quote, "Set the Gopher Hole quote.")
-	flagSet.StringVar(&setCopyright, "copyright", cfg.Copyright, "Set the Gopher Hole copyright notice.")
-	flagSet.StringVar(&setLanguage, "language", cfg.Language, "Set the Gopher Hole language.")
-	flagSet.StringVar(&setLicense, "license", cfg.License, "Set the Gopher Hole language license.")
-	flagSet.StringVar(&setDescription, "description", cfg.Description, "Set the Gopher Hole description")
-	flagSet.StringVar(&setBaseURL, "url", cfg.URL, "Set Gopher Hole's URL")
 	flagSet.StringVar(&setMasthead, "masthead", "", "Read in the Masthead from the filename provided")
 
 	flagSet.Parse(vargs)
@@ -124,14 +116,6 @@ func RunGophermap(appName string, verb string, vargs []string) error {
 	// Make ready to run one of the gophermap command forms
 	meta := new(PhlogMeta)
 
-	gophermapMetadataName := path.Join("gophermap.json")
-	// handle option cases
-	if saveAsYAML {
-		gophermapMetadataName = path.Join("gophermap.yaml")
-	}
-	if setName != "" {
-		meta.Name = setName
-	}
 	if setMasthead != "" {
 		// Read in the Masthead and assign it to meta.Masthead
 		src, err := os.ReadFile(setMasthead)
@@ -140,21 +124,6 @@ func RunGophermap(appName string, verb string, vargs []string) error {
 		}
 		meta.Masthead = fmt.Sprintf("%s", src)
 	}
-	if setQuote != "" {
-		meta.Quip = setQuote
-	}
-	if setDescription != "" {
-		meta.Description = setDescription
-	}
-	if setCopyright != "" {
-		meta.Copyright = setCopyright
-	}
-	if setLicense != "" {
-		meta.License = setLicense
-	}
-	if setBaseURL != "" {
-		meta.BaseURL = setBaseURL
-	}
 
 	// We have a standard Gophermap command, process args.
 	gophermapName, fNames := "", []string{}
@@ -162,22 +131,12 @@ func RunGophermap(appName string, verb string, vargs []string) error {
 		gophermapName = args[0]
 	} else if len(args) > 1 {
 		gophermapName, fNames = args[0], args[1:]
-	} else if setMasthead != "" || setName != "" || setQuote != "" || setDescription != "" ||
-		setBaseURL != "" || setIndexTmpl != "" || setPostTmpl != "" {
-		if err := meta.Save(gophermapMetadataName); err != nil {
-			return fmt.Errorf("%s\n", err)
-		}
-		fmt.Printf("Updated %q completed.\n", gophermapMetadataName)
-		return nil
 	} else {
 		usage(appName, verb, helpTextGophermap, 1)
 	}
 
 	// Now Gophermap it.
 	if err := meta.Gophermap(gophermapName, fNames); err != nil {
-		return fmt.Errorf("%s\n", err)
-	}
-	if err := meta.Save(gophermapMetadataName); err != nil {
 		return fmt.Errorf("%s\n", err)
 	}
 	return nil
