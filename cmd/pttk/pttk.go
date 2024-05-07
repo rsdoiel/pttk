@@ -99,6 +99,8 @@ metadata and supporting RSS rendering as well as generating gophermap files.
 **sitemap**
 : Renders sitemap.xml files for a static website
 
+**gophermap**
+: Renders a gophermap file for a Gopher whole
 
 # EXAMPLES
 
@@ -295,6 +297,10 @@ func main() {
 		}
 	case "phlogit":
 		if err := phlogit.RunPhlogIt(appName, verb, args); err != nil {
+			handleError(err)
+		}
+	case "gophermap":
+		if err := phlogit.RunGophermap(appName, verb, args); err != nil {
 			handleError(err)
 		}
 	case "rss":

@@ -71,6 +71,8 @@ metadata and supporting RSS rendering as well as generating gophermap files.
 **sitemap**
 : Renders sitemap.xml files for a static website
 
+**gophermap**
+: Renders a gophermap file for a Gopher whole
 
 # EXAMPLES
 

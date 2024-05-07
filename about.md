@@ -18,7 +18,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "git+https://github.com/rsdoiel/pttk"
-version: 0.0.14
+version: 0.0.15
 license-url: "https://spdx.org/licenses/AGPL-3.0-or-later"
 keywords: [ "text-processing" ]
 date-released: 2022-07-22
@@ -27,7 +27,7 @@ date-released: 2022-07-22
 About this software
 ===================
 
-## pttk 0.0.14
+## pttk 0.0.15
 
 ### Authors
 

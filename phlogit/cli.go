@@ -47,6 +47,7 @@ var (
 	setCopyright   string
 	setLicense     string
 	setLanguage    string
+	setMasthead    string
 )
 
 func usage(appName string, verb string, exitCode int) {
@@ -59,20 +60,127 @@ func usage(appName string, verb string, exitCode int) {
 }
 
 type PhlogitConfig struct {
-	Author        string `json:"author,omitempty"`
-	SaveAsYaml    bool   `json:"save_as_yaml,omitempty"`
-	Name          string `json:"name,omitempty"`
-	Quote         string `json:"quote,omitempty"`
-	PrefixPath    string `json:"prefix_path,omitempty"`
-	Copyright     string `json:"copyright,omitempty"`
-	Language      string `json:"language,omitempty"`
-	License       string `json:"license,omitempty"`
-	Started       string `json:"started,omitempty"`
-	Ended         string `json:"ended,omitempty"`
-	Description   string `json:"description,omitempty"`
-	URL           string `json:"url,omitempty"`
-	IndexTemplate string `json:"index_template,omitempty"`
-	PostTemplate  string `json:"post_template,omitempty"`
+	Author        string `json:"author,omitempty" yaml:"author,omitempty"`
+	SaveAsYaml    bool   `json:"save_as_yaml,omitempty" yaml:"save_as_yaml,omitempty"`
+	// NOTE: This holds the text of the Masthead for the gophermap, the command line options points to a file holding this value
+	Masthead      string `json:"masthead,omitempty" yaml:"masthead,omitempty"`
+	Name          string `json:"name,omitempty" yaml:"name,omitempty"`
+	Quote         string `json:"quote,omitempty" yaml:"quote,omitempty"`
+	PrefixPath    string `json:"prefix_path,omitempty" yaml:"prefix_path,omitempty"`
+	Copyright     string `json:"copyright,omitempty" yaml:"copyright,omitempty"`
+	Language      string `json:"language,omitempty" yaml:"language,omitempty"`
+	License       string `json:"license,omitempty" yaml:"license,omitempty"`
+	Started       string `json:"started,omitempty" yaml:"started,omitempty"`
+	Ended         string `json:"ended,omitempty" yaml:"ended,omitempty"`
+	Description   string `json:"description,omitempty" yaml:"description,omitempty"`
+	URL           string `json:"url,omitempty" yaml:"url,omitempty"`
+	IndexTemplate string `json:"index_template,omitempty" yaml:"index_template,omitempty"`
+	PostTemplate  string `json:"post_template,omitempty" yaml:"post_template,omitempty"`
+}
+
+func RunGophermap(appName string, verb string, vargs []string) error {
+	cfg := new(PhlogitConfig)
+	// read in .pttk configuration files if they exist, the setup defaults
+	if _, err := os.Stat(".phlogit"); err == nil {
+		src, err := os.ReadFile(".phlogit")
+		if err != nil {
+			return fmt.Errorf("%s", err)
+		}
+		if err := json.Unmarshal(src, &cfg); err != nil {
+			return err
+		}
+	}
+	if cfg.Language == "" {
+		cfg.Language = "en-US"
+	}
+	flagSet := flag.NewFlagSet(appName+":"+verb, flag.ExitOnError)
+
+	// Standard Options
+	flagSet.BoolVar(&showHelp, "help", false, "display help")
+	flagSet.BoolVar(&showVerbose, "verbose", false, "verbose output")
+
+	// Application specific options
+	flagSet.BoolVar(&saveAsYAML, "save-as-yaml", cfg.SaveAsYaml, "save as YAML file instead of gopher.yaml file")
+	flagSet.StringVar(&setName, "name", cfg.Name, "Set the Gopher Hole name.")
+	flagSet.StringVar(&setQuote, "quote", cfg.Quote, "Set the Gopher Hole quote.")
+	flagSet.StringVar(&setCopyright, "copyright", cfg.Copyright, "Set the Gopher Hole copyright notice.")
+	flagSet.StringVar(&setLanguage, "language", cfg.Language, "Set the Gopher Hole language.")
+	flagSet.StringVar(&setLicense, "license", cfg.License, "Set the Gopher Hole language license.")
+	flagSet.StringVar(&setDescription, "description", cfg.Description, "Set the Gopher Hole description")
+	flagSet.StringVar(&setBaseURL, "url", cfg.URL, "Set Gopher Hole's URL")
+	flagSet.StringVar(&setMasthead, "masthead", "", "Read in the Masthead from the filename provided")
+
+	flagSet.Parse(vargs)
+	args := flagSet.Args()
+
+	// Setup IO
+	if showHelp {
+		usage(appName, verb, 0)
+	}
+	if showVerbose {
+		quiet = false
+	}
+
+	// Make ready to run one of the gophermap command forms
+	meta := new(PhlogMeta)
+
+	gophermapMetadataName := path.Join("gophermap.json")
+	// handle option cases
+	if saveAsYAML {
+		gophermapMetadataName = path.Join("gophermap.yaml")
+	}
+	if setName != "" {
+		meta.Name = setName
+	}
+	if setMasthead != "" {
+		// Read in the Masthead and assign it to meta.Masthead
+		src, err := os.ReadFile(setMasthead)
+		if err != nil {
+			return err
+		}
+		meta.Masthead = fmt.Sprintf("%s", src)
+	}
+	if setQuote != "" {
+		meta.Quip = setQuote
+	}
+	if setDescription != "" {
+		meta.Description = setDescription
+	}
+	if setCopyright != "" {
+		meta.Copyright = setCopyright
+	}
+	if setLicense != "" {
+		meta.License = setLicense
+	}
+	if setBaseURL != "" {
+		meta.BaseURL = setBaseURL
+	}
+
+	// We have a standard Gophermap command, process args.
+	gophermapName, fNames := "", []string{}
+	if len(args) > 0 {
+		gophermapName = args[0]
+	} else if len(args) > 1 {
+		gophermapName, fNames = args[0], args[1:]
+	} else if setMasthead != "" || setName != "" || setQuote != "" || setDescription != "" ||
+		setBaseURL != "" || setIndexTmpl != "" || setPostTmpl != "" {
+		if err := meta.Save(gophermapMetadataName); err != nil {
+			return fmt.Errorf("%s\n", err)
+		}
+		fmt.Printf("Updated %q completed.\n", gophermapMetadataName)
+		return nil
+	} else {
+		usage(appName, verb, 1)
+	}
+
+	// Now Gophermap it.
+	if err := meta.Gophermap(gophermapName, fNames); err != nil {
+		return fmt.Errorf("%s\n", err)
+	}
+	if err := meta.Save(gophermapMetadataName); err != nil {
+		return fmt.Errorf("%s\n", err)
+	}
+	return nil
 }
 
 func RunPhlogIt(appName string, verb string, vargs []string) error {
@@ -114,6 +222,7 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 	flagSet.StringVar(&setIndexTmpl, "index-tmpl", cfg.IndexTemplate, "Set index phlog template")
 	flagSet.StringVar(&setPostTmpl, "post-tmpl", cfg.PostTemplate, "Set index phlog template")
 	flagSet.BoolVar(&phlogAsset, "asset", false, "Copy asset file to the phlog path for provided date (YYYY-MM-DD)")
+	flagSet.StringVar(&setMasthead, "masthead", "", "Read in the Masthead from the filename provided")
 
 	flagSet.Parse(vargs)
 	args := flagSet.Args()
@@ -149,6 +258,14 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 	}
 	if setName != "" {
 		meta.Name = setName
+	}
+	if setMasthead != "" {
+		// Read in the Masthead
+		src, err := os.ReadFile(setMasthead)
+		if err != nil {
+			return fmt.Errorf("failed to read Masthead file %q", setMasthead)
+		}
+		meta.Masthead = fmt.Sprintf("%s", src)
 	}
 	if setQuote != "" {
 		meta.Quip = setQuote

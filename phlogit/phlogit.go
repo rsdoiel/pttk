@@ -145,6 +145,7 @@ type YearObj struct {
 
 type PhlogMeta struct {
 	Name        string     `json:"name,omitempty" yaml:"name,omitempty"`
+	Masthead    string     `json:"masthead,omitempty" yaml:"masthead,omitempty"`
 	Quip        string     `json:"quip,omitempty" yaml:"quip,omitempty"`
 	Description string     `json:"description,omitempty" yaml:"description,omitempty"`
 	BaseURL     string     `json:"url,omitempty" yaml:"url,omitempty"`
@@ -731,6 +732,55 @@ func (meta *PhlogMeta) Save(fName string) error {
 	return nil
 }
 
+// Gophermap is a tool for generating a gophermap.
+// It includes maintaining additional metadata resources 
+// to make it easy to update Gopher Holes.
+// @param fName - the name of the file to publish to generated Gophermap path
+//
+// @returns an error type
+func (meta *PhlogMeta) Gophermap(fName string, fNames []string) error {
+	dirName := path.Dir(fName)
+	fp, err := os.Create(fName)
+	if err != nil {
+		return err
+	}
+	defer fp.Close()
+	if meta.Masthead != "" {
+		fmt.Fprintf(fp, "%s\n", meta.Masthead)	
+	}
+	// Get a List of Filenames to work with.
+	if len(fNames) == 0 {
+		fNames = []string{}
+		// Read the directory for .txt and .md files.
+		entries, err := os.ReadDir(dirName)
+		if err != nil {
+			return err
+		}
+		for _, entry := range entries {
+    		name := path.Base(entry.Name())
+    		ext := path.Ext(name)
+    		// Only list the .txt or .md (Markdown) files
+    		if ext == ".txt" || ext == ".md" || strings.ToLower(name) == "readme" ||
+    			strings.ToLower(name) == "copying" || strings.ToLower(name) == "license" {
+    			fNames = append(fNames, entry.Name())
+    		}
+		}
+	}
+	// Now render the list as a Gophermap
+	for _, eName := range fNames {
+		entry, err := os.Stat(eName)
+		if err != nil {
+			return err
+		}
+		typeCode := 0
+		if entry.IsDir() {
+			typeCode = 1
+		}
+		fmt.Fprintf(fp, "%d%s\t%s\r\n", typeCode, eName, eName)
+	}
+	return nil
+}
+
 // Reads a JSON phlog meta document and popualtes a phlog meta structure
 func LoadPhlogMeta(fName string, meta *PhlogMeta) error {
 	src, err := os.ReadFile(fName)
@@ -826,11 +876,16 @@ func (meta *PhlogMeta) RefreshFromPath(prefix string, year string) error {
 		"09": 30, "10": 31, "11": 30, "12": 31,
 	}
 	gophermapName := path.Join(prefix, year, "gophermap")
-	gophermap := []string{fmt.Sprintf(`
+	gophermap := []string{}
+	if meta.Masthead != "" {
+		gophermap = append(gophermap, meta.Masthead)
+	}
+
+	gophermap = append(gophermap, fmt.Sprintf(`
  Pages for %s
  ==============
-`, year),
-	}
+`, year))
+
 	ymd = append(ymd, year, "", "")
 	for i := 1; i <= 12; i++ {
 		month := fmt.Sprintf("%02d", i)

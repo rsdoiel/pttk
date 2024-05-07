@@ -6,13 +6,13 @@ import (
 
 const (
     // Version number of release
-    Version = "0.0.14"
+    Version = "0.0.15"
 
     // ReleaseDate, the date version.go was generated
-    ReleaseDate = "2023-11-29"
+    ReleaseDate = "2024-05-07"
 
     // ReleaseHash, the Git hash when version.go was generated
-    ReleaseHash = "02c2734"
+    ReleaseHash = "5c6b63d"
 
     LicenseText = `
 pttk, a plain text toolkit
