@@ -12,7 +12,7 @@ const (
     ReleaseDate = "2024-05-07"
 
     // ReleaseHash, the Git hash when version.go was generated
-    ReleaseHash = "0a7e454"
+    ReleaseHash = "7fa70db"
 
     LicenseText = `
 pttk, a plain text toolkit
