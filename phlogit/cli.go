@@ -50,7 +50,7 @@ var (
 	setMasthead    string
 )
 
-func usage(appName string, verb string, exitCode int) {
+func usage(appName string, verb string, helpText string, exitCode int) {
 	out := os.Stdout
 	if exitCode > 0 {
 		out = os.Stderr
@@ -115,7 +115,7 @@ func RunGophermap(appName string, verb string, vargs []string) error {
 
 	// Setup IO
 	if showHelp {
-		usage(appName, verb, 0)
+		usage(appName, verb, helpTextGophermap, 0)
 	}
 	if showVerbose {
 		quiet = false
@@ -170,7 +170,7 @@ func RunGophermap(appName string, verb string, vargs []string) error {
 		fmt.Printf("Updated %q completed.\n", gophermapMetadataName)
 		return nil
 	} else {
-		usage(appName, verb, 1)
+		usage(appName, verb, helpTextGophermap, 1)
 	}
 
 	// Now Gophermap it.
@@ -229,7 +229,7 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 
 	// Setup IO
 	if showHelp {
-		usage(appName, verb, 0)
+		usage(appName, verb, helpTextPhlog, 0)
 	}
 	if showVerbose {
 		quiet = false
@@ -346,7 +346,7 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 			fmt.Printf("Updated %q completed.\n", phlogMetadataName)
 			return nil
 		}
-		usage(appName, verb, 1)
+		usage(appName, verb, helpTextPhlog, 1)
 	}
 
 	// Handle Copy Asset terminating case

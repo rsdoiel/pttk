@@ -9,7 +9,48 @@
 package phlogit
 
 const (
-	helpText = `% {app_name}-{verb}(1) {app_name}-{verb} user manual
+	helpTextGophermap = `% {app_name}-{verb}(1) {app_name}-{verb} user manual
+% R. S. Doiel
+% May 7, 2024
+
+# NAME 
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} {verb} [OPTIONS] [GOPHERMAP_NAME] [FILES_TO_LIST]
+
+# DESCRIPTIOJ
+
+{app_name} {verb} provides support for generating Gophermaps, the "index" page
+for directories in your Gopher Hole.
+
+# OPTIONS
+
+What follows are the options supported by the phlogit verb.
+
+-help
+: display {verb} help
+
+-masthead FILENAME
+: Use thie specified file contents as the "masthead" of the Gophermap
+
+-verbose
+: verbose output
+
+# EXAMPLE
+
+~~~shell
+	{app_name} {verb} -masthead banner.txt gophermap \
+	   README COPYING LICENSE \
+	   ThePlan.txt \
+	   TheBiggerPlan.txt \
+	   TheWholeHole.txt
+~~~
+
+`
+	helpTextPhlog = `% {app_name}-{verb}(1) {app_name}-{verb} user manual
 % R. S. Doiel
 % August 14, 2022
 
@@ -157,7 +198,6 @@ This will create individual, time stamp titled posts for each of the simple time
 - pttk website at [https://rsdoiel.github.io/pttk](https://rsdoiel.github.io/pttk)
 - The source code is available from [https://github.com/rsdoiel/pttk](https://github.com/rsdoiel/pttk)
 - Simple timesheet notation at [https://rsdoiel.github.io/stngo/docs/stn.html](https://rsdoiel.github.io/stngo/docs/stn.html)
-
 
 `
 )
