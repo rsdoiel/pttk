@@ -1,6 +1,6 @@
-% pttk(1) pttk user manual
+%pttk(1) skimmer user manual | version 0.0.15 1be9b3b
 % R. S. Doiel
-% August 18, 2022
+% 2024-05-20
 
 # NAME
 
@@ -189,4 +189,5 @@ Putting the "book" together as on file.
 ~~~shell
 	pttk {verb} book.txt book.md
 ~~~
+
 

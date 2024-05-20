@@ -11,9 +11,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path"
-	"strings"
 
 	"github.com/rsdoiel/pttk"
 	"github.com/rsdoiel/pttk/blogit"
@@ -26,9 +26,9 @@ import (
 )
 
 const (
-	helpText = `% {app_name}(1) {app_name} user manual
+	helpText = `%{app_name}(1) skimmer user manual | version {version} {release_hash}
 % R. S. Doiel
-% August 18, 2022
+% {release_date}
 
 # NAME
 
@@ -221,17 +221,9 @@ Putting the "book" together as on file.
 `
 )
 
-func fmtText(src string, appName string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
-}
-
-func usage(appName string) string {
-	return fmtText(helpText, appName, pttk.Version)
-}
-
-func handleError(err error) {
+func handleError(eout io.Writer, err error) {
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+		fmt.Fprintf(eout, "%s\n", err)
 		os.Exit(1)
 	}
 }
@@ -250,22 +242,27 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 
+	//in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
+
 	if showHelp {
-		fmt.Print(usage(appName))
+        fmt.Fprintln(out, pttk.FmtHelp(helpText, appName, pttk.Version, pttk.ReleaseDate, pttk.ReleaseHash))
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Printf("%s %s\n", appName, pttk.Version)
+		fmt.Fprintf(out, "%s %s %s\n", appName, pttk.Version, pttk.ReleaseHash)
 		os.Exit(0)
 	}
 	if showLicense {
 		fmt.Printf("%s\n", pttk.LicenseText)
-		fmt.Printf("%s %s\n", appName, pttk.Version)
+		fmt.Printf("%s %s %s\n", appName, pttk.Version, pttk.ReleaseHash)
 		os.Exit(0)
 	}
 
 	if len(args) == 0 {
-		fmt.Fprintf(os.Stderr, "%s\n", usage(appName))
+        fmt.Fprintln(eout, pttk.FmtHelp(helpText, appName, pttk.Version, pttk.ReleaseDate, pttk.ReleaseHash))
+		fmt.Fprintf(eout, "%s %s %s\n", appName, pttk.Version, pttk.ReleaseHash)
 		os.Exit(1)
 	}
 	verb := args[0]
@@ -277,46 +274,47 @@ func main() {
 
 	switch verb {
 	case "help":
-		fmt.Printf("%s\n", usage(appName))
+        fmt.Fprintln(out, pttk.FmtHelp(helpText, appName, pttk.Version, pttk.ReleaseDate, pttk.ReleaseHash))
 		os.Exit(0)
 	case "frontmatter":
 		if err := frontmatter.RunFrontmatter(appName, verb, args); err != nil {
-			handleError(err)
+			handleError(eout, err)
 		}
 	case "ws":
 		if err := ws.RunWS(appName, verb, args); err != nil {
-			handleError(err)
+			handleError(eout, err)
 		}
 	case "gs":
 		if err := gs.RunGS(appName, verb, args); err != nil {
-			handleError(err)
+			handleError(eout, err)
 		}
 	case "blogit":
 		if err := blogit.RunBlogIt(appName, verb, args); err != nil {
-			handleError(err)
+			handleError(eout, err)
 		}
 	case "phlogit":
 		if err := phlogit.RunPhlogIt(appName, verb, args); err != nil {
-			handleError(err)
+			handleError(eout, err)
 		}
 	case "gophermap":
 		if err := phlogit.RunGophermap(appName, verb, args); err != nil {
-			handleError(err)
+			handleError(eout, err)
 		}
 	case "rss":
 		src, err := rss.RunRSS(appName, verb, args)
-		handleError(err)
+		handleError(eout, err)
 		if len(src) > 0 {
-			fmt.Printf("%s\n", src)
+			fmt.Fprintf(eout, "%s\n", src)
 		}
 	case "include":
 		if err := include.RunInclude(appName, verb, args); err != nil {
-			handleError(err)
+			handleError(eout, err)
 		}
 	case "sitemap":
-		handleError(fmt.Errorf("%s %s not implemented", appName, verb))
+		handleError(eout, fmt.Errorf("%s %s not implemented", appName, verb))
 	default:
-		fmt.Fprintf(os.Stderr, "%s\n", usage(appName))
+        fmt.Fprintln(eout, pttk.FmtHelp(helpText, appName, pttk.Version, pttk.ReleaseDate, pttk.ReleaseHash))
+		fmt.Fprintf(eout, "%s %s %s\n", appName, pttk.Version, pttk.ReleaseHash)
 		os.Exit(1)
 	}
 }
