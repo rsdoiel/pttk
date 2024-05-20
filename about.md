@@ -60,7 +60,7 @@ like Wordpress without the need to run one.
 - Windows
 - macOS
 
-### Software Requiremets
+### Software Requirements
 
 - GNU Make &gt;= 3.8
 - Pandoc &gt;= 3.1
