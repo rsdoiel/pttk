@@ -304,7 +304,7 @@ func main() {
 		src, err := rss.RunRSS(appName, verb, args)
 		handleError(eout, err)
 		if len(src) > 0 {
-			fmt.Fprintf(eout, "%s\n", src)
+			fmt.Fprintf(out, "%s\n", src)
 		}
 	case "include":
 		if err := include.RunInclude(appName, verb, args); err != nil {
