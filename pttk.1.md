@@ -1,4 +1,4 @@
-%pttk(1) skimmer user manual | version 0.0.16 f84760a
+%pttk(1) skimmer user manual | version 0.0.16 86a589b
 % R. S. Doiel
 % 2024-07-09
 

@@ -3,13 +3,19 @@
 
 The plain text toolkit is experiemental. It's probably break and surely has bugs.
 
-## Quick install via curl
+## Quick install via curl or irm
 
 This project can be installed via curl and sh for POSIX compatible systems.
 Enter the following in your shell.
 
 ~~~
 curl https://rsdoiel.github.io/pttk/installer.sh | sh
+~~~
+
+On Windows use the following Powershell command.
+
+~~~
+irm https://rsdoiel.github.io/pttk/installer.ps1 | iex
 ~~~
 
 ## Install from source
