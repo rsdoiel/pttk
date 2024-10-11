@@ -4,7 +4,7 @@ TODO
 Bugs
 ----
 
-- [ ] Sitemap should include sub-sitemaps.xml when needed
+- [ ] Sitemap should include sub-sitemaps.xml when needed, the one I'm generating is pretty much useless
 - [ ] A gophermap generated to work in `pttk gs` doesn't work like the Gopherserver on SDF, they need to match so gophermaps are portable.
 - [X] RSS Feed isn't passing validation,
     - [X] Dates must comply with http://www.faqs.org/rfcs/rfc822.html
@@ -19,8 +19,12 @@ Bugs
 Next
 ----
 
+- [ ] 
+- [ ] Evaluate if [flatlake](https://flatlake.app) can replace pttk's blog.json generation, if so then I need to think about integrate that and to render my RSS from the flatlake api directory
+  - [ ] If I adopt flatlake then I should integrate sitemap generation for the static api directory
+  - [ ] I should be able to generate RSS, JSONfeed and Atom feeds from the static api directory
 - [ ] Think about leverage skimmer's database of harvested feed items and how that might integrate into blogging (e.g. quoting articles)
-- [x] Remove prep/pandoc as it is not needed, recent versions of Pandoc include `--metadata-file` to ingest JSON as metadata
+- [X] Remove prep/pandoc as it is not needed, recent versions of Pandoc include `--metadata-file` to ingest JSON as metadata
 - [ ] I need a way I can read gophermaps, twtxt, JSONfeed, RSS/Atom feeds in a single reader, preferrably a console app, it should be driven from an OPML file or simple text file like newsboat (wish newsboat supported subscriptions to gophermaps, twtxt then I could just translate JSONfeed to twtxt...)
 - [ ] Review git.mills.io/prologic/go-gopher and understand what was implemented
     - [ ] Evaluate using as is and what I would need need to write to replace gophermap handling with how it works on sdf.org's Gopher deployment
