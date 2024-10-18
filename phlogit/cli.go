@@ -197,24 +197,28 @@ func RunPhlogIt(appName string, verb string, vargs []string) error {
 	// Make ready to run one of the PhlogIt command forms
 	meta := new(PhlogMeta)
 
+	// Figure out if we are working with phlog.json or phlog.yaml.
 	phlogMetadataName := path.Join(prefixPath, "phlog.json")
+	loadMetadata := false
 	if _, err := os.Stat(phlogMetadataName); err != nil {
+		phlogMetadataName = path.Join(prefixPath, "phlog.yaml")
 		if _, err := os.Stat(phlogMetadataName); err == nil {
-			phlogMetadataName = path.Join(prefixPath, "phlog.yaml")
-		} else {
-			phlogMetadataName = ""
+			loadMetadata = true
 		}
+	} else {
+		loadMetadata = true
 	}
-	if phlogMetadataName != "" {
+	if loadMetadata {
 		if err := LoadPhlogMeta(phlogMetadataName, meta); err != nil {
 			return fmt.Errorf("Error reading %q, %s\n", phlogMetadataName, err)
 		}
 	}
-
-	// handle option cases
+	// Handle the case where we want to read in JSON but save as YAML.
 	if saveAsYAML {
 		phlogMetadataName = path.Join(prefixPath, "phlog.yaml")
 	}
+
+	// handle option cases
 	if setName != "" {
 		meta.Name = setName
 	}
