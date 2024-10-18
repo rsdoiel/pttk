@@ -4,8 +4,6 @@ TODO
 Bugs
 ----
 
-- [ ] Sitemap should include sub-sitemaps.xml when needed, the one I'm generating is pretty much useless
-- [ ] A gophermap generated to work in `pttk gs` doesn't work like the Gopherserver on SDF, they need to match so gophermaps are portable.
 - [X] RSS Feed isn't passing validation,
     - [X] Dates must comply with http://www.faqs.org/rfcs/rfc822.html
         - NOTE: For Go time.Time what passes validators is RFC1123Z formatted dates.
@@ -19,12 +17,13 @@ Bugs
 Next
 ----
 
-- [ ] Decide if pttk should be rewritten in Rust rather than Go, it essentially is a "runner" of sorts and integrating with Rust looking like flatlake and pagefind might make pttk a little more compelling.
-- [ ] Evaluate if [flatlake](https://flatlake.app) can replace pttk's blog.json generation, if so then I need to think about integrate that and to render my RSS from the flatlake api directory
+- [ ] Evaluate if [flatlake](https://flatlake.app) can replace pttk's blog.json/phlog.json generation, if so then I need to think about integrate that and to render my RSS and sitemaps from the flatlake api directory
   - [ ] If I adopt flatlake then I should integrate sitemap generation for the static api directory
   - [ ] I should be able to generate RSS, JSONfeed and Atom feeds from the static api directory
+- [ ] Decide if pttk should be rewritten in Rust or TypeScript rather than Go, is it essentially is a "runner" of sorts and integrating with Rust projects like flatlake and pagefind could make pttk a little more compelling.
+- [ ] Sitemap should include sub-sitemaps.xml when needed, the one I'm generating is pretty much useless
+- [ ] A gophermap generated to work in `pttk gs` doesn't work like the Gopherserver on SDF, they need to match so gophermaps are portable.
 - [ ] Think about leverage skimmer's database of harvested feed items and how that might integrate into blogging (e.g. quoting articles)
-- [X] Remove prep/pandoc as it is not needed, recent versions of Pandoc include `--metadata-file` to ingest JSON as metadata
 - [ ] I need a way I can read gophermaps, twtxt, JSONfeed, RSS/Atom feeds in a single reader, preferrably a console app, it should be driven from an OPML file or simple text file like newsboat (wish newsboat supported subscriptions to gophermaps, twtxt then I could just translate JSONfeed to twtxt...)
 - [ ] Review git.mills.io/prologic/go-gopher and understand what was implemented
     - [ ] Evaluate using as is and what I would need need to write to replace gophermap handling with how it works on sdf.org's Gopher deployment
@@ -54,10 +53,11 @@ Next
     - Example, see http://feeder.scripting.com/?template=mailbox&feedurl=http://scripting.com/rss.xml
     - Example, see http://feeder.scripting.com/?template=mailbox&feedurl=https://rsdoiel.github.io/index.xml
     - Example, see http://feeder.scripting.com/?template=mailbox&feedurl=https://rsdoiel.github.io/rss.xml
+- [ ] sitemap needs to be implemented and support links to sub-site maps
+- [ ] I need to render an index listing pages from Front Matter of content pages
+    - [ ] Review how Rmarkdown/RStudio handle inclusion by front matter switches
 - [x] blog.json needs to contain enough metadata to easily render the RSS feeed. The addtional data could be set via blogit options
 - [x] I need to support generating multiple feeds for a website, e.g. site, blog, article series
     - [x] rss should be able to produce a "feed" for all pages in a website using Markdown document's front matter where there is a matching html document
     - [x] rss should be able to produce a "feed" for a selected set of pages driven from YAML front matter elements like "series" name
-- [ ] sitemap needs to be implemented and support links to sub-site maps
-- [ ] I need to render an index listing pages from Front Matter of content pages
-    - [ ] Review how Rmarkdown/RStudio handle inclusion by front matter switches
+- [X] Remove prep/pandoc as it is not needed, recent versions of Pandoc include `--metadata-file` to ingest JSON as metadata
