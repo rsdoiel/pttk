@@ -19,7 +19,7 @@ Bugs
 Next
 ----
 
-- [ ] 
+- [ ] Decide if pttk should be rewritten in Rust rather than Go, it essentially is a "runner" of sorts and integrating with Rust looking like flatlake and pagefind might make pttk a little more compelling.
 - [ ] Evaluate if [flatlake](https://flatlake.app) can replace pttk's blog.json generation, if so then I need to think about integrate that and to render my RSS from the flatlake api directory
   - [ ] If I adopt flatlake then I should integrate sitemap generation for the static api directory
   - [ ] I should be able to generate RSS, JSONfeed and Atom feeds from the static api directory

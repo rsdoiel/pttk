@@ -723,7 +723,7 @@ func (meta *PhlogMeta) Save(fName string) error {
 			return fmt.Errorf("Marshaling %q, %s", fName, err)
 		}
 	default:
-		return fmt.Errorf("%q is an unsupported output format", ext)
+		return fmt.Errorf("%q is an unsupported output format for %q", ext, fName)
 	}
 	err = os.WriteFile(fName, src, 0666)
 	if err != nil {
