@@ -7,14 +7,14 @@
 //
 // You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 import {
-	Writer,
 	FmtHelp,
 	Version,
 	ReleaseDate,
 	ReleaseHash,
 	LicenseText,
 } from './deps.ts';
-import { parseArgs } from "@std/cli/parse-args";
+import { parseArgs } from "@std/cli";
+import * as path from "@std/path";
 
 const help_text = `%{app_name}(1) user manual | version {version} {release_hash}
 % R. S. Doiel
@@ -94,7 +94,7 @@ metadata and supporting RSS rendering as well as generating gophermap files.
 
 # EXAMPLES
 
-## blogit verb
+## blogit [options] FILENAME
 
 Using {app_name} to manage blog content with the "blogit"
 verb.
@@ -102,13 +102,13 @@ verb.
 Adding a blog "first-post.md" to "myblog".
 
 ~~~shell
-  {app_name} blogit myblog $HOME/Documents/first-post.md
+  {app_name} blogit -prefix=myblog $HOME/Documents/first-post.md
 ~~~
 
 Adding/Updating the "first-post.md" on "2022-07-22"
 
 ~~~shell
-  {app_name} blogit myblog $HOME/Documents/first-post.md "2022-07-22"
+  {app_name} blogit --prefix=myblog $HOME/Documents/first-post.md "2022-07-22"
 ~~~
 
 Added additional material for posts on "2022-07-22"
@@ -189,7 +189,7 @@ Running a static gopher server to view rendering site
 Including a table of contents "toc.md", and "chapters1.md"
 and "chapters2.md" in a file called "book.txt" and writing
 the result to "book.md".
-
+[]
 The "book.txt" file would look like
 
 ~~~
@@ -205,52 +205,55 @@ The "book.txt" file would look like
 Putting the "book" together as on file.
 
 ~~~shell
-	{app_name} {verb} book.txt book.md
+	{app_name} include book.txt book.md
 ~~~
 
 `
 
+/*
 function handle_error(eout: Writer, err: string) {
 	if (err !== undefined)  {
 		eout.writeSync(`${err}`);
 		Deno.exit(1);
 	}
 }
+*/
 
 function main() {
-	let app_name: string = path.basename(Deno.args[0]);
-
-	const flags = parseArgs(Deno.args, 
-		boolean: ["help", "license", "version" ]
-	});
-
-	let args: string[] = [...Deno.args],
+	const app_name = "pttk"; // app_name: string = import.meta.filename !== undefined ? path.basename(import.meta.filename): "pttk";
+	const flags = parseArgs(Deno.args);
+	let args: string[] = [],
 	    //in = Deno.in,
-	    out = Deno.stdout,
+	    //out = Deno.stdout,
 	    eout = Deno.stderr;
-
-	if (flags.help) {
-        out.writeSync(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
+	if (flags._ !== undefined && flags._.length > 0) {
+		args = [...flags._] as unknown as string[];
+	}
+	console.log("DEBUG flags and args ->s", flags, args)
+	
+	if ((flags.h === true) || (flags.help === true)) {
+		console.log(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
 		Deno.exit(0);
 	}
-	if (flags.version) {
-		out.WriteSync(`${app_name} ${Version} ${ReleaseDate} ${ReleaseHash}`);
+	if ((flags.v === true) || (flags.version === true)) {
+		console.log(`${app_name} ${Version} ${ReleaseDate} ${ReleaseHash}`);
 		Deno.exit(0);
 	}
-	if (flags.license) {
-		out.writeSync(LicenseText);
+	if ((flags.l === true) || (flags.license === true)) {
+		console.log(LicenseText);
 		Deno.exit(0);
 	}
 
 	if (args.length === 0) {
-        eout.writeSync(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
+		console.log("Attempting to write to stderr help info", args);
+        //eout.write(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
 		Deno.exit(1);
 	}
-	const verb: string = args.shift();
+	const verb: string | undefined = args.shift();
 	
-	switch verb {
+	switch (verb) {
 	case "help":
-        fmt.Fprintln(out, FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
+        console.log(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
 		Deno.exit(0);
 /*
 	case "frontmatter":
@@ -291,7 +294,11 @@ function main() {
 		handle_error(eout, fmt.Errorf("%s %s not implemented", appName, verb))
 */
 	default:
-        eout.writeSync(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
+		console.log("DEBUG verb didn't make sense, writing help file out to stderr");
+        //eout.write(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
 		Deno.exit(1);
 	}
 }
+
+// Run main function
+if (import.meta.main) { main() };
