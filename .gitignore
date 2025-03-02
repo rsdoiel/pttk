@@ -26,3 +26,4 @@ dist/*
 *.zip
 testout/*
 */testout/*
+test_*
