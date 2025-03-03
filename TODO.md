@@ -17,6 +17,7 @@ Bugs
 Next
 ----
 
+- [ ] Evaluate re-implenting in TypeScript as compiled `deno` executable
 - [ ] Evaluate if [flatlake](https://flatlake.app) can replace pttk's blog.json/phlog.json generation, if so then I need to think about integrate that and to render my RSS and sitemaps from the flatlake api directory
   - [ ] If I adopt flatlake then I should integrate sitemap generation for the static api directory
   - [ ] I should be able to generate RSS, JSONfeed and Atom feeds from the static api directory

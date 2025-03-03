@@ -6,27 +6,17 @@
 // This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 //
 // You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
-package main
+import {
+	FmtHelp,
+	Version,
+	ReleaseDate,
+	ReleaseHash,
+	LicenseText,
+} from './deps.ts';
+import { parseArgs } from "@std/cli";
+import * as path from "@std/path";
 
-import (
-	"flag"
-	"fmt"
-	"io"
-	"os"
-	"path"
-
-	"github.com/rsdoiel/pttk"
-	"github.com/rsdoiel/pttk/blogit"
-	"github.com/rsdoiel/pttk/frontmatter"
-	"github.com/rsdoiel/pttk/gs"
-	"github.com/rsdoiel/pttk/include"
-	"github.com/rsdoiel/pttk/phlogit"
-	"github.com/rsdoiel/pttk/rss"
-	"github.com/rsdoiel/pttk/ws"
-)
-
-const (
-	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+const help_text = `%{app_name}(1) user manual | version {version} {release_hash}
 % R. S. Doiel
 % {release_date}
 
@@ -104,7 +94,7 @@ metadata and supporting RSS rendering as well as generating gophermap files.
 
 # EXAMPLES
 
-## blogit verb
+## blogit [options] FILENAME
 
 Using {app_name} to manage blog content with the "blogit"
 verb.
@@ -112,13 +102,13 @@ verb.
 Adding a blog "first-post.md" to "myblog".
 
 ~~~shell
-  {app_name} blogit myblog $HOME/Documents/first-post.md
+  {app_name} blogit -prefix=myblog $HOME/Documents/first-post.md
 ~~~
 
 Adding/Updating the "first-post.md" on "2022-07-22"
 
 ~~~shell
-  {app_name} blogit myblog $HOME/Documents/first-post.md "2022-07-22"
+  {app_name} blogit --prefix=myblog $HOME/Documents/first-post.md "2022-07-22"
 ~~~
 
 Added additional material for posts on "2022-07-22"
@@ -199,7 +189,7 @@ Running a static gopher server to view rendering site
 Including a table of contents "toc.md", and "chapters1.md"
 and "chapters2.md" in a file called "book.txt" and writing
 the result to "book.md".
-
+[]
 The "book.txt" file would look like
 
 ~~~
@@ -215,106 +205,100 @@ The "book.txt" file would look like
 Putting the "book" together as on file.
 
 ~~~shell
-	{app_name} {verb} book.txt book.md
+	{app_name} include book.txt book.md
 ~~~
 
 `
-)
 
-func handleError(eout io.Writer, err error) {
-	if err != nil {
-		fmt.Fprintf(eout, "%s\n", err)
-		os.Exit(1)
+/*
+function handle_error(eout: Writer, err: string) {
+	if (err !== undefined)  {
+		eout.writeSync(`${err}`);
+		Deno.exit(1);
 	}
 }
+*/
 
-func main() {
-	var (
-		showHelp    bool
-		showLicense bool
-		showVersion bool
-	)
-	appName := path.Base(os.Args[0])
-
-	flag.BoolVar(&showHelp, "help", false, "display usage")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.Parse()
-	args := flag.Args()
-
-	//in := os.Stdin
-	out := os.Stdout
-	eout := os.Stderr
-
-	if showHelp {
-        fmt.Fprintln(out, pttk.FmtHelp(helpText, appName, pttk.Version, pttk.ReleaseDate, pttk.ReleaseHash))
-		os.Exit(0)
+function main() {
+	const app_name = "pttk"; // app_name: string = import.meta.filename !== undefined ? path.basename(import.meta.filename): "pttk";
+	const flags = parseArgs(Deno.args);
+	let args: string[] = [],
+	    //in = Deno.in,
+	    //out = Deno.stdout,
+	    eout = Deno.stderr;
+	if (flags._ !== undefined && flags._.length > 0) {
+		args = [...flags._] as unknown as string[];
 	}
-	if showVersion {
-		fmt.Fprintf(out, "%s %s %s\n", appName, pttk.Version, pttk.ReleaseHash)
-		os.Exit(0)
+	console.log("DEBUG flags and args ->s", flags, args)
+	
+	if ((flags.h === true) || (flags.help === true)) {
+		console.log(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
+		Deno.exit(0);
 	}
-	if showLicense {
-		fmt.Printf("%s\n", pttk.LicenseText)
-		fmt.Printf("%s %s %s\n", appName, pttk.Version, pttk.ReleaseHash)
-		os.Exit(0)
+	if ((flags.v === true) || (flags.version === true)) {
+		console.log(`${app_name} ${Version} ${ReleaseDate} ${ReleaseHash}`);
+		Deno.exit(0);
+	}
+	if ((flags.l === true) || (flags.license === true)) {
+		console.log(LicenseText);
+		Deno.exit(0);
 	}
 
-	if len(args) == 0 {
-        fmt.Fprintln(eout, pttk.FmtHelp(helpText, appName, pttk.Version, pttk.ReleaseDate, pttk.ReleaseHash))
-		fmt.Fprintf(eout, "%s %s %s\n", appName, pttk.Version, pttk.ReleaseHash)
-		os.Exit(1)
+	if (args.length === 0) {
+		console.log("Attempting to write to stderr help info", args);
+        //eout.write(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
+		Deno.exit(1);
 	}
-	verb := args[0]
-	if len(args) == 1 {
-		args = []string{}
-	} else {
-		args = args[1:]
-	}
-
-	switch verb {
+	const verb: string | undefined = args.shift();
+	
+	switch (verb) {
 	case "help":
-        fmt.Fprintln(out, pttk.FmtHelp(helpText, appName, pttk.Version, pttk.ReleaseDate, pttk.ReleaseHash))
-		os.Exit(0)
+        console.log(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
+		Deno.exit(0);
+/*
 	case "frontmatter":
 		if err := frontmatter.RunFrontmatter(appName, verb, args); err != nil {
-			handleError(eout, err)
+			handle_error(eout, err)
 		}
 	case "ws":
 		if err := ws.RunWS(appName, verb, args); err != nil {
-			handleError(eout, err)
+			handle_error(eout, err)
 		}
 	case "gs":
 		if err := gs.RunGS(appName, verb, args); err != nil {
-			handleError(eout, err)
+			handle_error(eout, err)
 		}
 	case "blogit":
 		if err := blogit.RunBlogIt(appName, verb, args); err != nil {
-			handleError(eout, err)
+			handle_error(eout, err)
 		}
 	case "phlogit":
 		if err := phlogit.RunPhlogIt(appName, verb, args); err != nil {
-			handleError(eout, err)
+			handle_error(eout, err)
 		}
 	case "gophermap":
 		if err := phlogit.RunGophermap(appName, verb, args); err != nil {
-			handleError(eout, err)
+			handle_error(eout, err)
 		}
 	case "rss":
 		src, err := rss.RunRSS(appName, verb, args)
-		handleError(eout, err)
+		handle_eerror(eout, err)
 		if len(src) > 0 {
 			fmt.Fprintf(out, "%s\n", src)
 		}
 	case "include":
 		if err := include.RunInclude(appName, verb, args); err != nil {
-			handleError(eout, err)
+			handle_error(eout, err)
 		}
 	case "sitemap":
-		handleError(eout, fmt.Errorf("%s %s not implemented", appName, verb))
+		handle_error(eout, fmt.Errorf("%s %s not implemented", appName, verb))
+*/
 	default:
-        fmt.Fprintln(eout, pttk.FmtHelp(helpText, appName, pttk.Version, pttk.ReleaseDate, pttk.ReleaseHash))
-		fmt.Fprintf(eout, "%s %s %s\n", appName, pttk.Version, pttk.ReleaseHash)
-		os.Exit(1)
+		console.log("DEBUG verb didn't make sense, writing help file out to stderr");
+        //eout.write(FmtHelp(help_text, app_name, Version, ReleaseDate, ReleaseHash));
+		Deno.exit(1);
 	}
 }
+
+// Run main function
+if (import.meta.main) { main() };

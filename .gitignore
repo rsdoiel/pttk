@@ -26,4 +26,9 @@ dist/*
 *.zip
 testout/*
 */testout/*
+<<<<<<< HEAD
 test_*
+=======
+
+
+>>>>>>> e11624701f5db645e03ab6f991aa71b83024699f
