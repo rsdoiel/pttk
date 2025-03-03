@@ -1,5 +1,5 @@
 import { assert } from "@std/assert";
-import { parseFrontMatter, updateFrontMatter, FrontMatter } from "./frontmatter.ts";
+import { parseFrontMatter, updateFrontMatter } from "./frontmatter.ts";
 import { ensureDir } from "@std/fs";
 import { join } from "@std/path";
 import { Config } from "./config.ts";

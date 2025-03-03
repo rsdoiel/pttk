@@ -9,15 +9,17 @@ interface FrontMatter {
   dateCreated: string;
   dateModified: string;
   abstract?: string;
-  podcastUrl?: string;  // URL to the podcast episode
-  podcastDuration?: string;  // Duration of the podcast episode
-  podcastType?: string;  // MIME type of the podcast episode
+  series?: string;
+  series_no?: number;
+  enclosureUrl?: string;
+  enclosureLength?: string;
+  enclosureType?: string;
 }
 
 interface RSSItem {
   title: string;
   link: string;
-  description: string;
+  description?: string;
   pubDate: string;
   enclosure?: {
     url: string;
@@ -53,7 +55,7 @@ function generateRSS(items: RSSItem[], config: Config): string {
           <item>
             <title>${item.title}</title>
             <link>${item.link}</link>
-            <description>${item.description}</description>
+            ${item.description ? `<description>${item.description}</description>` : ''}
             <pubDate>${new Date(item.pubDate).toUTCString()}</pubDate>
             ${item.enclosure ? `
             <enclosure url="${item.enclosure.url}" length="${item.enclosure.length || ''}" type="${item.enclosure.type}" />
@@ -76,23 +78,19 @@ export async function executeRSSGenerator(configPath: string, outputPath: string
     const frontMatter = await parseFrontMatter(file);
     const relativePath = file.replace(join(config.basePath, "blog"), "").replace(/\\/g, "/");
     const link = join(config.baseURL, relativePath.replace(".md", ".html"));
+    const title = frontMatter.title || "Untitled";
 
-    const rssItem: RSSItem = {
-      title: frontMatter.title || "Untitled",
-      link: link,
-      description: frontMatter.abstract || "",
+    rssItems.push({
+      title,
+      link,
+      description: frontMatter.abstract,
       pubDate: frontMatter.dateModified,
-    };
-
-    if (frontMatter.podcastUrl) {
-      rssItem.enclosure = {
-        url: frontMatter.podcastUrl,
-        type: frontMatter.podcastType || "audio/mpeg",
-        length: frontMatter.podcastDuration,  // Assuming duration is provided in seconds
-      };
-    }
-
-    rssItems.push(rssItem);
+      enclosure: frontMatter.enclosureUrl ? {
+        url: frontMatter.enclosureUrl,
+        type: frontMatter.enclosureType || "audio/mpeg",
+        length: frontMatter.enclosureLength,
+      } : undefined,
+    });
   }
 
   const rssContent = generateRSS(rssItems, config);

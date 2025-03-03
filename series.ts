@@ -4,7 +4,6 @@ import { parse as parseYaml } from "@std/yaml";
 import { readConfig, Config, SeriesConfig } from "./config.ts";
 import { FrontMatter } from './frontmatter.ts';
 
-
 interface RSSItem {
   title: string;
   link: string;
@@ -29,7 +28,7 @@ async function parseFrontMatter(filePath: string): Promise<FrontMatter> {
 }
 
 function generateSeriesTOC(items: { title: string, link: string }[], series: SeriesConfig): string {
-  const tocContent = `
+  let tocContent = `
     # ${series.name}
 
     ${series.description}
@@ -73,16 +72,13 @@ export async function executeSeries(configPath: string) {
       if (frontMatter.series === series.short_name) {
         const relativePath = file.replace(join(config.basePath, "blog"), "").replace(/\\/g, "/");
         const link = join(config.baseURL, relativePath.replace(".md", ".html"));
-        const title: string = frontMatter.title || "Untitled";
-	const abstract: string = (frontMatter.abstract === undefined) ? '' : frontMatter.abstract;
-	const dateModified: string = (frontMatter.dateModified === undefined) ? (new Date()).toUTCString() : frontMatter.dateModified;
+        const title = frontMatter.title || "Untitled";
 
         seriesItems.push({ title, link });
-        rssItems.push({ title, link, description: abstract || '', pubDate: dateModified });
+        rssItems.push({ title, link, description: frontMatter.abstract, pubDate: frontMatter.dateModified });
       }
     }
 
-    // Sort items by series_no and title
     seriesItems.sort((a, b) => {
       if (a.title < b.title) return -1;
       if (a.title > b.title) return 1;

@@ -1,6 +1,6 @@
 import { assert } from "@std/assert";
 import { executeSitemapper } from "./sitemapper.ts";
-import { readConfig, writeConfig, Config } from "./config.ts";
+import { writeConfig, Config } from "./config.ts";
 import { ensureDir } from "@std/fs";
 import { join } from "@std/path";
 

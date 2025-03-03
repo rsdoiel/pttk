@@ -1,8 +1,16 @@
 import { walk, ensureDir } from "@std/fs";
 import { join } from "@std/path";
+import { parse as parseYaml } from '@std/yaml';
 import { readConfig, Config } from "./config.ts";
 
-export async function findMarkdownFiles(dirPath: string): Promise<string[]> {
+interface RSSItem {
+  title: string;
+  link: string;
+  description: string;
+  pubDate: string;
+}
+
+async function findMarkdownFiles(dirPath: string): Promise<string[]> {
   const files: string[] = [];
   for await (const entry of walk(dirPath)) {
     if (entry.path.endsWith(".md")) {
@@ -12,13 +20,17 @@ export async function findMarkdownFiles(dirPath: string): Promise<string[]> {
   return files;
 }
 
-export async function generateSitemap(config: Config): Promise<{ index: number, content: string }[]> {
-  const markdownFiles = await findMarkdownFiles(config.basePath);
-  const markdownLinks = markdownFiles.map((file) => {
-    const relativePath = file.replace(config.basePath, "").replace(/\\/g, "/");
-    return join(config.baseURL, relativePath.replace(".md", ".html"));
-  });
+async function parseFrontMatter(filePath: string): Promise<{ frontMatter: any, content: string }> {
+  const fileContent = await Deno.readTextFile(filePath);
+  const [frontMatterSection, ...markdownContent] = fileContent.split("---\n");
 
+  let frontMatter: any = parseYaml(frontMatterSection.replace("---", "").trim());
+  const content = markdownContent.join("---\n").trim();
+
+  return { frontMatter, content };
+}
+
+function generateSitemap(items: string[], config: Config): { index: number, content: string }[] {
   const sitemaps: { index: number, content: string }[] = [];
   let sitemapIndex = 1;
   let sitemapContent = `
@@ -30,8 +42,8 @@ export async function generateSitemap(config: Config): Promise<{ index: number, 
       </url>
   `;
 
-  for (let i = 0; i < markdownLinks.length; i++) {
-    const link = markdownLinks[i];
+  for (let i = 0; i < items.length; i++) {
+    const link = items[i];
     sitemapContent += `
       <url>
         <loc>${link}</loc>
@@ -40,7 +52,7 @@ export async function generateSitemap(config: Config): Promise<{ index: number, 
       </url>
     `;
 
-    if ((i + 1) % config.maxUrlsPerSitemap === 0 || i === markdownLinks.length - 1) {
+    if ((i + 1) % config.maxUrlsPerSitemap === 0 || i === items.length - 1) {
       sitemapContent += "</urlset>";
       sitemaps.push({ index: sitemapIndex, content: sitemapContent });
       sitemapIndex++;
@@ -58,7 +70,7 @@ export async function generateSitemap(config: Config): Promise<{ index: number, 
   return sitemaps;
 }
 
-export function generateSitemapIndex(config: Config, sitemapFiles: string[]): string {
+function generateSitemapIndex(config: Config, sitemapFiles: string[]): string {
   let sitemapIndexContent = `
     <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   `;
@@ -77,11 +89,15 @@ export function generateSitemapIndex(config: Config, sitemapFiles: string[]): st
 
 export async function executeSitemapper(configPath: string) {
   const config = await readConfig(configPath);
-  const sitemapDir = join(config.basePath, "sitemaps");
+  const markdownFiles = await findMarkdownFiles(config.basePath);
 
+  const sitemapDir = join(config.basePath, "sitemaps");
   await ensureDir(sitemapDir);
 
-  const sitemaps = await generateSitemap(config);
+  const sitemaps = await generateSitemap(
+    markdownFiles.map(
+      file => join(config.baseURL, 
+        file.replace(config.basePath, "").replace(/\\/g, "/"))), config);
   const sitemapFiles: string[] = [];
 
   for (const sitemap of sitemaps) {

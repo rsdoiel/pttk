@@ -69,4 +69,3 @@ Deno.test("default config test", async () => {
 
   await cleanupTestDir(basePath);
 });
-

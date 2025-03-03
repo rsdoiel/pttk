@@ -18,32 +18,29 @@ export interface Config {
   rssTitle: string;
   rssDescription: string;
   rssLink: string;
-  series: SeriesConfig[];  // An array of SeriesConfig objects.
+  series: SeriesConfig[];
 }
 
 export async function readConfig(configPath: string): Promise<Config> {
   const configContent = await Deno.readTextFile(configPath);
   const config = parseYaml(configContent) as Config;
 
-  // Set default author if not provided
   if (!config.author) {
-    config.author = Deno.env.get("USER") || "Unknown Author";
+    config.author = "";
   }
 
-  // Set default RSS channel configuration if not provided
   if (!config.rssTitle) {
-    config.rssTitle = "My Blog";
+    config.rssTitle = "Blog";
   }
 
   if (!config.rssDescription) {
-    config.rssDescription = "This is my blog feed.";
+    config.rssDescription = "Blog feed";
   }
 
   if (!config.rssLink) {
     config.rssLink = config.baseURL;
   }
 
-  // Set default series configuration if not provided
   if (!config.series) {
     config.series = [];
   }
@@ -65,9 +62,9 @@ export async function initConfig(configPath: string): Promise<void> {
     maxUrlsPerSitemap: 50000,
     changeFrequency: "monthly",
     priority: "0.5",
-    author: Deno.env.get("USER") || "Unknown Author",
-    rssTitle: "My Blog",
-    rssDescription: "This is my blog feed.",
+    author: "",
+    rssTitle: "Blog",
+    rssDescription: "Blog feed",
     rssLink: "http://localhost:8000",
     series: [],
   };
@@ -83,9 +80,9 @@ export async function interactiveConfig(configPath: string): Promise<void> {
     maxUrlsPerSitemap: parseInt(prompt("Enter max URLs per sitemap (default: 50000): ") || "50000"),
     changeFrequency: prompt("Enter change frequency (default: monthly): ") || "monthly",
     priority: prompt("Enter priority (default: 0.5): ") || "0.5",
-    author: prompt("Enter author (default: current user): ") || Deno.env.get("USER") || "Unknown Author",
-    rssTitle: prompt("Enter RSS title (default: My Blog): ") || "My Blog",
-    rssDescription: prompt("Enter RSS description (default: This is my blog feed.): ") || "This is my blog feed.",
+    author: prompt("Enter author (default: current user): ") || Deno.env.get("USER") || "",
+    rssTitle: prompt("Enter RSS title (default: My Blog): ") || "Blog",
+    rssDescription: prompt("Enter RSS description (default: Blog feed): ") || "Blog feed",
     rssLink: prompt("Enter RSS link (default: base URL): ") || "http://localhost:8000",
     series: [],
   };
@@ -93,7 +90,7 @@ export async function interactiveConfig(configPath: string): Promise<void> {
   const addSeries = prompt("Do you want to add a series configuration? (yes/no): ") === "yes";
   if (addSeries) {
     while (true) {
-      const short_name = prompt("Enter series short name: ") || '';
+      const short_name = prompt("Enter series short name: ") || 'untitled';
       const name = prompt("Enter series name (default: short name): ") || short_name;
       const description = prompt("Enter series description: ") || '';
       config.series.push({ short_name, name, description });

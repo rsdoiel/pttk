@@ -33,7 +33,6 @@ export async function executeBlogit(configPath: string, filepaths: string[], dat
     await Deno.copyFile(markdownFile, markdownDestinationPath);
     console.log(`Markdown file copied to ${markdownDestinationPath}`);
 
-    // Copy additional files to the same directory
     const additionalFiles = filepaths.filter(file => !markdownFiles.includes(file));
     for (const file of additionalFiles) {
       const filename = basename(file);
@@ -42,7 +41,6 @@ export async function executeBlogit(configPath: string, filepaths: string[], dat
       console.log(`Additional file copied to ${destinationPath}`);
     }
 
-    // Handle enclosure metadata
     if (frontMatter.enclosureUrl) {
       const enclosureFilename = basename(frontMatter.enclosureUrl);
       const enclosureDestinationPath = join(blogPath, enclosureFilename);

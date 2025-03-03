@@ -1,5 +1,5 @@
+
 import { parse as parseYaml, stringify as stringifyYaml } from "@std/yaml";
-import MarkdownIt from "https://esm.sh/markdown-it@13.0.1";
 import { Config } from "./config.ts";
 
 export interface FrontMatter {
@@ -25,12 +25,8 @@ export async function parseFrontMatter(filePath: string, config: Config): Promis
   let frontMatter: FrontMatter = parseYaml(frontMatterSection.replace("---", "").trim()) as FrontMatter;
   const content = markdownContent.join("---\n").trim();
 
-  // Default values for front matter
   if (!frontMatter.title) {
-    const md = new MarkdownIt();
-    const tokens = md.parse(content, {});
-    const firstHeading = tokens.find(token => token.type === "heading_open" && token.tag === "h1");
-    frontMatter.title = firstHeading ? firstHeading.content : "Untitled";
+    frontMatter.title = "Untitled";
   }
 
   if (!frontMatter.author) {
@@ -67,7 +63,7 @@ export async function parseFrontMatter(filePath: string, config: Config): Promis
   }
 
   if (frontMatter.series_no === undefined) {
-    frontMatter.series_no = 1;  // Default to 1 if not provided
+    frontMatter.series_no = 1;
   }
 
   return { frontMatter, content };

@@ -1,11 +1,11 @@
+import { parse as parseYaml } from '@std/yaml';
 import { walk, ensureDir } from "@std/fs";
 import { join, dirname } from "@std/path";
-import { parse as parseYaml } from "@std/yaml";
 import { readConfig } from "./config.ts";
-import MarkdownIt from "https://esm.sh/markdown-it@13.0.1";
-import Handlebars from "https://esm.sh/handlebars@4.7.7";
+import { MarkdownIt } from "npm:markdown-it";
+import Handlebars from "npm:handlebars";
 
-export async function findMarkdownFiles(dirPath: string): Promise<string[]> {
+async function findMarkdownFiles(dirPath: string): Promise<string[]> {
   const files: string[] = [];
   for await (const entry of walk(dirPath)) {
     if (entry.path.endsWith(".md")) {
@@ -15,23 +15,23 @@ export async function findMarkdownFiles(dirPath: string): Promise<string[]> {
   return files;
 }
 
-export async function parseFrontMatter(filePath: string): Promise<{ frontMatter: any, content: string }> {
+async function parseFrontMatter(filePath: string): Promise<{ frontMatter: any, content: string }> {
   const fileContent = await Deno.readTextFile(filePath);
   const [frontMatterSection, ...markdownContent] = fileContent.split("---\n");
 
-  const frontMatter = parseYaml(frontMatterSection.replace("---", "").trim());
+  let frontMatter: any = parseYaml(frontMatterSection.replace("---", "").trim());
   const content = markdownContent.join("---\n").trim();
 
   return { frontMatter, content };
 }
 
-export function convertMarkdownToHtml(markdown: string): string {
+function convertMarkdownToHtml(markdown: string): string {
   const md = new MarkdownIt();
   return md.render(markdown);
 }
 
-export function renderHtml(templatePath: string, data: { content: string, frontMatter: any }): string {
-  const templateContent = Deno.readTextFileSync(templatePath);
+async function renderHtml(templatePath: string, data: { content: string, frontMatter: any }): Promise<string> {
+  const templateContent = await Deno.readTextFile(templatePath);
   const template = Handlebars.compile(templateContent);
   return template(data);
 }
@@ -50,7 +50,7 @@ export async function executeMakepages(configPath: string) {
     await ensureDir(dirname(outputFilePath));
 
     const templatePath = join(config.views, "template.hbs");
-    const renderedHtml = renderHtml(templatePath, { content: htmlContent, frontMatter });
+    const renderedHtml = await renderHtml(templatePath, { content: htmlContent, frontMatter });
     await Deno.writeTextFile(outputFilePath, renderedHtml);
 
     console.log(`HTML file written to ${outputFilePath}`);
