@@ -80,7 +80,7 @@ export async function interactiveConfig(configPath: string): Promise<void> {
     maxUrlsPerSitemap: parseInt(prompt("Enter max URLs per sitemap (default: 50000): ") || "50000"),
     changeFrequency: prompt("Enter change frequency (default: monthly): ") || "monthly",
     priority: prompt("Enter priority (default: 0.5): ") || "0.5",
-    author: prompt("Enter author (default: current user): ") || Deno.env.get("USER") || "",
+    author: prompt("Enter author (default: current user): ") || "",
     rssTitle: prompt("Enter RSS title (default: My Blog): ") || "Blog",
     rssDescription: prompt("Enter RSS description (default: Blog feed): ") || "Blog feed",
     rssLink: prompt("Enter RSS link (default: base URL): ") || "http://localhost:8000",

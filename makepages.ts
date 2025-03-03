@@ -2,7 +2,7 @@ import { parse as parseYaml } from '@std/yaml';
 import { walk, ensureDir } from "@std/fs";
 import { join, dirname } from "@std/path";
 import { readConfig } from "./config.ts";
-import { MarkdownIt } from "npm:markdown-it";
+import { micromark } from 'https://esm.sh/micromark@3';
 import Handlebars from "npm:handlebars";
 
 async function findMarkdownFiles(dirPath: string): Promise<string[]> {
@@ -25,9 +25,8 @@ async function parseFrontMatter(filePath: string): Promise<{ frontMatter: any, c
   return { frontMatter, content };
 }
 
-function convertMarkdownToHtml(markdown: string): string {
-  const md = new MarkdownIt();
-  return md.render(markdown);
+function convertMarkdownToHtml(src: string): string {
+  return micromark(src);
 }
 
 async function renderHtml(templatePath: string, data: { content: string, frontMatter: any }): Promise<string> {

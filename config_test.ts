@@ -64,7 +64,7 @@ Deno.test("default config test", async () => {
 
   const readConfigResult = await readConfig(join(basePath, "site.yaml"));
   assert(readConfigResult.basePath === basePath);
-  assert(readConfigResult.author === Deno.env.get("USER") || "Unknown Author");
+  assert(readConfigResult.author === "");
   assert(readConfigResult.series.length === 0);
 
   await cleanupTestDir(basePath);

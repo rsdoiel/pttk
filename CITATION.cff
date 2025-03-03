@@ -1,25 +1,22 @@
+
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
-title: "pttk"
-abstract: "pttk is a plain text tool kit for writing. The main focus is
-on static web and Gopher site generation using Pandoc. The metaphor
-behind the tool kit is a deconstructed content management system. It is
-easily scripted from your favorite POSIX shell or Makefile. It provides
-a number of functions including a Pandoc preprocessor called prep, a
-blogging tool called blogit, an RSS generator called rss and localhost
-static content webserver called ws. In this way you have many of the
-website features you’d expect from a dynamic content management system
-like Wordpress without the need to run one."
+title: pttk
+abstract: "pttk is a plain text tool kit for writing. The main focus is on static web using Markdown documents.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a sitemapper, rss generator, blogging tool call blogit, a tool that can form series based on Markdown front matter. To preview your site a &quot;ws&quot; action is included that functions as a localhost web server. Between tools like pttk, PageFind and Flatlake you can provide much of the dynamic capability you&#x27;d find in a traditional CMS like Wordpress without running one."
 authors:
   - family-names: Doiel
     given-names: R. S.
-    orcid: "https://orcid.org/0000-0003-0900-6903"
-
+    orcid: https://orcid.org/0000-0003-0900-6903
+    email: rsdoiel@gmail.com
 
 
 repository-code: "git+https://github.com/rsdoiel/pttk"
-version: 0.0.17
+version: 0.0.18
+date-released: 2025-03-02
+
 license-url: "https://spdx.org/licenses/AGPL-3.0-or-later"
-keywords: [ "text-processing" ]
-date-released: 2022-07-22
+keywords:
+  - text-processing
+  - site-generator
+
