@@ -32,11 +32,6 @@
 <h1 id="todo">TODO</h1>
 <h2 id="bugs">Bugs</h2>
 <ul class="task-list">
-<li><label><input type="checkbox" />Sitemap should include
-sub-sitemaps.xml when needed</label></li>
-<li><label><input type="checkbox" />A gophermap generated to work in
-<code>pttk gs</code> doesn’t work like the Gopherserver on SDF, they
-need to match so gophermaps are portable.</label></li>
 <li><label><input type="checkbox" checked="" />RSS Feed isn’t passing
 validation,</label>
 <ul>
@@ -61,12 +56,32 @@ https://www.rssboard.org/rss-validator/</label></li>
 </ul>
 <h2 id="next">Next</h2>
 <ul class="task-list">
+<li><label><input type="checkbox" />Evaluate re-implenting in TypeScript
+as compiled <code>deno</code> executable</label></li>
+<li><label><input type="checkbox" />Evaluate if <a
+href="https://flatlake.app">flatlake</a> can replace pttk’s
+blog.json/phlog.json generation, if so then I need to think about
+integrate that and to render my RSS and sitemaps from the flatlake api
+directory</label>
+<ul class="task-list">
+<li><label><input type="checkbox" />If I adopt flatlake then I should
+integrate sitemap generation for the static api directory</label></li>
+<li><label><input type="checkbox" />I should be able to generate RSS,
+JSONfeed and Atom feeds from the static api directory</label></li>
+</ul></li>
+<li><label><input type="checkbox" />Decide if pttk should be rewritten
+in Rust or TypeScript rather than Go, is it essentially is a “runner” of
+sorts and integrating with Rust projects like flatlake and pagefind
+could make pttk a little more compelling.</label></li>
+<li><label><input type="checkbox" />Sitemap should include
+sub-sitemaps.xml when needed, the one I’m generating is pretty much
+useless</label></li>
+<li><label><input type="checkbox" />A gophermap generated to work in
+<code>pttk gs</code> doesn’t work like the Gopherserver on SDF, they
+need to match so gophermaps are portable.</label></li>
 <li><label><input type="checkbox" />Think about leverage skimmer’s
 database of harvested feed items and how that might integrate into
 blogging (e.g. quoting articles)</label></li>
-<li><label><input type="checkbox" checked="" />Remove prep/pandoc as it
-is not needed, recent versions of Pandoc include
-<code>--metadata-file</code> to ingest JSON as metadata</label></li>
 <li><label><input type="checkbox" />I need a way I can read gophermaps,
 twtxt, JSONfeed, RSS/Atom feeds in a single reader, preferrably a
 console app, it should be driven from an OPML file or simple text file
@@ -149,6 +164,14 @@ http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github
 <li>Example, see
 http://feeder.scripting.com/?template=mailbox&amp;feedurl=https://rsdoiel.github.io/rss.xml</li>
 </ul></li>
+<li><label><input type="checkbox" />sitemap needs to be implemented and
+support links to sub-site maps</label></li>
+<li><label><input type="checkbox" />I need to render an index listing
+pages from Front Matter of content pages</label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Review how Rmarkdown/RStudio handle
+inclusion by front matter switches</label></li>
+</ul></li>
 <li><label><input type="checkbox" checked="" />blog.json needs to
 contain enough metadata to easily render the RSS feeed. The addtional
 data could be set via blogit options</label></li>
@@ -163,14 +186,9 @@ front matter where there is a matching html document</label></li>
 produce a “feed” for a selected set of pages driven from YAML front
 matter elements like “series” name</label></li>
 </ul></li>
-<li><label><input type="checkbox" />sitemap needs to be implemented and
-support links to sub-site maps</label></li>
-<li><label><input type="checkbox" />I need to render an index listing
-pages from Front Matter of content pages</label>
-<ul class="task-list">
-<li><label><input type="checkbox" />Review how Rmarkdown/RStudio handle
-inclusion by front matter switches</label></li>
-</ul></li>
+<li><label><input type="checkbox" checked="" />Remove prep/pandoc as it
+is not needed, recent versions of Pandoc include
+<code>--metadata-file</code> to ingest JSON as metadata</label></li>
 </ul>
 </section>
 
