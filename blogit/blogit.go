@@ -388,7 +388,12 @@ func (dy *DayObj) updatePosts(ymd []string, targetName string) error {
 		post.Byline = byline.(string)
 	}
 	if author, ok := obj["author"]; ok {
-		post.Author = author.(string)
+		switch author.(type) {
+		case string:
+			post.Author = author.(string)
+		default:
+			fmt.Fprintf(os.Stderr, "DEBUG %q, author not a string, %T -> %+v", targetName, author, author)
+		}
 	}
 	if series, ok := obj["series"]; ok {
 		post.Series = series.(string)

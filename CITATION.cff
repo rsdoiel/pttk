@@ -12,7 +12,7 @@ authors:
 
 
 repository-code: "git+https://github.com/rsdoiel/pttk"
-version: 0.0.18
+version: 0.0.19
 date-released: 2025-03-02
 
 license-url: "https://spdx.org/licenses/AGPL-3.0-or-later"

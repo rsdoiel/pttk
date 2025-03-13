@@ -4,12 +4,12 @@ abstract: "pttk is a plain text tool kit for writing. The main focus is on stati
 authors:
   - family_name: Doiel
     given_name: R. S.
-    orcid: https://orcid.org/0000-0003-0900-6903
+    id: https://orcid.org/0000-0003-0900-6903
 
 
 
 repository_code: git+https://github.com/rsdoiel/pttk
-version: 0.0.18
+version: 0.0.19
 license_url: https://spdx.org/licenses/AGPL-3.0-or-later
 operating_system:
   - Linux
@@ -30,13 +30,13 @@ date_released: 2025-03-02
 About this software
 ===================
 
-## pttk 0.0.18
+## pttk 0.0.19
 
-This is an experiment, features may come and go. With v0.0.18 the code base is being converted to TypeScript.
+This is an experiment, features may come and go. With v0.0.18 hybrid codebase, legacy pttk Go included along with new TypeScript prototype.
 
 ### Authors
 
-- R. S. Doiel, ORCID: <https://orcid.org/0000-0003-0900-6903>
+- R. S. Doiel, <https://orcid.org/0000-0003-0900-6903>
 
 
 

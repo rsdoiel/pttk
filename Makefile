@@ -1,19 +1,15 @@
 #
-# Simple Makefile for Deno based Projects built under POSIX.
+# Simple Makefile for Golang based Projects built under POSIX.
 #
 PROJECT = pttk
 
-PACKAGE = pttk
+GIT_GROUP = rsdoiel
 
 PROGRAMS = pttk
 
-GIT_GROUP = rsdoiel
+RELEASE_DATE = $(shell date +%Y-%m-%d)
 
-VERSION = $(shell grep '"version":' codemeta.json | cut -d"  -f 4)
-
-BRANCH = $(shell git branch | grep '* ' | cut -d  -f 2)
-
-PACKAGE = $(shell ls -1 *.ts | grep -v 'version.ts')
+RELEASE_HASH=$(shell git log --pretty=format:'%h' -n 1)
 
 MAN_PAGES_1 = $(shell ls -1 *.1.md | sed -E 's/.1.md/.1/g')
 
@@ -21,41 +17,37 @@ MAN_PAGES_3 = $(shell ls -1 *.3.md | sed -E 's/.3.md/.3/g')
 
 MAN_PAGES_7 = $(shell ls -1 *.7.md | sed -E 's/.7.md/.7/g')
 
-RELEASE_DATE=$(shell date +'%Y-%m-%d')
-
-RELEASE_HASH=$(shell git log --pretty=format:%h -n 1)
-
-HTML_PAGES = $(shell ls -1 *.html) # $(shell ls -1 *.md | grep -v 'nav.md' | sed -E 's/.md/.html/g')
+HTML_PAGES = $(shell find . -type f | grep -E '.html$')
 
 DOCS = $(shell ls -1 *.?.md)
 
+PACKAGE = $(shell ls -1 *.go)
+
+VERSION = $(shell grep '"version":' codemeta.json | cut -d"  -f 4)
+
+BRANCH = $(shell git branch | grep '* ' | cut -d  -f 2)
+
 OS = $(shell uname)
+
+#PREFIX = /usr/local/bin
+PREFIX = $(HOME)
+
+ifneq ($(prefix),)
+	PREFIX = $(prefix)
+endif
 
 EXT =
 ifeq ($(OS), Windows)
 	EXT = .exe
 endif
 
-PREFIX = $(HOME)
+build: version.go $(PROGRAMS) man CITATION.cff about.md installer.sh installer.ps1
 
-build: version.ts CITATION.cff about.md bin compile installer.sh installer.ps1
+version.go: .FORCE
+	cmt codemeta.json version.go
 
-bin: .FORCE
-	mkdir -p bin
-
-compile: .FORCE
-	deno task build
-
-check: .FORCE
-	deno task check
-
-version.ts: codemeta.json
-	deno task version.ts
-
-format: $(shell ls -1 *.ts | grep -v version.ts | grep -v deps.ts)
-
-$(shell ls -1 *.ts | grep -v version.ts): .FORCE
-	deno fmt $@
+hash: .FORCE
+	git log --pretty=format:'%h' -n 1
 
 man: $(MAN_PAGES_1) # $(MAN_PAGES_3) $(MAN_PAGES_7)
 
@@ -63,32 +55,65 @@ $(MAN_PAGES_1): .FORCE
 	mkdir -p man/man1
 	pandoc $@.md --from markdown --to man -s >man/man1/$@
 
-CITATION.cff: codemeta.json
-	deno task CITATION.cff
+$(MAN_PAGES_3): .FORCE
+	mkdir -p man/man3
+	pandoc $@.md --from markdown --to man -s >man/man3/$@
 
-about.md: codemeta.json
-	deno task about.md
+$(MAN_PAGES_7): .FORCE
+	mkdir -p man/man7
+	pandoc $@.md --from markdown --to man -s >man/man7/$@
+
+$(PROGRAMS): $(PACKAGE)
+	@mkdir -p bin
+	go build -o "bin/$@$(EXT)" cmd/$@/*.go
+	@./bin/$@ -help >$@.1.md
+
+$(MAN_PAGES): .FORCE
+	mkdir -p man/man1
+	pandoc $@.md --from markdown --to man -s >man/man1/$@
+
+CITATION.cff: codemeta.json
+	cmt codemeta.json CITATION.cff
+
+about.md: codemeta.json $(PROGRAMS)
+	cmt codemeta.json about.md
+
+installer.sh: .FORCE
+	cmt codemeta.json installer.sh
+
+installer.ps1: .FORCE
+	cmt codemeta.json installer.ps1
+
+
+test: $(PACKAGE)
+	go test
+
+website: clean-website .FORCE
+	make -f website.mak
 
 status:
 	git status
 
 save:
-	if [ "$(msg)" != "" ]; then git commit -am "$(msg)"; else git commit -am "Quick Save"; fi
+	@if [ "$(msg)" != "" ]; then git commit -am "$(msg)"; else git commit -am "Quick Save"; fi
 	git push origin $(BRANCH)
 
-website: $(HTML_PAGES) .FORCE
-	make -f website.mak
+refresh:
+	git fetch origin
+	git pull origin $(BRANCH)
 
-#publish: website .FORCE
+#publish: build website .FORCE
 #	./publish.bash
 
-htdocs: .FORCE
-	deno task htdocs
-	deno task transpile
+clean:
+	@if [ -f version.go ]; then rm version.go; fi
+	@if [ -d bin ]; then rm -fR bin; fi
+	@if [ -d dist ]; then rm -fR dist; fi
+	@if [ -d man ]; then rm -fR man; fi
+	@if [ -d testout ]; then rm -fR testout; fi
 
-test: .FORCE
-	deno task test
-	deno task editor_test.ts
+clean-website:
+	@for FNAME in $(HTML_PAGES); do if [ -f "$${FNAME}" ]; then rm "$${FNAME}"; fi; done
 
 install: build
 	@echo "Installing programs in $(PREFIX)/bin"
@@ -113,71 +138,66 @@ uninstall: .FORCE
 	@for FNAME in $(MAN_PAGES_3); do if [ -f "$(PREFIX)/man/man3/$${FNAME}" ]; then rm -v "$(PREFIX)/man/man3/$${FNAME}"; fi; done
 	@for FNAME in $(MAN_PAGES_7); do if [ -f "$(PREFIX)/man/man7/$${FNAME}" ]; then rm -v "$(PREFIX)/man/man7/$${FNAME}"; fi; done
 
-installer.sh: .FORCE
-	cmt codemeta.json installer.sh
-	chmod 775 installer.sh
-	git add -f installer.sh
-
-installer.ps1: .FORCE
-	cmt codemeta.json installer.ps1
-	chmod 775 installer.ps1
-	git add -f installer.ps1
-
-clean:
-	if [ -d bin ]; then rm -fR bin/*; fi
-	if [ -d dist ]; then rm -fR dist/*; fi
-
-release: clean build man website distribute_docs dist/Linux-x86_64 dist/Linux-aarch64 dist/macOS-x86_64 dist/macOS-arm64 dist/Windows-x86_64 dist/Windows-arm64
-	echo "Ready to do ./release.bash"
-
 setup_dist: .FORCE
-	@rm -fR dist
 	@mkdir -p dist
+	@rm -fR dist/*
 
-distribute_docs: website man setup_dist
-	@cp README.md dist/
-	@cp LICENSE dist/
-	@cp codemeta.json dist/
-	@cp CITATION.cff dist/
-	@cp INSTALL.md dist/
+dist/Linux-x86_64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env  GOOS=linux GOARCH=amd64 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@rm -fR dist/bin
+
+dist/Linux-aarch64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env  GOOS=linux GOARCH=arm64 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-aarch64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@rm -fR dist/bin
+
+dist/macOS-x86_64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=amd64 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@rm -fR dist/bin
+
+
+dist/macOS-arm64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=arm64 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@rm -fR dist/bin
+
+
+dist/Windows-x86_64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=amd64 go build -o "dist/bin/$${FNAME}.exe" cmd/$${FNAME}/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@rm -fR dist/bin
+
+dist/Windows-arm64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=arm64 go build -o "dist/bin/$${FNAME}.exe" cmd/$${FNAME}/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@rm -fR dist/bin
+
+# Raspberry Pi OS (32 bit) based on report from Raspberry Pi Model 3B+
+dist/Linux-armv7l: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-armv7l.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@rm -fR dist/bin
+
+distribute_docs:
+	@mkdir -p dist/
+	@cp -v codemeta.json dist/
+	@cp -v CITATION.cff dist/
+	@cp -v README.md dist/
+	@cp -v LICENSE dist/
+	@cp -v INSTALL.md dist/
 	@cp -vR man dist/
 	@for DNAME in $(DOCS); do cp -vR $$DNAME dist/; done
 
-dist/Linux-x86_64: .FORCE
-	@mkdir -p dist/bin
-	deno task dist_linux_x86_64
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/*
-	@rm -fR dist/bin
+release: build installer.sh save setup_dist distribute_docs dist/Linux-x86_64 dist/Linux-aarch64 dist/macOS-x86_64 dist/macOS-arm64 dist/Windows-x86_64 dist/Windows-arm64 dist/Linux-armv7l
 
-dist/Linux-aarch64: .FORCE
-	@mkdir -p dist/bin
-	deno task dist_linux_aarch64
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-aarch64.zip LICENSE codemeta.json CITATION.cff *.md bin/*
-	@rm -fR dist/bin
-
-dist/macOS-x86_64: .FORCE
-	@mkdir -p dist/bin
-	deno task dist_macos_x86_64
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/*
-	@rm -fR dist/bin
-
-dist/macOS-arm64: .FORCE
-	@mkdir -p dist/bin
-	deno task dist_macos_aarch64
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/*
-	@rm -fR dist/bin
-
-dist/Windows-x86_64: .FORCE
-	@mkdir -p dist/bin
-	deno task dist_windows_x86_64
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/*
-	@rm -fR dist/bin
-
-dist/Windows-arm64: .FORCE
-	@mkdir -p dist/bin
-	#deno task dist_windows_aarch64 <-- switch to native when Rust/Deno supports Windows ARM64
-	deno task dist_windows_x86_64
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/*
-	@rm -fR dist/bin
 
 .FORCE:

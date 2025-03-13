@@ -42,8 +42,8 @@
     "Go >= 1.24",
     "Deno >= 2.2"
   ],
-  "version": "0.0.18",
+  "version": "0.0.19",
   "developmentStatus": "wip",
   "issueTracker": "https://github.com/rsdoiel/pttk/issues",
-  "releaseNotes": "This is an experiment, features may come and go. With v0.0.18 the code base is being converted to TypeScript."
+  "releaseNotes": "This is an experiment, features may come and go. With v0.0.18 hybrid codebase, legacy pttk Go included along with new TypeScript prototype."
 }
