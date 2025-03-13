@@ -55,13 +55,13 @@ $(MAN_PAGES_1): .FORCE
 	mkdir -p man/man1
 	pandoc $@.md --from markdown --to man -s >man/man1/$@
 
-$(MAN_PAGES_3): .FORCE
-	mkdir -p man/man3
-	pandoc $@.md --from markdown --to man -s >man/man3/$@
+#$(MAN_PAGES_3): .FORCE
+#	mkdir -p man/man3
+#	pandoc $@.md --from markdown --to man -s >man/man3/$@
 
-$(MAN_PAGES_7): .FORCE
-	mkdir -p man/man7
-	pandoc $@.md --from markdown --to man -s >man/man7/$@
+#$(MAN_PAGES_7): .FORCE
+#	mkdir -p man/man7
+#	pandoc $@.md --from markdown --to man -s >man/man7/$@
 
 $(PROGRAMS): $(PACKAGE)
 	@mkdir -p bin
@@ -123,10 +123,10 @@ install: build
 	@echo "Installing man page in $(PREFIX)/man"
 	@mkdir -p $(PREFIX)/man/man1
 	@for FNAME in $(MAN_PAGES_1); do if [ -f "./man/man1/$${FNAME}" ]; then cp -v "./man/man1/$${FNAME}" "$(PREFIX)/man/man1/$${FNAME}"; fi; done
-	@mkdir -p $(PREFIX)/man/man3
-	@for FNAME in $(MAN_PAGES_3); do if [ -f "./man/man3/$${FNAME}" ]; then cp -v "./man/man3/$${FNAME}" "$(PREFIX)/man/man3/$${FNAME}"; fi; done
-	@mkdir -p $(PREFIX)/man/man7
-	@for FNAME in $(MAN_PAGES_7); do if [ -f "./man/man7/$${FNAME}" ]; then cp -v "./man/man7/$${FNAME}" "$(PREFIX)/man/man7/$${FNAME}"; fi; done
+#	@mkdir -p $(PREFIX)/man/man3
+#	@for FNAME in $(MAN_PAGES_3); do if [ -f "./man/man3/$${FNAME}" ]; then cp -v "./man/man3/$${FNAME}" "$(PREFIX)/man/man3/$${FNAME}"; fi; done
+#	@mkdir -p $(PREFIX)/man/man7
+#	@for FNAME in $(MAN_PAGES_7); do if [ -f "./man/man7/$${FNAME}" ]; then cp -v "./man/man7/$${FNAME}" "$(PREFIX)/man/man7/$${FNAME}"; fi; done
 	@echo ""
 	@echo "Make sure $(PREFIX)/man is in your MANPATH"
 
@@ -135,59 +135,68 @@ uninstall: .FORCE
 	@for FNAME in $(PROGRAMS); do if [ -f "$(PREFIX)/bin/$${FNAME}$(EXT)" ]; then rm -v "$(PREFIX)/bin/$${FNAME}$(EXT)"; fi; done
 	@echo "Removing man pages in $(PREFIX)/man"
 	@for FNAME in $(MAN_PAGES_1); do if [ -f "$(PREFIX)/man/man1/$${FNAME}" ]; then rm -v "$(PREFIX)/man/man1/$${FNAME}"; fi; done
-	@for FNAME in $(MAN_PAGES_3); do if [ -f "$(PREFIX)/man/man3/$${FNAME}" ]; then rm -v "$(PREFIX)/man/man3/$${FNAME}"; fi; done
-	@for FNAME in $(MAN_PAGES_7); do if [ -f "$(PREFIX)/man/man7/$${FNAME}" ]; then rm -v "$(PREFIX)/man/man7/$${FNAME}"; fi; done
+#	@for FNAME in $(MAN_PAGES_3); do if [ -f "$(PREFIX)/man/man3/$${FNAME}" ]; then rm -v "$(PREFIX)/man/man3/$${FNAME}"; fi; done
+#	@for FNAME in $(MAN_PAGES_7); do if [ -f "$(PREFIX)/man/man7/$${FNAME}" ]; then rm -v "$(PREFIX)/man/man7/$${FNAME}"; fi; done
 
 setup_dist: .FORCE
 	@mkdir -p dist
 	@rm -fR dist/*
 
+
+
 dist/Linux-x86_64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env  GOOS=linux GOARCH=amd64 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
 
 dist/Linux-aarch64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env  GOOS=linux GOARCH=arm64 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-aarch64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-aarch64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
 
 dist/macOS-x86_64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=amd64 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
 
 
 dist/macOS-arm64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=arm64 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
 
 
 dist/Windows-x86_64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=amd64 go build -o "dist/bin/$${FNAME}.exe" cmd/$${FNAME}/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
 
 dist/Windows-arm64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=arm64 go build -o "dist/bin/$${FNAME}.exe" cmd/$${FNAME}/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
 
-# Raspberry Pi OS (32 bit) based on report from Raspberry Pi Model 3B+
+# Raspberry Pi 32 Bit, reported out on my Raspberry Pi Model 3B+
 dist/Linux-armv7l: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-armv7l.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/* $(DOCS)
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-armv7l.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
+	@rm -fR dist/bin
+
+dist/RaspberryPiOS-arm7: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o "dist/bin/$${FNAME}" cmd/$${FNAME}/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-RaspberryPiOS-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
 
 distribute_docs:
+	@if [ -d dist ]; then rm -fR dist/*; fi
 	@mkdir -p dist/
 	@cp -v codemeta.json dist/
 	@cp -v CITATION.cff dist/
@@ -195,9 +204,8 @@ distribute_docs:
 	@cp -v LICENSE dist/
 	@cp -v INSTALL.md dist/
 	@cp -vR man dist/
-	@for DNAME in $(DOCS); do cp -vR $$DNAME dist/; done
 
-release: build installer.sh save setup_dist distribute_docs dist/Linux-x86_64 dist/Linux-aarch64 dist/macOS-x86_64 dist/macOS-arm64 dist/Windows-x86_64 dist/Windows-arm64 dist/Linux-armv7l
-
+release: .FORCE clean build man website distribute_docs dist/Linux-x86_64 dist/Linux-aarch64 dist/macOS-x86_64 dist/macOS-arm64 dist/Windows-x86_64 dist/Windows-arm64 dist/RaspberryPiOS-arm7 dist/Linux-armv7l
+	./release.bash
 
 .FORCE:
