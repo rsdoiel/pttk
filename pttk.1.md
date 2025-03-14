@@ -1,6 +1,6 @@
-%pttk(1) user manual | version 0.0.19 bcf3956
+%pttk(1) user manual | version 0.0.19 a9af605
 % R. S. Doiel
-% 2025-03-02
+% 2025-03-13
 
 # NAME
 

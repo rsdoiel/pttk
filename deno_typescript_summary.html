@@ -9,7 +9,7 @@
   <link rel="stylesheet" type="text/css"  href="/webfonts/fonts.css" media="screen" />
   <link rel="stylesheet" type="text/css"  href="/css/site.css" media="screen" />
   <link title="RSS feed for rsdoiel's blog" rel="alternate" type="application/rss+xml" href="https://rsdoiel.github.io/rss.xml" />
-  <link title="markdown source for page" rel="alternative" type="application/markdown" href="deno_typescript_summary.md">
+  <link title="markdown source for page" rel="alternative" type="application/markdown" href="CHANGES.md">
 </head>
 <body>
 <nav>
@@ -29,139 +29,10 @@
 <section>
 <!--  <h1>deno_typescript_summary</h1> -->
 
-<h1 id="denotypescript-port">Deno+TypeScript Port</h1>
-<h2 id="project-structure">1. Project Structure</h2>
-<p>Create a directory structure for your project:</p>
-<pre><code>pttk/
-│
-├── config.ts
-├── frontmatter.ts
-├── helptext.ts
-├── makepages.ts
-├── rss_generator.ts
-├── series.ts
-├── sitemapper.ts
-├── blogit.ts
-├── pttk.ts
-├── version.ts
-├── deno.json
-├── sitemapper_test.ts
-├── rss_generator_test.ts
-├── blogit_test.ts
-├── series_test.ts
-├── makepages_test.ts
-└── site.yaml</code></pre>
-<h2 id="configuration-module-config.ts">2. Configuration Module
-(<code>config.ts</code>)</h2>
-<ul>
-<li>Manages reading, writing, and initializing the configuration file
-(<code>site.yaml</code>).</li>
-<li>Includes settings for base path, base URL, views, RSS, series, and
-author.</li>
-</ul>
-<h2 id="front-matter-module-frontmatter.ts">3. Front Matter Module
-(<code>frontmatter.ts</code>)</h2>
-<ul>
-<li>Handles parsing and updating the front matter of Markdown
-files.</li>
-<li>Includes fields like title, author, dateCreated, dateModified,
-draft, byline, abstract, keywords, series, series_no, enclosureUrl,
-enclosureLength, and enclosureType.</li>
-</ul>
-<h2 id="help-text-module-helptext.ts">4. Help Text Module
-(<code>helptext.ts</code>)</h2>
-<ul>
-<li>Formats and displays help text for each action.</li>
-<li>Uses Markdown notation to structure the help text in a man page
-style.</li>
-</ul>
-<h2 id="version-module-version.ts">5. Version Module
-(<code>version.ts</code>)</h2>
-<ul>
-<li>Contains version information, release date, release hash, and
-license text.</li>
-</ul>
-<h2 id="sitemapper-module-sitemapper.ts">6. Sitemapper Module
-(<code>sitemapper.ts</code>)</h2>
-<ul>
-<li>Generates sitemap files based on the configuration.</li>
-<li>Walks the directory structure to find Markdown files and generates
-sitemap XML files.</li>
-</ul>
-<h2 id="rss-generator-module-rss_generator.ts">7. RSS Generator Module
-(<code>rss_generator.ts</code>)</h2>
-<ul>
-<li>Generates an RSS feed from blog posts.</li>
-<li>Supports podcast enclosures and other metadata.</li>
-</ul>
-<h2 id="blogit-module-blogit.ts">8. Blogit Module
-(<code>blogit.ts</code>)</h2>
-<ul>
-<li>Organizes blog posts and additional files based on the
-configuration.</li>
-<li>Handles front matter, including optional fields and enclosure
-metadata.</li>
-</ul>
-<h2 id="series-module-series.ts">9. Series Module
-(<code>series.ts</code>)</h2>
-<ul>
-<li>Generates a table of contents and RSS feed for each series.</li>
-<li>Walks the directory structure to find Markdown files and generates
-series-specific content.</li>
-</ul>
-<h2 id="makepages-module-makepages.ts">10. Makepages Module
-(<code>makepages.ts</code>)</h2>
-<ul>
-<li>Converts Markdown files to HTML using HandlebarsJS templates.</li>
-<li>Walks the directory structure to find Markdown files and generates
-HTML files.</li>
-</ul>
-<h2 id="cli-entry-point-pttk.ts">11. CLI Entry Point
-(<code>pttk.ts</code>)</h2>
-<ul>
-<li>Provides a unified CLI interface for managing blog content.</li>
-<li>Supports actions like <code>init</code>, <code>config</code>,
-<code>sitemapper</code>, <code>makepages</code>, <code>blogit</code>,
-<code>rss</code>, <code>series</code>, <code>version</code>, and
-<code>license</code>.</li>
-<li>Uses the help text module to display help information.</li>
-</ul>
-<h2 id="test-modules">12. Test Modules</h2>
-<ul>
-<li>Individual test files for each module
-(<code>sitemapper_test.ts</code>, <code>rss_generator_test.ts</code>,
-<code>blogit_test.ts</code>, <code>series_test.ts</code>,
-<code>makepages_test.ts</code>).</li>
-<li>Uses Deno’s testing framework to verify the functionality of each
-module.</li>
-</ul>
-<h2 id="deno-configuration-deno.json">13. Deno Configuration
-(<code>deno.json</code>)</h2>
-<ul>
-<li>Includes tasks for building, cross-compiling, testing, and running
-the CLI tool.</li>
-<li>Allows running tests individually and all together.</li>
-</ul>
-<h2 id="configuration-file-site.yaml">14. Configuration File
-(<code>site.yaml</code>)</h2>
-<ul>
-<li>Contains the shared configuration settings for the CLI tool.</li>
-<li>Includes settings for base path, base URL, views, RSS, series, and
-author.</li>
-</ul>
-<h2 id="running-the-cli">Running the CLI</h2>
-<ul>
-<li>Use Deno tasks to build, test, and run the CLI tool.</li>
-<li>Example commands:
-<ul>
-<li>Build: <code>deno task build</code></li>
-<li>Test: <code>deno task test:all</code></li>
-<li>Run actions:
-<code>deno run --allow-read --allow-write pttk.ts &lt;action&gt;</code></li>
-</ul></li>
-</ul>
-<p>This structure provides a comprehensive and modular solution for
-managing blog content using Deno and TypeScript.</p>
+<p>0.0.6: Renamed project to Plain Text Tool Kit. Started experimenting
+with Gopher services, thinking beyond Pandoc.</p>
+<p>0.0.0 - 0.0.5: Experimenting with Pandoc as rendering engine based on
+pdtmpl experiment</p>
 </section>
 
 <footer>

@@ -24,7 +24,7 @@ keywords:
   - text-processing
   - site-generator
 
-date_released: 2025-03-02
+date_released: 2025-03-13
 ---
 
 About this software
@@ -32,7 +32,7 @@ About this software
 
 ## pttk 0.0.19
 
-This is an experiment, features may come and go. With v0.0.18 hybrid codebase, legacy pttk Go included along with new TypeScript prototype.
+Pttk is still an experiment. Features may come and go. v0.0.18 is a hybrid codebase. Legacy pttk is in Go. New experiments in TypeScript. Separate Makefiles provided for each.
 
 ### Authors
 

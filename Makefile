@@ -19,7 +19,7 @@ DOCS = $(shell ls -1 *.?.md)
 
 PACKAGE = $(shell ls -1 *.go)
 
-VERSION = $(shell grep '"version":' codemeta.json | cut -d"  -f 4)
+VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d  -f 2)
 
@@ -76,7 +76,7 @@ installer.ps1: .FORCE
 test: $(PACKAGE)
 	go test
 
-website: clean-website .FORCE
+website: .FORCE
 	make -f website.mak
 
 status:
