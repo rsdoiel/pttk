@@ -12,8 +12,8 @@
     }
   ],
   "dateCreated": "2022-07-22",
-  "dateModified": "2025-03-02",
-  "datePublished": "2025-03-02",
+  "dateModified": "2025-03-13",
+  "datePublished": "2025-03-13",
   "description": "pttk is a plain text tool kit for writing. The main focus is on static web using Markdown documents.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a sitemapper, rss generator, blogging tool call blogit, a tool that can form series based on Markdown front matter. To preview your site a \"ws\" action is included that functions as a localhost web server. Between tools like pttk, PageFind and Flatlake you can provide much of the dynamic capability you'd find in a traditional CMS like Wordpress without running one.",
   "keywords": [
     "text-processing",
@@ -45,5 +45,5 @@
   "version": "0.0.19",
   "developmentStatus": "wip",
   "issueTracker": "https://github.com/rsdoiel/pttk/issues",
-  "releaseNotes": "This is an experiment, features may come and go. With v0.0.18 hybrid codebase, legacy pttk Go included along with new TypeScript prototype."
+  "releaseNotes": "Pttk is still an experiment. Features may come and go. v0.0.18 is a hybrid codebase. Legacy pttk is in Go. New experiments in TypeScript. Separate Makefiles provided for each."
 }
