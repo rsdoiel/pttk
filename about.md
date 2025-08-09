@@ -42,6 +42,7 @@ Pttk is still an experiment. Features may come and go. v0.0.18 is a hybrid codeb
 
 
 
+
 pttk is a plain text tool kit for writing. The main focus is on static web using Markdown documents.  The metaphor behind the tool kit is a deconstructed content management system. It is easily scripted from your favorite POSIX shell or Makefile. It provides a number of functions including a sitemapper, rss generator, blogging tool call blogit, a tool that can form series based on Markdown front matter. To preview your site a &quot;ws&quot; action is included that functions as a localhost web server. Between tools like pttk, PageFind and Flatlake you can provide much of the dynamic capability you&#x27;d find in a traditional CMS like Wordpress without running one.
 
 - License: <https://spdx.org/licenses/AGPL-3.0-or-later>
@@ -68,4 +69,7 @@ pttk is a plain text tool kit for writing. The main focus is on static web using
 - SQLite3 &gt;&#x3D; 3.43
 - Go &gt;&#x3D; 1.24
 - Deno &gt;&#x3D; 2.2
+
+
+
 

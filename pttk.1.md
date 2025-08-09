@@ -1,4 +1,4 @@
-%pttk(1) user manual | version 0.0.19 3a7eb6b
+%pttk(1) user manual | version 0.0.19 2e7017d
 % R. S. Doiel
 % 2025-03-13
 
